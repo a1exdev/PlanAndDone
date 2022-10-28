@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		873C999E290BE5540045FCDA /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C999D290BE5540045FCDA /* Task.swift */; };
 		873C99A0290BE8F80045FCDA /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C999F290BE8F80045FCDA /* Project.swift */; };
+		873C99A3290BF6CB0045FCDA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99A2290BF6CB0045FCDA /* MainViewController.swift */; };
+		873C99A5290BF7240045FCDA /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99A4290BF7240045FCDA /* TasksViewController.swift */; };
+		873C99A8290C2B870045FCDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875BF2F928F17E9700C29D95 /* Main.storyboard */; };
 		875BF2F428F17E9700C29D95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2F328F17E9700C29D95 /* AppDelegate.swift */; };
 		875BF2F628F17E9700C29D95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2F528F17E9700C29D95 /* SceneDelegate.swift */; };
-		875BF2FB28F17E9700C29D95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875BF2F928F17E9700C29D95 /* Main.storyboard */; };
 		875BF2FE28F17E9700C29D95 /* Plan_Done.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2FC28F17E9700C29D95 /* Plan_Done.xcdatamodeld */; };
 		875BF30028F17E9900C29D95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875BF2FF28F17E9900C29D95 /* Assets.xcassets */; };
 		875BF30328F17E9900C29D95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875BF30128F17E9900C29D95 /* LaunchScreen.storyboard */; };
@@ -40,6 +42,8 @@
 /* Begin PBXFileReference section */
 		873C999D290BE5540045FCDA /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		873C999F290BE8F80045FCDA /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		873C99A2290BF6CB0045FCDA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		873C99A4290BF7240045FCDA /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		875BF2F028F17E9700C29D95 /* Plan&Done.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plan&Done.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		875BF2F328F17E9700C29D95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875BF2F528F17E9700C29D95 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 				875BF30428F17E9900C29D95 /* Info.plist */,
 				875BF2F328F17E9700C29D95 /* AppDelegate.swift */,
 				875BF2F528F17E9700C29D95 /* SceneDelegate.swift */,
+				873C99A2290BF6CB0045FCDA /* MainViewController.swift */,
+				873C99A4290BF7240045FCDA /* TasksViewController.swift */,
 				873C99A1290BE9B60045FCDA /* Model */,
 				875BF2FF28F17E9900C29D95 /* Assets.xcassets */,
 				875BF30128F17E9900C29D95 /* LaunchScreen.storyboard */,
@@ -245,9 +251,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				873C99A8290C2B870045FCDA /* Main.storyboard in Resources */,
 				875BF30328F17E9900C29D95 /* LaunchScreen.storyboard in Resources */,
 				875BF30028F17E9900C29D95 /* Assets.xcassets in Resources */,
-				875BF2FB28F17E9700C29D95 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +281,8 @@
 				875BF2F428F17E9700C29D95 /* AppDelegate.swift in Sources */,
 				873C999E290BE5540045FCDA /* Task.swift in Sources */,
 				875BF2FE28F17E9700C29D95 /* Plan_Done.xcdatamodeld in Sources */,
+				873C99A5290BF7240045FCDA /* TasksViewController.swift in Sources */,
+				873C99A3290BF6CB0045FCDA /* MainViewController.swift in Sources */,
 				875BF2F628F17E9700C29D95 /* SceneDelegate.swift in Sources */,
 				873C99A0290BE8F80045FCDA /* Project.swift in Sources */,
 			);
