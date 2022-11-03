@@ -7,11 +7,11 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class MainViewController: UIViewController {
     
     let searchController = UISearchController()
     
-    var scrollView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
@@ -19,7 +19,7 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         return scrollView
     }()
     
-    private lazy var contentView: UIView = {
+    let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
@@ -27,6 +27,8 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     
     let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
+        table.sectionHeaderHeight = 8
+        table.sectionFooterHeight = 8
         table.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         table.isScrollEnabled = false
@@ -38,10 +40,10 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         return tableView.contentSize.height
     }
     
-    var createTaskButton: UIButton = {
+    let createTaskButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.image = UIImage(systemName: "plus")
-        config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 25)
+        config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 28)
         
         var button  = UIButton(configuration: config, primaryAction: UIAction() { _ in
             print("Create Task")
@@ -51,7 +53,7 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         return button
     }()
     
-    var projects = [Project]()
+    var projectGroups = [ProjectGroup]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,33 +86,6 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         setupConstraints()
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return projects.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = projects[indexPath.row].title
-        cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image)
-        cell.imageView?.tintColor = UIColor.colorWith(name: projects[indexPath.row].color)
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {
-            return
-        }
-    }
-    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -136,12 +111,22 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     }
     
     func initializeProjects() {
-        projects.append(Project(title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name))
-        projects.append(Project(title: "Today", image: ProjectImage.star.rawValue, color: UIColor.systemYellow.name))
-        projects.append(Project(title: "Upcoming", image: ProjectImage.calendar.rawValue, color: UIColor.systemRed.name))
-        projects.append(Project(title: "Anytime", image: ProjectImage.stack.rawValue, color: UIColor.systemMint.name))
-        projects.append(Project(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name))
-        projects.append(Project(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name))
+        projectGroups.append(ProjectGroup(projects: [
+            Project(title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name)
+        ]))
+        projectGroups.append(ProjectGroup(projects: [
+            Project(title: "Today", image: ProjectImage.star.rawValue, color: UIColor.systemYellow.name),
+            Project(title: "Upcoming", image: ProjectImage.calendar.rawValue, color: UIColor.systemRed.name),
+            Project(title: "Anytime", image: ProjectImage.stack.rawValue, color: UIColor.systemMint.name),
+            Project(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name)
+        ]))
+        projectGroups.append(ProjectGroup(projects: [
+            Project(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name)
+        ]))
+        projectGroups.append(ProjectGroup(projects: [
+            Project(title: "Custom 1", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name),
+            Project(title: "Custom 2", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name)
+        ]))
     }
     
     /*
@@ -153,5 +138,37 @@ class MainViewController: UIViewController, UISearchResultsUpdating, UISearchBar
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+    }
+}
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return projectGroups.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return projectGroups[section].projects.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = projectGroups[indexPath.section].projects[indexPath.row].title
+        cell.imageView?.image = UIImage(systemName: projectGroups[indexPath.section].projects[indexPath.row].image)
+        cell.imageView?.tintColor = UIColor.colorWith(name: projectGroups[indexPath.section].projects[indexPath.row].color)
+        cell.backgroundColor = .clear
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
