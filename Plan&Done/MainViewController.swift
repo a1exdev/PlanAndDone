@@ -79,7 +79,7 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor(rgb: 0x1E2128)
-        tableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: tableViewHeight)
+        tableView.frame = CGRect(x: 16, y: 0, width: view.frame.width - 22, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         contentView.addSubview(tableView)
         
