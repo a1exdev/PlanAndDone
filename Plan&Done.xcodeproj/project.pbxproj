@@ -15,6 +15,7 @@
 		873C99B02912B8C70045FCDA /* ProjectImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99AF2912B8C70045FCDA /* ProjectImage.swift */; };
 		873C99B32912C0D50045FCDA /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99B22912C0D50045FCDA /* ColorName.swift */; };
 		873C99B52913D5770045FCDA /* ColorRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99B42913D5770045FCDA /* ColorRGB.swift */; };
+		873C99B72913EC560045FCDA /* ProjectGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C99B62913EC560045FCDA /* ProjectGroup.swift */; };
 		875BF2F428F17E9700C29D95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2F328F17E9700C29D95 /* AppDelegate.swift */; };
 		875BF2F628F17E9700C29D95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2F528F17E9700C29D95 /* SceneDelegate.swift */; };
 		875BF2FE28F17E9700C29D95 /* Plan_Done.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 875BF2FC28F17E9700C29D95 /* Plan_Done.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 		873C99AF2912B8C70045FCDA /* ProjectImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectImage.swift; sourceTree = "<group>"; };
 		873C99B22912C0D50045FCDA /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		873C99B42913D5770045FCDA /* ColorRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorRGB.swift; sourceTree = "<group>"; };
+		873C99B62913EC560045FCDA /* ProjectGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectGroup.swift; sourceTree = "<group>"; };
 		875BF2F028F17E9700C29D95 /* Plan&Done.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Plan&Done.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		875BF2F328F17E9700C29D95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875BF2F528F17E9700C29D95 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				873C999D290BE5540045FCDA /* Task.swift */,
 				873C999F290BE8F80045FCDA /* Project.swift */,
+				873C99B62913EC560045FCDA /* ProjectGroup.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			files = (
 				875BF2F428F17E9700C29D95 /* AppDelegate.swift in Sources */,
 				873C99B52913D5770045FCDA /* ColorRGB.swift in Sources */,
+				873C99B72913EC560045FCDA /* ProjectGroup.swift in Sources */,
 				873C999E290BE5540045FCDA /* Task.swift in Sources */,
 				875BF2FE28F17E9700C29D95 /* Plan_Done.xcdatamodeld in Sources */,
 				873C99B32912C0D50045FCDA /* ColorName.swift in Sources */,
