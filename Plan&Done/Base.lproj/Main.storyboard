@@ -15,7 +15,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="3tn-jR-IOx"/>
-                        <color key="backgroundColor" red="0.1176470518" green="0.1294117719" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <navigationItem key="navigationItem" id="a8p-SO-vnQ"/>
                 </viewController>
@@ -31,7 +30,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="OmU-xU-ShZ"/>
-                        <color key="backgroundColor" red="0.1176470518" green="0.1294117719" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <navigationItem key="navigationItem" id="Evx-Q0-SsY"/>
                 </viewController>

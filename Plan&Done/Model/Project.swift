@@ -10,4 +10,6 @@ import Foundation
 struct Project {
     let id = UUID()
     var title: String
+    var image: String
+    var color: String
 }
