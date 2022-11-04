@@ -40,15 +40,12 @@ class MainViewController: UIViewController {
         return tableView.contentSize.height
     }
     
-    let createTaskButton: UIButton = {
+    let newItemButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.image = UIImage(systemName: "plus")
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 28)
         
-        var button  = UIButton(configuration: config, primaryAction: UIAction() { _ in
-            print("Create Task")
-        })
-        
+        var button  = UIButton(configuration: config)
         button.clipsToBounds = true
         return button
     }()
@@ -58,32 +55,69 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(viewBecameActive),
+            name: Notification.Name("ViewBecameActive"),
+            object: nil)
+        
         initializeProjects()
         
+        configureView()
+        configureSearchBar()
+        configureNewItemButton()
+        configureProjectsTableView()
+        
+        setupConstraints()
+    }
+
+    @objc func viewBecameActive() {
+        self.newItemButton.alpha = 1
+        self.newItemButton.frame.origin.y += 100
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 15,
+                       options: .curveEaseOut,
+                       animations: {
+            self.newItemButton.frame.origin.y -= 100
+        })
+    }
+    
+    @objc func showNewItemOverlay(sender: UIButton!) {
+        self.newItemButton.alpha = 0
+        let newItemOverlay = NewItemOverlay()
+        newItemOverlay.appear(sender: self)
+    }
+    
+    func configureView() {
         title = "My Projects"
         view.backgroundColor = UIColor(rgb: 0x1E2128)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
-        // Search bar
+    }
+    
+    func configureSearchBar() {
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Quick Find"
-        
-        // Create task button
-        createTaskButton.frame = CGRect(x: view.bounds.maxX - 75, y: view.bounds.maxY * 0.88, width: 58, height: 58)
-        createTaskButton.layer.cornerRadius = (createTaskButton.frame.size.width / 2)
-        view.addSubview(createTaskButton)
-        
-        // Projects table view
+    }
+    
+    func configureNewItemButton() {
+        newItemButton.frame = CGRect(x: view.bounds.maxX - 75, y: view.bounds.maxY * 0.88, width: 58, height: 58)
+        newItemButton.layer.cornerRadius = (newItemButton.frame.size.width / 2)
+        newItemButton.addTarget(self, action: #selector(showNewItemOverlay), for: .touchUpInside)
+        view.addSubview(newItemButton)
+    }
+    
+    func configureProjectsTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor(rgb: 0x1E2128)
-        tableView.frame = CGRect(x: 16, y: 0, width: view.frame.width - 22, height: tableViewHeight)
+        tableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         contentView.addSubview(tableView)
-        
-        setupConstraints()
     }
     
     private func setupConstraints() {
