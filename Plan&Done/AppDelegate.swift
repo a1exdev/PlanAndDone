@@ -12,6 +12,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         if #available(iOS 15, *) {
             let appearance = UINavigationBarAppearance()
             appearance.shadowColor = .clear
@@ -19,6 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().standardAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
         }
+        
+        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
+            UserDefaults.standard.set(false, forKey: "SetupInitialData")
+        }
+        
         return true
     }
 

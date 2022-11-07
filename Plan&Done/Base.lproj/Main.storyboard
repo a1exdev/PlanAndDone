@@ -22,10 +22,10 @@
             </objects>
             <point key="canvasLocation" x="855.72519083969462" y="5.6338028169014089"/>
         </scene>
-        <!--Tasks View Controller-->
+        <!--Project View Controller-->
         <scene sceneID="oxZ-EE-tba">
             <objects>
-                <viewController storyboardIdentifier="tasksVC" id="ce6-Ve-gnT" customClass="TasksViewController" customModule="Plan_Done" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="tasksVC" id="ce6-Ve-gnT" customClass="ProjectViewController" customModule="Plan_Done" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eEc-V2-BVF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -37,10 +37,10 @@
             </objects>
             <point key="canvasLocation" x="1647" y="6"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Root View Controller-->
         <scene sceneID="Apa-wQ-72e">
             <objects>
-                <navigationController storyboardIdentifier="rootVC" automaticallyAdjustsScrollViewInsets="NO" id="e96-87-ZbW" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="rootVC" automaticallyAdjustsScrollViewInsets="NO" id="e96-87-ZbW" customClass="RootViewController" customModule="Plan_Done" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Fa3-uP-0yY">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>

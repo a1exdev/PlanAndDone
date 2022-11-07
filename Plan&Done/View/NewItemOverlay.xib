@@ -12,6 +12,8 @@
             <connections>
                 <outlet property="backView" destination="eSM-vw-NLc" id="xS1-b0-1dc"/>
                 <outlet property="contentView" destination="Qbr-kc-UoN" id="khR-Nj-p1Y"/>
+                <outlet property="newProjectButton" destination="6XN-gF-rKQ" id="2wO-t0-DhP"/>
+                <outlet property="newTaskButton" destination="8um-ky-ZyZ" id="V5k-hM-D6h"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -76,9 +78,6 @@
                                 <constraint firstAttribute="bottom" secondItem="fvi-3c-P1F" secondAttribute="bottom" constant="4" id="wC4-dE-WIv"/>
                                 <constraint firstItem="qyb-yr-cEo" firstAttribute="leading" secondItem="xun-Nu-Ywe" secondAttribute="trailing" constant="8" symbolic="YES" id="xwa-Fe-Uok"/>
                             </constraints>
-                            <connections>
-                                <action selector="newTaskButtonTapped:" destination="-1" eventType="touchUpInside" id="Coe-WC-oP2"/>
-                            </connections>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XN-gF-rKQ" userLabel="newProjectButton" customClass="UIControl">
                             <rect key="frame" x="8" y="70" width="345" height="76"/>
@@ -122,12 +121,9 @@
                                 <constraint firstItem="8gX-aB-mra" firstAttribute="leading" secondItem="6XN-gF-rKQ" secondAttribute="leading" constant="7" id="wcG-Fa-oaC"/>
                                 <constraint firstItem="8gX-aB-mra" firstAttribute="top" secondItem="6XN-gF-rKQ" secondAttribute="top" constant="7" id="wcp-A0-Z13"/>
                             </constraints>
-                            <connections>
-                                <action selector="newProjectButtonTapped:" destination="-1" eventType="touchUpInside" id="Vso-im-Q60"/>
-                            </connections>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.1764705926" green="0.18823529780000001" blue="0.21568629149999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" red="0.1764705882352941" green="0.18823529411764706" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="6XN-gF-rKQ" firstAttribute="leading" secondItem="Qbr-kc-UoN" secondAttribute="leading" constant="8" id="2Qo-Wr-XIb"/>
                         <constraint firstItem="8um-ky-ZyZ" firstAttribute="top" secondItem="Qbr-kc-UoN" secondAttribute="top" constant="8" id="3V8-rd-an4"/>

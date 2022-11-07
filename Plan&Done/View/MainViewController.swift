@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UIViewController {
     
-    let searchController = UISearchController()
+    private let searchController = UISearchController()
     
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
@@ -19,13 +20,13 @@ class MainViewController: UIViewController {
         return scrollView
     }()
     
-    let contentView: UIView = {
+    private let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
     }()
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.sectionHeaderHeight = 8
         table.sectionFooterHeight = 8
@@ -35,12 +36,12 @@ class MainViewController: UIViewController {
         return table
     }()
     
-    var tableViewHeight: CGFloat {
+    private var tableViewHeight: CGFloat {
         tableView.layoutIfNeeded()
         return tableView.contentSize.height
     }
     
-    let newItemButton: UIButton = {
+    private let newItemButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.image = UIImage(systemName: "plus")
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 28)
@@ -50,18 +51,18 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    var projectGroups = [ProjectGroup]()
+    private let projectGroupManager = ProjectGroupManager(dataAdapter: CoreDataAdapter.shared)
+    
+    var projectGroups: [ProjectGroup] {
+        get {
+            return projectGroupManager.fetchAll()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(viewBecameActive),
-            name: Notification.Name("ViewBecameActive"),
-            object: nil)
-        
-        initializeProjects()
+        setupNotifications()
         
         configureView()
         configureSearchBar()
@@ -91,27 +92,27 @@ class MainViewController: UIViewController {
         newItemOverlay.appear(sender: self)
     }
     
-    func configureView() {
+    private func configureView() {
         title = "My Projects"
         view.backgroundColor = UIColor(rgb: 0x1E2128)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
     }
     
-    func configureSearchBar() {
+    private func configureSearchBar() {
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Quick Find"
     }
     
-    func configureNewItemButton() {
+    private func configureNewItemButton() {
         newItemButton.frame = CGRect(x: view.bounds.maxX - 75, y: view.bounds.maxY * 0.88, width: 58, height: 58)
         newItemButton.layer.cornerRadius = (newItemButton.frame.size.width / 2)
         newItemButton.addTarget(self, action: #selector(showNewItemOverlay), for: .touchUpInside)
         view.addSubview(newItemButton)
     }
     
-    func configureProjectsTableView() {
+    private func configureProjectsTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor(rgb: 0x1E2128)
@@ -144,23 +145,12 @@ class MainViewController: UIViewController {
         ])
     }
     
-    func initializeProjects() {
-        projectGroups.append(ProjectGroup(projects: [
-            Project(title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name)
-        ]))
-        projectGroups.append(ProjectGroup(projects: [
-            Project(title: "Today", image: ProjectImage.star.rawValue, color: UIColor.systemYellow.name),
-            Project(title: "Upcoming", image: ProjectImage.calendar.rawValue, color: UIColor.systemRed.name),
-            Project(title: "Anytime", image: ProjectImage.stack.rawValue, color: UIColor.systemMint.name),
-            Project(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name)
-        ]))
-        projectGroups.append(ProjectGroup(projects: [
-            Project(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name)
-        ]))
-        projectGroups.append(ProjectGroup(projects: [
-            Project(title: "Custom 1", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name),
-            Project(title: "Custom 2", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name)
-        ]))
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(viewBecameActive),
+            name: Notification.Name("ViewBecameActive"),
+            object: nil)
     }
     
     /*
@@ -177,9 +167,8 @@ class MainViewController: UIViewController {
 extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else {
-            return
-        }
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
     }
 }
 
@@ -190,15 +179,20 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return projectGroups[section].projects.count
+        guard let projects = projectGroups[section].project else { return 0 }
+        return projects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = projectGroups[indexPath.section].projects[indexPath.row].title
-        cell.imageView?.image = UIImage(systemName: projectGroups[indexPath.section].projects[indexPath.row].image)
-        cell.imageView?.tintColor = UIColor.colorWith(name: projectGroups[indexPath.section].projects[indexPath.row].color)
+        
+        let projects = (projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
+    
+        cell.textLabel?.text = projects[indexPath.row].title
+        cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image!)
+        cell.imageView?.tintColor = UIColor.colorWith(name: projects[indexPath.row].color!)
         cell.backgroundColor = .clear
+        
         return cell
     }
     
