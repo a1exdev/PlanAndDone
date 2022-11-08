@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
         configureSearchBar()
         configureNewItemButton()
         configureProjectsTableView()
+        
         setupConstraints()
     }
     

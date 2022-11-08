@@ -88,21 +88,35 @@ class NewItemOverlay: UIViewController {
 extension NewItemOverlay: UIGestureRecognizerDelegate {
     
     @objc func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
+        
+        let currentLocationY = gestureReconizer.location(in: contentView).y
+        
         switch gestureReconizer.state {
         case .ended:
-            if (gestureReconizer.view?.frame.minY)!...(gestureReconizer.view?.frame.maxY)! ~=
-                gestureReconizer.location(in: contentView).y {
+            switch currentLocationY {
+            case (newTaskButton.frame.minY)...(newTaskButton.frame.maxY):
                 self.presenter.showNewTaskOverlay()
+            case (newProjectButton.frame.minY)...(newProjectButton.frame.maxY):
+                hide()
+            default:
+                break
             }
         default:
-            if (gestureReconizer.view?.frame.minY)!...(gestureReconizer.view?.frame.maxY)! ~=
-                gestureReconizer.location(in: contentView).y {
+            switch currentLocationY {
+            case (newTaskButton.frame.minY)...(newTaskButton.frame.maxY):
                 UIView.animate(withDuration: 0.2, delay: 0) {
-                    gestureReconizer.view?.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    self.newTaskButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    self.newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
-            } else {
+            case (newProjectButton.frame.minY)...(newProjectButton.frame.maxY):
                 UIView.animate(withDuration: 0.2, delay: 0) {
-                    gestureReconizer.view?.backgroundColor = UIColor(rgb: 0x2D3037)
+                    self.newProjectButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    self.newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                }
+            default:
+                UIView.animate(withDuration: 0.2, delay: 0) {
+                    self.newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                    self.newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             }
         }

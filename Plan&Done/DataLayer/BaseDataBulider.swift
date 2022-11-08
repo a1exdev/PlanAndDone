@@ -25,7 +25,6 @@ class BaseDataBuilder: BaseDataBuilderProtocol {
     }
     
     func initialAssembly() {
-        
         for _ in 0..<4 {
             projectGroupManager.create()
         }
