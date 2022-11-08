@@ -21,11 +21,11 @@ protocol ProjectManagerProtocol {
 
 class ProjectManager: ProjectManagerProtocol {
     
-    init(dataAdapter: CoreDataAdapter) {
+    private let dataAdapter: CoreDataAdapterProtocol!
+    
+    init(dataAdapter: CoreDataAdapterProtocol) {
         self.dataAdapter = dataAdapter
     }
-    
-    private let dataAdapter: CoreDataAdapter!
     
     func fetchAll() -> [Project] {
         let projects = dataAdapter.fetchObjects(of: Project.self)

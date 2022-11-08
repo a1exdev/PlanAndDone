@@ -6,9 +6,46 @@
 //
 
 import UIKit
-import CoreData
 
 class MainViewController: UIViewController {
+    
+    var presenter: MainViewPresenterProtocol!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        presenter.setupInitialData()
+        
+        setupNotifications()
+        
+        configureView()
+        configureSearchBar()
+        configureNewItemButton()
+        configureProjectsTableView()
+        setupConstraints()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(viewHasBecomeActive),
+            name: Notification.Name("ViewHasBecomeActive"),
+            object: nil)
+    }
+
+    @objc func viewHasBecomeActive() {
+        self.newItemButton.alpha = 1
+        self.newItemButton.frame.origin.y += 110
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.2,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 15,
+                       options: .curveEaseOut,
+                       animations: {
+            self.newItemButton.frame.origin.y -= 110
+        })
+    }
     
     private let searchController = UISearchController()
     
@@ -51,49 +88,9 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    private let projectGroupManager = ProjectGroupManager(dataAdapter: CoreDataAdapter.shared)
-    
-    var projectGroups: [ProjectGroup] {
-        get {
-            return projectGroupManager.fetchAll()
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupNotifications()
-        
-        configureView()
-        configureSearchBar()
-        configureNewItemButton()
-        configureProjectsTableView()
-        
-        setupConstraints()
-    }
-
-    @objc func viewBecameActive() {
-        self.newItemButton.alpha = 1
-        self.newItemButton.frame.origin.y += 100
-        
-        UIView.animate(withDuration: 0.25,
-                       delay: 0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 15,
-                       options: .curveEaseOut,
-                       animations: {
-            self.newItemButton.frame.origin.y -= 100
-        })
-    }
-    
-    @objc func showNewItemOverlay(sender: UIButton!) {
-        self.newItemButton.alpha = 0
-        let newItemOverlay = NewItemOverlay()
-        newItemOverlay.appear(sender: self)
-    }
-    
     private func configureView() {
         title = "My Projects"
+        navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(rgb: 0x1E2128)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -145,23 +142,10 @@ class MainViewController: UIViewController {
         ])
     }
     
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(viewBecameActive),
-            name: Notification.Name("ViewBecameActive"),
-            object: nil)
+    @objc func showNewItemOverlay(sender: UIButton!) {
+        self.newItemButton.alpha = 0
+        presenter.showNewItemOverlay()
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
 
 extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
@@ -172,21 +156,28 @@ extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension MainViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return projectGroups.count
+        return presenter.projectGroups.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let projects = projectGroups[section].project else { return 0 }
+        guard let projects = presenter.projectGroups[section].project else { return 0 }
         return projects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let projects = (projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
+        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
     
         cell.textLabel?.text = projects[indexPath.row].title
         cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image!)
@@ -195,8 +186,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+}
+
+extension MainViewController: MainViewProtocol {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
 }

@@ -5,10 +5,10 @@
 //  Created by Alexander Senin on 05.11.2022.
 //
 
-import Foundation
 import CoreData
 
 protocol CoreDataAdapterProtocol {
+    func saveContext()
     func resetAll()
     
     func fetchObjects<T: NSManagedObject>(of type: T.Type) -> [T]
@@ -92,7 +92,7 @@ class CoreDataAdapter: CoreDataAdapterProtocol {
         saveContext()
     }
     
-    func saveTask(title: String, desc: String, dtCreation: Date, dtDeadline: Date, isDone: Bool = false) {
+    func saveTask(title: String, desc: String, dtCreation: Date, dtDeadline: Date, isDone: Bool) {
         let task = Task(context: context)
         task.id = UUID()
         task.title = title

@@ -8,8 +8,14 @@
 import UIKit
 
 class ProjectViewController: UIViewController {
+    
+    var presenter: ProjectViewPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+}
+
+extension ProjectViewController: ProjectViewProtocol {
+    
 }

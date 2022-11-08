@@ -17,11 +17,11 @@ protocol ProjectGroupManagerProtocol {
 
 class ProjectGroupManager: ProjectGroupManagerProtocol {
     
-    init(dataAdapter: CoreDataAdapter) {
+    private let dataAdapter: CoreDataAdapterProtocol!
+    
+    init(dataAdapter: CoreDataAdapterProtocol) {
         self.dataAdapter = dataAdapter
     }
-    
-    private let dataAdapter: CoreDataAdapter!
     
     func fetchAll() -> [ProjectGroup] {
         let projectGroups = dataAdapter.fetchObjects(of: ProjectGroup.self)

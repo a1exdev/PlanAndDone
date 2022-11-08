@@ -36,7 +36,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8um-ky-ZyZ" userLabel="newTaskButton" customClass="UIControl">
                             <rect key="frame" x="8" y="8" width="345" height="54"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xun-Nu-Ywe">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xun-Nu-Ywe" userLabel="plusImage">
                                     <rect key="frame" x="7" y="9.3333333333333304" width="25" height="20.666666666666671"/>
                                     <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -44,7 +44,7 @@
                                         <constraint firstAttribute="height" constant="25" id="Xsh-lU-vau"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New To-Do" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyb-yr-cEo">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New To-Do" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyb-yr-cEo" userLabel="newTaskTitleLabel">
                                     <rect key="frame" x="40" y="8" width="288" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="288" id="lSJ-j3-7S3"/>
@@ -53,7 +53,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quickly add a to-do to your inbox." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvi-3c-P1F">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quickly add a to-do to your inbox." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvi-3c-P1F" userLabel="newTaskDescriptionLabel">
                                     <rect key="frame" x="40" y="32" width="288" height="18"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="288" id="a5A-ba-k84"/>
@@ -82,7 +82,15 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6XN-gF-rKQ" userLabel="newProjectButton" customClass="UIControl">
                             <rect key="frame" x="8" y="70" width="345" height="76"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Project" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7o-ha-o60">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chart.pie" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8gX-aB-mra" userLabel="pieImage">
+                                    <rect key="frame" x="7" y="7.9999999999999982" width="25" height="23.666666666666664"/>
+                                    <color key="tintColor" red="0.50196081400000003" green="0.69803923369999998" blue="0.97647058959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="25" id="C8l-cs-Ums"/>
+                                        <constraint firstAttribute="height" constant="25" id="gUK-oh-OJN"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Project" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7o-ha-o60" userLabel="newProjectTitleLabel">
                                     <rect key="frame" x="40" y="8" width="288" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="288" id="unQ-as-MuI"/>
@@ -91,7 +99,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Define a goal, then work towards it one to-do at a time." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-jm-eUl">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Define a goal, then work towards it one to-do at a time." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-jm-eUl" userLabel="newProjectDescriptionLabel">
                                     <rect key="frame" x="40" y="32" width="288" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="288" id="ehs-Vp-70M"/>
@@ -100,14 +108,6 @@
                                     <color key="textColor" systemColor="systemGrayColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chart.pie" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8gX-aB-mra">
-                                    <rect key="frame" x="7" y="7.9999999999999982" width="25" height="23.666666666666664"/>
-                                    <color key="tintColor" red="0.50196081400000003" green="0.69803923369999998" blue="0.97647058959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="25" id="C8l-cs-Ums"/>
-                                        <constraint firstAttribute="height" constant="25" id="gUK-oh-OJN"/>
-                                    </constraints>
-                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>

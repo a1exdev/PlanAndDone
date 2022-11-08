@@ -1,5 +1,5 @@
 //
-//  DataBulider.swift
+//  BaseDataBulider.swift
 //  Plan&Done
 //
 //  Created by Alexander Senin on 06.11.2022.
@@ -7,24 +7,22 @@
 
 import UIKit
 
-protocol DataBuilderProtocol {
+protocol BaseDataBuilderProtocol {
     func initialAssembly()
     func factoryReset()
 }
 
-class DataBuilder: DataBuilderProtocol {
+class BaseDataBuilder: BaseDataBuilderProtocol {
     
-    init(dataAdapter: CoreDataAdapter, taskManager: TaskManager, projectManager: ProjectManager, projectGroupManager: ProjectGroupManager) {
+    private let dataAdapter: CoreDataAdapterProtocol!
+    private let projectManager: ProjectManagerProtocol!
+    private let projectGroupManager: ProjectGroupManagerProtocol!
+    
+    init(dataAdapter: CoreDataAdapterProtocol, projectManager: ProjectManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol) {
         self.dataAdapter = dataAdapter
-        self.taskManager = taskManager
         self.projectManager = projectManager
         self.projectGroupManager = projectGroupManager
     }
-    
-    private let dataAdapter: CoreDataAdapter!
-    private let taskManager: TaskManager!
-    private let projectManager: ProjectManager!
-    private let projectGroupManager: ProjectGroupManager!
     
     func initialAssembly() {
         
@@ -41,9 +39,6 @@ class DataBuilder: DataBuilderProtocol {
         projectManager.create(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name, group: projectGroups[1])
         
         projectManager.create(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name, group: projectGroups[2])
-        
-        projectManager.create(title: "Custom 1", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name, group: projectGroups[3])
-        projectManager.create(title: "Custom 2", image: ProjectImage.stack.rawValue, color: UIColor.systemGray.name, group: projectGroups[3])
     }
     
     func factoryReset() {
