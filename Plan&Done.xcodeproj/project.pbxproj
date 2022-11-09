@@ -39,6 +39,7 @@
 		8778F3BF291A34F100D27FE3 /* MainViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3BE291A34F100D27FE3 /* MainViewPresenter.swift */; };
 		8778F3C5291A36FD00D27FE3 /* ModuleAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C4291A36FD00D27FE3 /* ModuleAssembler.swift */; };
 		8778F3C7291A3A7300D27FE3 /* ProjectViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */; };
+		8778F3CA291BF99900D27FE3 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C9291BF99900D27FE3 /* Button.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		8778F3BE291A34F100D27FE3 /* MainViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPresenter.swift; sourceTree = "<group>"; };
 		8778F3C4291A36FD00D27FE3 /* ModuleAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAssembler.swift; sourceTree = "<group>"; };
 		8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewPresenter.swift; sourceTree = "<group>"; };
+		8778F3C9291BF99900D27FE3 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				873C99AF2912B8C70045FCDA /* ProjectImage.swift */,
 				873C99B22912C0D50045FCDA /* ColorName.swift */,
 				873C99B42913D5770045FCDA /* ColorRGB.swift */,
+				8778F3C9291BF99900D27FE3 /* Button.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				8778F3C5291A36FD00D27FE3 /* ModuleAssembler.swift in Sources */,
 				8778F3A12916B73700D27FE3 /* ProjectGroup+CoreDataClass.swift in Sources */,
 				875BF2FE28F17E9700C29D95 /* Plan_Done.xcdatamodeld in Sources */,
+				8778F3CA291BF99900D27FE3 /* Button.swift in Sources */,
 				873C99B32912C0D50045FCDA /* ColorName.swift in Sources */,
 				8778F3AB2917CBA500D27FE3 /* TaskManager.swift in Sources */,
 				8778F3AF2917F45400D27FE3 /* ProjectGroupManager.swift in Sources */,

@@ -11,7 +11,7 @@ protocol TaskManagerProtocol {
     func fetchAll() -> [Task]
     func fetchById(_ id: UUID) -> Task?
     
-    func create(title: String, desc: String, dtCreation: Date, dtDeadline: Date, isDone: Bool)
+    func create(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project?)
     func remove(_ id: UUID)
     
     func changeTitle(id: UUID, newTitle: String)
@@ -39,8 +39,8 @@ class TaskManager: TaskManagerProtocol {
         return task
     }
     
-    func create(title: String, desc: String, dtCreation: Date, dtDeadline: Date, isDone: Bool) {
-        dataAdapter.saveTask(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: dtDeadline, isDone: isDone)
+    func create(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project?) {
+        dataAdapter.saveTask(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: dtDeadline, isDone: isDone, project: project)
     }
     
     func remove(_ id: UUID) {

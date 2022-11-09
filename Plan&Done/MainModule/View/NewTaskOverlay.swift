@@ -15,8 +15,17 @@ class NewTaskOverlay: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var bottomView: UIView!
     
+    @IBOutlet weak var checkButton: UIButton! {
+        didSet {
+            checkButton.setImage(UIImage(systemName: "square"), for: .normal)
+            checkButton.setImage(UIImage(systemName: "checkmark.square.fill", variableValue: 0, configuration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal), for: .selected)
+        }
+    }
+    
     @IBOutlet weak var taskTitleTextField: UITextField!
     @IBOutlet weak var taskDescriptionTextField: UITextField!
+    
+    @IBOutlet weak var projectButton: UIButton!
     
     init() {
         super.init(nibName: "NewTaskOverlay", bundle: nil)
@@ -86,8 +95,9 @@ class NewTaskOverlay: UIViewController {
     @IBAction func exitButtonTapped(_ sender: UIButton) {
         hide()
     }
-    
+
     @IBAction func checkButtonTapped(_ sender: UIButton) {
+        sender.checkBoxAnimation()
     }
     
     @IBAction func taskTitleTextFieldEdited(_ sender: UITextField) {
@@ -106,6 +116,11 @@ class NewTaskOverlay: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+        let title = taskTitleTextField.text ?? "New task"
+        let desc = taskDescriptionTextField.text
+        let dtCreation = Date()
+        let isDone = checkButton.isSelected
+        presenter.addTask(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, project: nil)
     }
 }
 

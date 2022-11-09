@@ -12,11 +12,12 @@ protocol MainViewProtocol: AnyObject {
 }
 
 protocol MainViewPresenterProtocol: AnyObject {
-    init(view: MainViewProtocol, router: RouterProtocol, projectGroupManager: ProjectGroupManagerProtocol)
+    init(view: MainViewProtocol, router: RouterProtocol, dataAdapter: CoreDataAdapterProtocol, taskManager: TaskManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol)
     
     var projectGroups: [ProjectGroup] { get }
     
     func setupInitialData()
+    func addTask(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project?)
     
     func showProject()
     func showNewItemOverlay()
@@ -26,11 +27,13 @@ protocol MainViewPresenterProtocol: AnyObject {
 }
 
 class MainViewPresenter: MainViewPresenterProtocol {
-
+    
     weak var view: MainViewProtocol?
     var router: RouterProtocol?
     
-    let projectGroupManager: ProjectGroupManagerProtocol!
+    private let dataAdapter: CoreDataAdapterProtocol!
+    private let taskManager: TaskManagerProtocol!
+    private let projectGroupManager: ProjectGroupManagerProtocol!
     
     var projectGroups: [ProjectGroup] {
         get {
@@ -38,22 +41,24 @@ class MainViewPresenter: MainViewPresenterProtocol {
         }
     }
     
-    required init(view: MainViewProtocol, router: RouterProtocol, projectGroupManager: ProjectGroupManagerProtocol) {
+    required init(view: MainViewProtocol, router: RouterProtocol, dataAdapter: CoreDataAdapterProtocol, taskManager: TaskManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol) {
         self.view = view
         self.router = router
+        self.dataAdapter = dataAdapter
+        self.taskManager = taskManager
         self.projectGroupManager = projectGroupManager
     }
     
     func setupInitialData() {
         if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
-            
-            let dataAdapter = CoreDataAdapter.shared
-            
             let dataBuilder = BaseDataBuilder(dataAdapter: dataAdapter, projectManager: ProjectManager(dataAdapter: dataAdapter), projectGroupManager: ProjectGroupManager(dataAdapter: dataAdapter))
-            
             dataBuilder.initialAssembly()
             UserDefaults.standard.set(true, forKey: "SetupInitialData")
         }
+    }
+    
+    func addTask(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project?) {
+        taskManager.create(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: dtDeadline, isDone: isDone, project: project)
     }
     
     func showProject() {
