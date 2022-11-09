@@ -15,6 +15,9 @@ class NewTaskOverlay: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var bottomView: UIView!
     
+    @IBOutlet weak var taskTitleTextField: UITextField!
+    @IBOutlet weak var taskDescriptionTextField: UITextField!
+    
     init() {
         super.init(nibName: "NewTaskOverlay", bundle: nil)
         self.modalPresentationStyle = .overCurrentContext
@@ -45,6 +48,10 @@ class NewTaskOverlay: UIViewController {
         self.contentView.alpha = 0
         self.contentView.layer.cornerRadius = 12
         self.contentView.clipsToBounds = true
+        
+        taskTitleTextField.delegate = self
+        taskDescriptionTextField.delegate = self
+        taskTitleTextField.becomeFirstResponder()
     }
     
     private func show() {
@@ -63,6 +70,8 @@ class NewTaskOverlay: UIViewController {
     }
     
     private func hide() {
+        view.endEditing(true)
+        
         UIView.animate(withDuration: 0.2,
                        delay: 0,
                        animations: {
@@ -97,6 +106,21 @@ class NewTaskOverlay: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+    }
+}
+
+extension NewTaskOverlay: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        switch textField {
+        case taskTitleTextField:
+            taskDescriptionTextField.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
+        
+        return false
     }
 }
 

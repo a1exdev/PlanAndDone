@@ -25,9 +25,11 @@ class BaseDataBuilder: BaseDataBuilderProtocol {
     }
     
     func initialAssembly() {
+        
         for _ in 0..<4 {
             projectGroupManager.create()
         }
+        
         let projectGroups = projectGroupManager.fetchAll()
         
         projectManager.create(title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name, group: projectGroups[0])

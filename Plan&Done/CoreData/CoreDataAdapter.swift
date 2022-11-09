@@ -8,6 +8,8 @@
 import CoreData
 
 protocol CoreDataAdapterProtocol {
+    static var shared: CoreDataAdapter { get }
+    
     func saveContext()
     func resetAll()
     

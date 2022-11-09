@@ -13,8 +13,11 @@ protocol MainViewProtocol: AnyObject {
 
 protocol MainViewPresenterProtocol: AnyObject {
     init(view: MainViewProtocol, router: RouterProtocol, projectGroupManager: ProjectGroupManagerProtocol)
+    
     var projectGroups: [ProjectGroup] { get }
+    
     func setupInitialData()
+    
     func showProject()
     func showNewItemOverlay()
     func showNewTaskOverlay()

@@ -176,6 +176,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
