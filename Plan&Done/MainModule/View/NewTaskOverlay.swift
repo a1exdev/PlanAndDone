@@ -92,6 +92,17 @@ class NewTaskOverlay: UIViewController {
         })
     }
     
+    private func addTask() {
+        let title = taskTitleTextField.text ?? "New task"
+        let desc = taskDescriptionTextField.text
+        var dayComponent = DateComponents()
+        dayComponent.day = 1
+        let dtDeadline = Calendar.current.date(byAdding: dayComponent, to: Date())
+        let isDone = checkButton.isSelected
+        guard let project = (presenter.projectGroups.first?.project?.allObjects as! [Project]).first else { return }
+        presenter.addTask(title: title, desc: desc, dtDeadline: dtDeadline, isDone: isDone, project: project)
+    }
+    
     @IBAction func exitButtonTapped(_ sender: UIButton) {
         hide()
     }
@@ -116,11 +127,8 @@ class NewTaskOverlay: UIViewController {
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        let title = taskTitleTextField.text ?? "New task"
-        let desc = taskDescriptionTextField.text
-        let dtCreation = Date()
-        let isDone = checkButton.isSelected
-        presenter.addTask(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, project: nil)
+        addTask()
+        hide()
     }
 }
 

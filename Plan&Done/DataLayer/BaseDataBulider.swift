@@ -9,7 +9,6 @@ import UIKit
 
 protocol BaseDataBuilderProtocol {
     func initialAssembly()
-    func factoryReset()
 }
 
 class BaseDataBuilder: BaseDataBuilderProtocol {
@@ -40,9 +39,5 @@ class BaseDataBuilder: BaseDataBuilderProtocol {
         projectManager.create(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name, group: projectGroups[1])
         
         projectManager.create(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name, group: projectGroups[2])
-    }
-    
-    func factoryReset() {
-        dataAdapter.resetAll()
     }
 }

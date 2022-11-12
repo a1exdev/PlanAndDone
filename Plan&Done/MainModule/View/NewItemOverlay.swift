@@ -97,6 +97,7 @@ extension NewItemOverlay: UIGestureRecognizerDelegate {
             case (newTaskButton.frame.minY)...(newTaskButton.frame.maxY):
                 self.presenter.showNewTaskOverlay()
             case (newProjectButton.frame.minY)...(newProjectButton.frame.maxY):
+                self.presenter.addProject()
                 hide()
             default:
                 break

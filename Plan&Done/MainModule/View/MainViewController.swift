@@ -14,9 +14,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter.setupInitialData()
-        
         setupNotifications()
+        
+        setupInitialData()
         
         configureView()
         configureSearchBar()
@@ -26,11 +26,24 @@ class MainViewController: UIViewController {
         setupConstraints()
     }
     
+    private func setupInitialData() {
+        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
+            presenter.setupInitialData()
+            UserDefaults.standard.set(true, forKey: "SetupInitialData")
+        }
+    }
+    
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(viewHasBecomeActive),
             name: Notification.Name("ViewHasBecomeActive"),
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(newProjectHasBeenAdded),
+            name: Notification.Name("NewProjectHasBeenAdded"),
             object: nil)
     }
 
@@ -46,6 +59,13 @@ class MainViewController: UIViewController {
                        animations: {
             self.newItemButton.frame.origin.y -= 110
         })
+    }
+    
+    @objc func newProjectHasBeenAdded() {
+        tableView.reloadData()
+        configureProjectsTableView()
+        
+        //TODO: Focus on the new project, rename, etc.
     }
     
     private let searchController = UISearchController()
