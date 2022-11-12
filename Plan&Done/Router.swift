@@ -13,8 +13,8 @@ protocol RouterMain {
 }
 
 protocol RouterProtocol: RouterMain {
-    func initialViewController(projectGroups: [ProjectGroup]?)
-    func showProject(tasks: [Task]?)
+    func initialViewController()
+    func showProject(project: Project)
     func showNewItemOverlay()
     func showNewTaskOverlay()
     func backToMainView()
@@ -31,16 +31,16 @@ class Router: RouterProtocol {
         self.moduleAssembler = moduleAssembler
     }
     
-    func initialViewController(projectGroups: [ProjectGroup]?) {
+    func initialViewController() {
         if let navigationController = navigationController {
-            guard let mainViewController = moduleAssembler?.createMainModule(projectGroups: projectGroups, router: self) else { return }
+            guard let mainViewController = moduleAssembler?.createMainModule(router: self) else { return }
             navigationController.viewControllers = [mainViewController]
         }
     }
     
-    func showProject(tasks: [Task]?) {
+    func showProject(project: Project) {
         if let navigationController = navigationController {
-            guard let projectViewController = moduleAssembler?.createProjectModule(tasks: tasks, router: self) else { return }
+            guard let projectViewController = moduleAssembler?.createProjectModule(router: self, project: project) else { return }
             navigationController.pushViewController(projectViewController, animated: true)
         }
     }

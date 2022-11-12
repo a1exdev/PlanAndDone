@@ -22,7 +22,7 @@ protocol MainViewPresenterProtocol: AnyObject {
     func addTask(title: String, desc: String?, dtDeadline: Date?, isDone: Bool, project: Project)
     func addProject()
 
-    func showProject()
+    func showProject(project: Project)
     func showNewItemOverlay()
     func showNewTaskOverlay()
     func backToMainView()
@@ -78,8 +78,8 @@ class MainViewPresenter: MainViewPresenterProtocol {
         NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
     }
     
-    func showProject() {
-        print("Show project")
+    func showProject(project: Project) {
+        router?.showProject(project: project)
     }
     
     func showNewItemOverlay() {

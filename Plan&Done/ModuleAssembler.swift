@@ -8,8 +8,8 @@
 import UIKit
 
 protocol ModuleAssemblerProtocol {
-    func createMainModule(projectGroups: [ProjectGroup]?, router: RouterProtocol) -> UIViewController
-    func createProjectModule(tasks: [Task]?, router: RouterProtocol) -> UIViewController
+    func createMainModule(router: RouterProtocol) -> UIViewController
+    func createProjectModule(router: RouterProtocol, project: Project) -> UIViewController
     
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay
     func createNewTaskOverlay(router: RouterProtocol) -> NewTaskOverlay
@@ -22,7 +22,7 @@ class ModuleAssembler: ModuleAssemblerProtocol {
     private lazy var projectManager = ProjectManager(dataAdapter: coreDataAdapter)
     private lazy var projectGroupManager = ProjectGroupManager(dataAdapter: coreDataAdapter)
     
-    func createMainModule(projectGroups: [ProjectGroup]?, router: RouterProtocol) -> UIViewController {
+    func createMainModule(router: RouterProtocol) -> UIViewController {
         let view = MainViewController()
         let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
         view.presenter = presenter
@@ -43,9 +43,9 @@ class ModuleAssembler: ModuleAssemblerProtocol {
         return view
     }
     
-    func createProjectModule(tasks: [Task]?, router: RouterProtocol) -> UIViewController {
+    func createProjectModule(router: RouterProtocol, project: Project) -> UIViewController {
         let view = ProjectViewController()
-        let presenter = ProjectViewPresenter(view: view, router: router)
+        let presenter = ProjectViewPresenter(view: view, router: router, taskManager: taskManager, project: project)
         view.presenter = presenter
         return view
     }

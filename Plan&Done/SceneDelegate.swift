@@ -22,9 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         let moduleAssembler = ModuleAssembler()
-        let projectGroups = [ProjectGroup]()
         let router = Router(navigationContriller: navigationController, moduleAssembler: moduleAssembler)
-        router.initialViewController(projectGroups: projectGroups)
+        router.initialViewController()
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

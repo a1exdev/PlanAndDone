@@ -15,7 +15,6 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         setupNotifications()
-        
         setupInitialData()
         
         configureView()
@@ -26,11 +25,14 @@ class MainViewController: UIViewController {
         setupConstraints()
     }
     
-    private func setupInitialData() {
-        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
-            presenter.setupInitialData()
-            UserDefaults.standard.set(true, forKey: "SetupInitialData")
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     private func setupNotifications() {
@@ -45,6 +47,13 @@ class MainViewController: UIViewController {
             selector: #selector(newProjectHasBeenAdded),
             name: Notification.Name("NewProjectHasBeenAdded"),
             object: nil)
+    }
+    
+    private func setupInitialData() {
+        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
+            presenter.setupInitialData()
+            UserDefaults.standard.set(true, forKey: "SetupInitialData")
+        }
     }
 
     @objc func viewHasBecomeActive() {
@@ -68,14 +77,21 @@ class MainViewController: UIViewController {
         //TODO: Focus on the new project, rename, etc.
     }
     
-    private let searchController = UISearchController()
-    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
+    }()
+    
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Quick Find"
+        searchBar.searchBarStyle = .minimal
+        searchBar.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        searchBar.sizeToFit()
+        return searchBar
     }()
     
     private let contentView: UIView = {
@@ -88,7 +104,6 @@ class MainViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.sectionHeaderHeight = 8
         table.sectionFooterHeight = 8
-        table.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         table.isScrollEnabled = false
         return table
@@ -110,17 +125,15 @@ class MainViewController: UIViewController {
     }()
     
     private func configureView() {
-        title = "My Projects"
-        navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(rgb: 0x1E2128)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        scrollView.addSubview(searchBar)
     }
     
     private func configureSearchBar() {
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Quick Find"
+        searchBar.delegate = self
+        searchBar.barTintColor = view.backgroundColor
     }
     
     private func configureNewItemButton() {
@@ -133,17 +146,17 @@ class MainViewController: UIViewController {
     private func configureProjectsTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = UIColor(rgb: 0x1E2128)
-        tableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: tableViewHeight)
+        tableView.backgroundColor = view.backgroundColor
+        tableView.frame = CGRect(x: view.frame.minX, y: searchBar.frame.midY + 10, width: view.frame.width, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         contentView.addSubview(tableView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor)
         ])
         
@@ -156,10 +169,10 @@ class MainViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
             tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
+            tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            tableView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
         ])
     }
     
@@ -169,10 +182,10 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UISearchBarDelegate, UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
+extension MainViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let text = searchBar.text else { return }
         print(text)
     }
 }
@@ -181,6 +194,9 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
+        let project = projects[indexPath.row]
+        presenter.showProject(project: project)
     }
 }
 
