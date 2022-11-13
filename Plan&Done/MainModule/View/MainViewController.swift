@@ -226,7 +226,7 @@ class MainViewController: UIViewController {
     }
 
     @objc func showSearchOverlay(sender: UITapGestureRecognizer) {
-        print("Show search overlay")
+        presenter.showSearchOverlay()
     }
     
     @objc func showNewItemOverlay(sender: UIButton!) {
@@ -235,7 +235,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func showSettingsOverlay(sender: UIButton!) {
-        print("Show settings overlay")
+        presenter.showSettingsOverlay()
     }
 }
 
@@ -280,8 +280,8 @@ extension MainViewController: UITableViewDataSource {
         
         switch indexPath.section {
         case 3:
-            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { (action, view, completion) in completion(true)
-                print("Show edit item overlay")
+            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { [self] (action, view, completion) in completion(true)
+                presenter.showEditItemOverlay()
             }
             showEditItemOverlayAction.image = UIImage(systemName: "checklist")
             showEditItemOverlayAction.backgroundColor = .systemBlue

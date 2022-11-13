@@ -93,7 +93,8 @@ class NewTaskOverlay: UIViewController {
     }
     
     private func addTask() {
-        let title = taskTitleTextField.text ?? "New task"
+        var title: String! = taskTitleTextField.text
+        if title == "" { title = "New Task" }
         let desc = taskDescriptionTextField.text
         var dayComponent = DateComponents()
         dayComponent.day = 1

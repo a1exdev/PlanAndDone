@@ -100,8 +100,8 @@ class ProjectViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = view.backgroundColor
-        tableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width - 16, height: tableViewHeight)
         contentView.addSubview(tableView)
     }
     
@@ -115,15 +115,14 @@ class ProjectViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: 8),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 8)
         ])
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
         ])
@@ -141,7 +140,7 @@ extension ProjectViewController: UITableViewDataSource {
     
     var tasks: [Task] {
         get {
-            return (presenter.project.task?.allObjects as! [Task]).sorted { $0.title! < $1.title! }
+            return (presenter.project.task?.allObjects as! [Task]).sorted { $0.dtCreation! < $1.dtCreation! }
         }
     }
     
@@ -165,6 +164,8 @@ extension ProjectViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = tasks[indexPath.row].title
         cell.backgroundColor = .clear
+        cell.layer.cornerRadius = 8
+        cell.clipsToBounds = true
         return cell
     }
 }

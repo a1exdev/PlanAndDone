@@ -1,0 +1,19 @@
+//
+//  SelectProjectOverlay.swift
+//  Plan&Done
+//
+//  Created by Alexander Senin on 13.11.2022.
+//
+
+import UIKit
+
+class SelectProjectOverlay: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
+
+extension SelectProjectOverlay: MainViewProtocol {
+    
+}

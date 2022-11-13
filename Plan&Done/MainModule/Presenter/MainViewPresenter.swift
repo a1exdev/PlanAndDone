@@ -23,8 +23,18 @@ protocol MainViewPresenterProtocol: AnyObject {
     func addProject()
 
     func showProject(project: Project)
+    
+    func showSearchOverlay()
+    func showSettingsOverlay()
+    
+    func showEditItemOverlay()
     func showNewItemOverlay()
     func showNewTaskOverlay()
+    
+    func showSelectProjectOverlay()
+    func showSelectDayOverlay()
+    func showSelectDeadlineOverlay()
+    
     func backToMainView()
     func popToRoot()
 }
@@ -83,12 +93,36 @@ class MainViewPresenter: MainViewPresenterProtocol {
         router?.showProject(project: project)
     }
     
+    func showSearchOverlay() {
+        router?.showSearchOverlay()
+    }
+    
+    func showSettingsOverlay() {
+        router?.showSettingsOverlay()
+    }
+    
+    func showEditItemOverlay() {
+        router?.showEditItemOverlay()
+    }
+    
     func showNewItemOverlay() {
         router?.showNewItemOverlay()
     }
     
     func showNewTaskOverlay() {
         router?.showNewTaskOverlay()
+    }
+    
+    func showSelectProjectOverlay() {
+        router?.showSelectProjectOverlay()
+    }
+    
+    func showSelectDayOverlay() {
+        router?.showSelectDayOverlay()
+    }
+    
+    func showSelectDeadlineOverlay() {
+        router?.showSelectDeadlineOverlay()
     }
     
     func backToMainView() {

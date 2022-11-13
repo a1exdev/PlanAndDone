@@ -11,8 +11,16 @@ protocol ModuleAssemblerProtocol {
     func createMainModule(router: RouterProtocol) -> UIViewController
     func createProjectModule(router: RouterProtocol, project: Project) -> UIViewController
     
+    //func createSearchOverlay(router: RouterProtocol) -> SearchOverlay
+    //func createSettingsOverlay(router: RouterProtocol) -> SettingsOverlay
+    
+    //func createEditItemOverlay(router: RouterProtocol) -> EditItemOverlay
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay
     func createNewTaskOverlay(router: RouterProtocol) -> NewTaskOverlay
+    
+    //func createSelectProjectOverlay(router: RouterProtocol) -> SelectProjectOverlay
+    //func createSelectDayOverlay(router: RouterProtocol) -> SelectDayOverlay
+    //func createSelectDeadlineOverlay(router: RouterProtocol) -> SelectDeadlineOverlay
 }
 
 class ModuleAssembler: ModuleAssemblerProtocol {

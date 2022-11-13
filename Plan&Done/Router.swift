@@ -14,9 +14,20 @@ protocol RouterMain {
 
 protocol RouterProtocol: RouterMain {
     func initialViewController()
+    
     func showProject(project: Project)
+    
+    func showSearchOverlay()
+    func showSettingsOverlay()
+    
+    func showEditItemOverlay()
     func showNewItemOverlay()
     func showNewTaskOverlay()
+    
+    func showSelectProjectOverlay()
+    func showSelectDayOverlay()
+    func showSelectDeadlineOverlay()
+    
     func backToMainView()
     func popToRoot()
 }
@@ -45,6 +56,18 @@ class Router: RouterProtocol {
         }
     }
     
+    func showSearchOverlay() {
+        print("Show search overlay")
+    }
+    
+    func showSettingsOverlay() {
+        print("Show settings overlay")
+    }
+    
+    func showEditItemOverlay() {
+        print("Show edit item overlay")
+    }
+    
     func showNewItemOverlay() {
         if let navigationController = navigationController {
             guard let newItemOverlay = moduleAssembler?.createNewItemOverlay(router: self) else { return }
@@ -58,6 +81,18 @@ class Router: RouterProtocol {
             navigationController.presentedViewController?.dismiss(animated: false)
             newTaskOverlay.appear(sender: navigationController)
         }
+    }
+    
+    func showSelectProjectOverlay() {
+        print("Show select project overlay")
+    }
+    
+    func showSelectDayOverlay() {
+        print("Show select day overlay")
+    }
+    
+    func showSelectDeadlineOverlay() {
+        print("Show select deadline overlay")
     }
     
     func backToMainView() {
