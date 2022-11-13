@@ -71,10 +71,11 @@ class MainViewPresenter: MainViewPresenterProtocol {
     
     func addProject() {
         let title = "New Project"
-        let image = ProjectImage.stack.rawValue
-        let color = UIColor.systemBlue.name
+        let image = ProjectImage.circle.rawValue
+        let color = UIColor.systemGray.name
         let group = projectGroups[3]
-        projectManager.create(title: title, image: image, color: color, group: group)
+        let number = (group.project?.allObjects as! [Project]).last?.number ?? 0
+        projectManager.create(number: Int(number) + 1, title: title, image: image, color: color, group: group)
         NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
     }
     

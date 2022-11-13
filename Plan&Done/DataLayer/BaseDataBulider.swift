@@ -31,13 +31,13 @@ class BaseDataBuilder: BaseDataBuilderProtocol {
         
         let projectGroups = projectGroupManager.fetchAll()
         
-        projectManager.create(title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name, group: projectGroups[0])
+        projectManager.create(number: 1, title: "Inbox", image: ProjectImage.tray.rawValue, color: UIColor.systemBlue.name, group: projectGroups[0])
         
-        projectManager.create(title: "Today", image: ProjectImage.star.rawValue, color: UIColor.systemYellow.name, group: projectGroups[1])
-        projectManager.create(title: "Upcoming", image: ProjectImage.calendar.rawValue, color: UIColor.systemRed.name, group: projectGroups[1])
-        projectManager.create(title: "Anytime", image: ProjectImage.stack.rawValue, color: UIColor.systemMint.name, group: projectGroups[1])
-        projectManager.create(title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name, group: projectGroups[1])
+        projectManager.create(number: 1, title: "Today", image: ProjectImage.star.rawValue, color: UIColor.systemYellow.name, group: projectGroups[1])
+        projectManager.create(number: 2, title: "Upcoming", image: ProjectImage.calendar.rawValue, color: UIColor.systemRed.name, group: projectGroups[1])
+        projectManager.create(number: 3, title: "Anytime", image: ProjectImage.stack.rawValue, color: UIColor.systemMint.name, group: projectGroups[1])
+        projectManager.create(number: 4, title: "Someday", image: ProjectImage.box.rawValue, color: UIColor.systemBrown.name, group: projectGroups[1])
         
-        projectManager.create(title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name, group: projectGroups[2])
+        projectManager.create(number: 1, title: "Logbook", image: ProjectImage.journal.rawValue, color: UIColor.systemGreen.name, group: projectGroups[2])
     }
 }

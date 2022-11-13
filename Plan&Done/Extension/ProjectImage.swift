@@ -14,4 +14,6 @@ enum ProjectImage: String {
     case box = "archivebox.fill"
     case journal = "book.closed.fill"
     case tray = "tray.fill"
+    case circle = "circle"
+    case pie = "chart.pie"
 }

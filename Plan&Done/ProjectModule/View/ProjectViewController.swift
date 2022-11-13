@@ -145,6 +145,18 @@ extension ProjectViewController: UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { (action, view, completion) in completion(true)
+            print("Show edit item overlay")
+        }
+        
+        showEditItemOverlayAction.image = UIImage(systemName: "checklist")
+        showEditItemOverlayAction.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [showEditItemOverlayAction])
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasks.count
     }

@@ -22,6 +22,7 @@ extension UIColor {
             case UIColor.systemPurple: return "systemPurple"
             case UIColor.systemPink: return "systemPink"
             case UIColor.systemBrown: return "systemBrown"
+            case UIColor.systemGray: return "systemGray"
         default:
             return "not system color"
         }

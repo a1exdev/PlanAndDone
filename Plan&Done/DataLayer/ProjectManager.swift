@@ -11,7 +11,7 @@ protocol ProjectManagerProtocol {
     func fetchAll() -> [Project]
     func fetchById(_ id: UUID) -> Project?
     
-    func create(title: String, image: String, color: String, group: ProjectGroup)
+    func create(number: Int, title: String, image: String, color: String, group: ProjectGroup)
     func remove(_ id: UUID)
     
     func changeTitle(id: UUID, newTitle: String)
@@ -38,8 +38,8 @@ class ProjectManager: ProjectManagerProtocol {
         return project
     }
     
-    func create(title: String, image: String, color: String, group: ProjectGroup) {
-        dataAdapter.saveProject(title: title, image: image, color: color, group: group)
+    func create(number: Int, title: String, image: String, color: String, group: ProjectGroup) {
+        dataAdapter.saveProject(number: number, title: title, image: image, color: color, group: group)
     }
     
     func remove(_ id: UUID) {

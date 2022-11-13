@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  Plan&Done
 //
-//  Created by Alexander Senin on 05.11.2022.
+//  Created by Alexander Senin on 13.11.2022.
 //
 //
 
@@ -15,10 +15,11 @@ extension Project {
         return NSFetchRequest<Project>(entityName: "Project")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var title: String?
-    @NSManaged public var image: String?
     @NSManaged public var color: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var image: String?
+    @NSManaged public var title: String?
+    @NSManaged public var number: Int16
     @NSManaged public var group: ProjectGroup?
     @NSManaged public var task: NSSet?
 }
