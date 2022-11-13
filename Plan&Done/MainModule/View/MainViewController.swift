@@ -20,6 +20,7 @@ class MainViewController: UIViewController {
         configureView()
         configureSearchBarView()
         configureNewItemButton()
+        configureSettingsButton()
         configureProjectsTableView()
         
         setupConstraints()
@@ -130,16 +131,29 @@ class MainViewController: UIViewController {
     
     private var tableViewHeight: CGFloat {
         tableView.layoutIfNeeded()
-        return tableView.contentSize.height + 30
+        return tableView.contentSize.height
     }
     
     private let newItemButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.image = UIImage(systemName: "plus")
+        config.imagePlacement = .leading
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 28)
-        
-        var button  = UIButton(configuration: config)
+
+        var button = UIButton(configuration: config)
         button.clipsToBounds = true
+        return button
+    }()
+    
+    private let settingsButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.title = " Settings"
+        config.image = UIImage(systemName: "gearshape")
+        config.baseForegroundColor = .systemGray
+        config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 12)
+        
+        var button = UIButton(configuration: config)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -163,10 +177,15 @@ class MainViewController: UIViewController {
     }
     
     private func configureNewItemButton() {
-        newItemButton.frame = CGRect(x: view.bounds.maxX - 75, y: view.bounds.maxY * 0.88, width: 58, height: 58)
+        newItemButton.frame = CGRect(x: view.frame.maxX - 75, y: view.frame.maxY * 0.88, width: 58, height: 58)
         newItemButton.layer.cornerRadius = (newItemButton.frame.size.width / 2)
         newItemButton.addTarget(self, action: #selector(showNewItemOverlay), for: .touchUpInside)
         view.addSubview(newItemButton)
+    }
+    
+    private func configureSettingsButton() {
+        settingsButton.addTarget(self, action: #selector(showSettingsOverlay), for: .touchUpInside)
+        scrollView.addSubview(settingsButton)
     }
     
     private func configureProjectsTableView() {
@@ -189,7 +208,7 @@ class MainViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor, constant: -10),
             contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: 8),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -30),
             contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 8)
         ])
         
@@ -198,6 +217,11 @@ class MainViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            settingsButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            settingsButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -5)
         ])
     }
 
@@ -208,6 +232,10 @@ class MainViewController: UIViewController {
     @objc func showNewItemOverlay(sender: UIButton!) {
         self.newItemButton.alpha = 0
         presenter.showNewItemOverlay()
+    }
+    
+    @objc func showSettingsOverlay(sender: UIButton!) {
+        print("Show settings overlay")
     }
 }
 
