@@ -158,7 +158,7 @@ class MainViewController: UIViewController {
         scrollView.addSubview(searchBarView)
         searchBarView.addSubview(searchBarLabel)
         
-        let searchBarTapGesture = UITapGestureRecognizer(target: self, action:  #selector(showSearchOverlay))
+        let searchBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSearchOverlay))
         self.searchBarView.addGestureRecognizer(searchBarTapGesture)
     }
     
@@ -173,8 +173,8 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = view.backgroundColor
-        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width - 16, height: tableViewHeight)
         contentView.addSubview(tableView)
     }
     
@@ -187,18 +187,17 @@ class MainViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor),
-            contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            contentView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor, constant: -10),
+            contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: 8),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 8)
         ])
         
         NSLayoutConstraint.activate([
-            tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            tableView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            tableView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
         ])
     }
 
@@ -209,14 +208,6 @@ class MainViewController: UIViewController {
     @objc func showNewItemOverlay(sender: UIButton!) {
         self.newItemButton.alpha = 0
         presenter.showNewItemOverlay()
-    }
-}
-
-extension MainViewController: UISearchBarDelegate {
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard let text = searchBar.text else { return }
-        print(text)
     }
 }
 
@@ -231,21 +222,6 @@ extension MainViewController: UITableViewDelegate {
 }
 
 extension MainViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        switch indexPath.section {
-        case 3:
-            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { (action, view, completion) in completion(true)
-                print("Show edit item overlay")
-            }
-            showEditItemOverlayAction.image = UIImage(systemName: "checklist")
-            showEditItemOverlayAction.backgroundColor = .systemBlue
-            return UISwipeActionsConfiguration(actions: [showEditItemOverlayAction])
-        default:
-            return nil
-        }
-    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return presenter.projectGroups.count
@@ -266,8 +242,25 @@ extension MainViewController: UITableViewDataSource {
         cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image!)
         cell.imageView?.tintColor = UIColor.colorWith(name: projects[indexPath.row].color!)
         cell.backgroundColor = .clear
+        cell.layer.cornerRadius = 8
+        cell.clipsToBounds = true
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        switch indexPath.section {
+        case 3:
+            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { (action, view, completion) in completion(true)
+                print("Show edit item overlay")
+            }
+            showEditItemOverlayAction.image = UIImage(systemName: "checklist")
+            showEditItemOverlayAction.backgroundColor = .systemBlue
+            return UISwipeActionsConfiguration(actions: [showEditItemOverlayAction])
+        default:
+            return nil
+        }
     }
 }
 
