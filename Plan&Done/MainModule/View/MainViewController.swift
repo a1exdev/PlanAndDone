@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
         setupInitialData()
         
         configureView()
-        configureSearchBar()
+        configureSearchBarView()
         configureNewItemButton()
         configureProjectsTableView()
         
@@ -85,19 +85,38 @@ class MainViewController: UIViewController {
         return scrollView
     }()
     
-    private let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Quick Find"
-        searchBar.searchBarStyle = .minimal
-        searchBar.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        searchBar.sizeToFit()
-        return searchBar
-    }()
-    
     private let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
+    }()
+    
+    private let searchBarLabel: UILabel = {
+
+        let label = UILabel()
+
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(systemName: "magnifyingglass")?.withTintColor(.secondaryLabel)
+        imageAttachment.bounds = CGRect(x: 0, y: -4.5, width: 20, height: 20)
+
+        let attachmentString = NSAttributedString(attachment: imageAttachment)
+        let completeText = NSMutableAttributedString(string: "")
+        completeText.append(attachmentString)
+        let textAfterIcon = NSAttributedString(string: " Quick Find")
+        completeText.append(textAfterIcon)
+
+        label.attributedText = completeText
+        label.textColor = .secondaryLabel
+        label.sizeToFit()
+
+        return label
+    }()
+
+    private let searchBarView: UIView = {
+        let searchBarView = UIView()
+        searchBarView.backgroundColor = UIColor(rgb: 0x2D3037)
+        searchBarView.layer.cornerRadius = 10
+        return searchBarView
     }()
     
     private let tableView: UITableView = {
@@ -111,7 +130,7 @@ class MainViewController: UIViewController {
     
     private var tableViewHeight: CGFloat {
         tableView.layoutIfNeeded()
-        return tableView.contentSize.height
+        return tableView.contentSize.height + 30
     }
     
     private let newItemButton: UIButton = {
@@ -125,15 +144,22 @@ class MainViewController: UIViewController {
     }()
     
     private func configureView() {
+        navigationController?.navigationBar.tintColor = .systemGray
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = UIColor(rgb: 0x1E2128)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        scrollView.addSubview(searchBar)
     }
     
-    private func configureSearchBar() {
-        searchBar.delegate = self
-        searchBar.barTintColor = view.backgroundColor
+    private func configureSearchBarView() {
+        searchBarView.frame = CGRect(x: 16, y: 8, width: view.frame.width - 32, height: 35)
+        searchBarLabel.center.x = searchBarView.center.x - 16
+        searchBarLabel.center.y = searchBarView.center.y - 7.5
+        scrollView.addSubview(searchBarView)
+        searchBarView.addSubview(searchBarLabel)
+        
+        let searchBarTapGesture = UITapGestureRecognizer(target: self, action:  #selector(showSearchOverlay))
+        self.searchBarView.addGestureRecognizer(searchBarTapGesture)
     }
     
     private func configureNewItemButton() {
@@ -147,7 +173,7 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = view.backgroundColor
-        tableView.frame = CGRect(x: view.frame.minX, y: searchBar.frame.midY + 10, width: view.frame.width, height: tableViewHeight)
+        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width, height: tableViewHeight)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         contentView.addSubview(tableView)
     }
@@ -161,7 +187,7 @@ class MainViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor),
             contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
@@ -174,6 +200,10 @@ class MainViewController: UIViewController {
             tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             tableView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
         ])
+    }
+
+    @objc func showSearchOverlay(sender: UITapGestureRecognizer) {
+        print("Show search overlay")
     }
     
     @objc func showNewItemOverlay(sender: UIButton!) {
@@ -194,13 +224,28 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
+        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
         let project = projects[indexPath.row]
         presenter.showProject(project: project)
     }
 }
 
 extension MainViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        switch indexPath.section {
+        case 3:
+            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { (action, view, completion) in completion(true)
+                print("Show edit item overlay")
+            }
+            showEditItemOverlayAction.image = UIImage(systemName: "checklist")
+            showEditItemOverlayAction.backgroundColor = .systemBlue
+            return UISwipeActionsConfiguration(actions: [showEditItemOverlayAction])
+        default:
+            return nil
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return presenter.projectGroups.count
@@ -215,7 +260,7 @@ extension MainViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.title! < $1.title! }
+        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
     
         cell.textLabel?.text = projects[indexPath.row].title
         cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image!)
