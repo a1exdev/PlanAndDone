@@ -12,7 +12,7 @@ protocol ModuleAssemblerProtocol {
     func createProjectModule(router: RouterProtocol, project: Project) -> UIViewController
     
     //func createSearchOverlay(router: RouterProtocol) -> SearchOverlay
-    //func createSettingsOverlay(router: RouterProtocol) -> SettingsOverlay
+    func createSettingsOverlay(router: RouterProtocol) -> SettingsOverlay
     
     //func createEditItemOverlay(router: RouterProtocol) -> EditItemOverlay
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay
@@ -32,6 +32,13 @@ class ModuleAssembler: ModuleAssemblerProtocol {
     
     func createMainModule(router: RouterProtocol) -> UIViewController {
         let view = MainViewController()
+        let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSettingsOverlay(router: RouterProtocol) -> SettingsOverlay {
+        let view = SettingsOverlay()
         let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
         view.presenter = presenter
         return view

@@ -70,8 +70,8 @@ class MainViewPresenter: MainViewPresenterProtocol {
     }
     
     func resetAllData() {
-        dataAdapter.resetAllData()
         UserDefaults.standard.set(false, forKey: "SetupInitialData")
+        dataAdapter.resetAllData()
     }
     
     func addTask(title: String, desc: String?, dtDeadline: Date?, isDone: Bool, project: Project) {

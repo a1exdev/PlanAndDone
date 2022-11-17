@@ -61,7 +61,10 @@ class Router: RouterProtocol {
     }
     
     func showSettingsOverlay() {
-        print("Show settings overlay")
+        if let navigationController = navigationController {
+            guard let settingsOverlay = moduleAssembler?.createSettingsOverlay(router: self) else { return }
+            settingsOverlay.appear(sender: navigationController)
+        }
     }
     
     func showEditItemOverlay() {

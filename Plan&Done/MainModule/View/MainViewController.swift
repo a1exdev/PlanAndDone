@@ -193,7 +193,7 @@ class MainViewController: UIViewController {
         tableView.delegate = self
         tableView.backgroundColor = view.backgroundColor
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width - 16, height: tableViewHeight)
+        tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width - 16, height: tableViewHeight + 30)
         contentView.addSubview(tableView)
     }
     
@@ -208,7 +208,7 @@ class MainViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor, constant: -10),
             contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: 8),
-            contentView.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -30),
+            contentView.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: -5),
             contentView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 8)
         ])
         
