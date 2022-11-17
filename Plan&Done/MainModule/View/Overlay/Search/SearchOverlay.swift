@@ -9,6 +9,8 @@ import UIKit
 
 class SearchOverlay: UIViewController {
     
+    var presenter: MainViewPresenterProtocol!
+    
     init() {
         super.init(nibName: "SearchOverlay", bundle: nil)
         self.modalPresentationStyle = .overCurrentContext

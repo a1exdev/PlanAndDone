@@ -27,7 +27,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
-                        <action selector="backViewTapped:" destination="-1" eventType="touchUpInside" id="mEy-gh-Nn1"/>
+                        <action selector="backViewTapped:" destination="-1" eventType="touchUpInside" id="lzv-0y-Njf"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qbr-kc-UoN" userLabel="contentView">

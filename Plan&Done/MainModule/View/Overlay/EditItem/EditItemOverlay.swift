@@ -9,6 +9,8 @@ import UIKit
 
 class EditItemOverlay: UIViewController {
     
+    var presenter: MainViewPresenterProtocol!
+    
     init() {
         super.init(nibName: "EditItemOverlay", bundle: nil)
         self.modalPresentationStyle = .overCurrentContext

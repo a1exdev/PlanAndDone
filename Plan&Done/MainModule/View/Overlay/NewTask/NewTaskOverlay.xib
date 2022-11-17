@@ -30,7 +30,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="086-u6-vxi" userLabel="contentView">
-                    <rect key="frame" x="0.0" y="15" width="393" height="330"/>
+                    <rect key="frame" x="0.0" y="74" width="393" height="330"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IwM-kY-O7W" userLabel="exitButton">
                             <rect key="frame" x="351" y="8" width="34" height="34"/>
@@ -58,12 +58,9 @@
                                     <color key="value" systemColor="systemGrayColor"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="taskTitleTextFieldEdited:" destination="-1" eventType="editingDidEnd" id="c9q-AV-AoG"/>
-                            </connections>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Notes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zei-4m-sI2" userLabel="taskDescriptionTexField">
-                            <rect key="frame" x="50" y="74.666666666666671" width="335" height="23.333333333333329"/>
+                            <rect key="frame" x="50" y="74.666666666666657" width="335" height="23.333333333333329"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -73,9 +70,6 @@
                                     <color key="value" systemColor="systemGrayColor"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="taskDescriptionTextFieldEdited:" destination="-1" eventType="editingDidEnd" id="Joz-e4-tPf"/>
-                            </connections>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-7d-Thc" userLabel="calendarButton">
                             <rect key="frame" x="301" y="239" width="34" height="34"/>

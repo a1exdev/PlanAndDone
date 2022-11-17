@@ -18,9 +18,9 @@ protocol ModuleAssemblerProtocol {
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay
     func createNewTaskOverlay(router: RouterProtocol) -> NewTaskOverlay
     
-    //func createSelectProjectOverlay(router: RouterProtocol) -> SelectProjectOverlay
-    //func createSelectDayOverlay(router: RouterProtocol) -> SelectDayOverlay
-    //func createSelectDeadlineOverlay(router: RouterProtocol) -> SelectDeadlineOverlay
+    func createSelectProjectOverlay(router: RouterProtocol) -> SelectProjectOverlay
+    func createSelectDayOverlay(router: RouterProtocol) -> SelectDayOverlay
+    func createSelectDeadlineOverlay(router: RouterProtocol) -> SelectDeadlineOverlay
 }
 
 class ModuleAssembler: ModuleAssemblerProtocol {
@@ -53,6 +53,27 @@ class ModuleAssembler: ModuleAssemblerProtocol {
     
     func createNewTaskOverlay(router: RouterProtocol) -> NewTaskOverlay {
         let view = NewTaskOverlay()
+        let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSelectProjectOverlay(router: RouterProtocol) -> SelectProjectOverlay {
+        let view = SelectProjectOverlay()
+        let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSelectDayOverlay(router: RouterProtocol) -> SelectDayOverlay {
+        let view = SelectDayOverlay()
+        let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSelectDeadlineOverlay(router: RouterProtocol) -> SelectDeadlineOverlay {
+        let view = SelectDeadlineOverlay()
         let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
         view.presenter = presenter
         return view

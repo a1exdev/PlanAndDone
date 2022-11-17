@@ -33,8 +33,7 @@ class NewItemOverlay: UIViewController {
         configureGestures()
     }
     
-    @IBAction func backViewTapped(_ sender: Any) {
-        hide()
+    @IBAction func backViewTapped(_ sender: UIControl) {
     }
     
     func appear(sender: UIViewController) {

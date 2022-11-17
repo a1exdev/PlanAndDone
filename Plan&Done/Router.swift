@@ -24,9 +24,9 @@ protocol RouterProtocol: RouterMain {
     func showNewItemOverlay()
     func showNewTaskOverlay()
     
-    func showSelectProjectOverlay()
-    func showSelectDayOverlay()
-    func showSelectDeadlineOverlay()
+    func showSelectProjectOverlay(viewController: UIViewController)
+    func showSelectDayOverlay(viewController: UIViewController)
+    func showSelectDeadlineOverlay(viewController: UIViewController)
     
     func backToMainView()
     func popToRoot()
@@ -86,16 +86,19 @@ class Router: RouterProtocol {
         }
     }
     
-    func showSelectProjectOverlay() {
-        print("Show select project overlay")
+    func showSelectProjectOverlay(viewController: UIViewController) {
+        guard let selectProjectOverlay = moduleAssembler?.createSelectProjectOverlay(router: self) else { return }
+        selectProjectOverlay.appear(sender: viewController)
     }
     
-    func showSelectDayOverlay() {
-        print("Show select day overlay")
+    func showSelectDayOverlay(viewController: UIViewController) {
+        guard let selectDayOverlay = moduleAssembler?.createSelectDayOverlay(router: self) else { return }
+        selectDayOverlay.appear(sender: viewController)
     }
     
-    func showSelectDeadlineOverlay() {
-        print("Show select deadline overlay")
+    func showSelectDeadlineOverlay(viewController: UIViewController) {
+        guard let selectDeadlineOverlay = moduleAssembler?.createSelectDeadlineOverlay(router: self) else { return }
+        selectDeadlineOverlay.appear(sender: viewController)
     }
     
     func backToMainView() {

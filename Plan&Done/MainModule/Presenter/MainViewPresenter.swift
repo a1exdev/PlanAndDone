@@ -31,9 +31,9 @@ protocol MainViewPresenterProtocol: AnyObject {
     func showNewItemOverlay()
     func showNewTaskOverlay()
     
-    func showSelectProjectOverlay()
-    func showSelectDayOverlay()
-    func showSelectDeadlineOverlay()
+    func showSelectProjectOverlay(viewController: UIViewController)
+    func showSelectDayOverlay(viewController: UIViewController)
+    func showSelectDeadlineOverlay(viewController: UIViewController)
     
     func backToMainView()
     func popToRoot()
@@ -113,16 +113,16 @@ class MainViewPresenter: MainViewPresenterProtocol {
         router?.showNewTaskOverlay()
     }
     
-    func showSelectProjectOverlay() {
-        router?.showSelectProjectOverlay()
+    func showSelectProjectOverlay(viewController: UIViewController) {
+        router?.showSelectProjectOverlay(viewController: viewController)
     }
     
-    func showSelectDayOverlay() {
-        router?.showSelectDayOverlay()
+    func showSelectDayOverlay(viewController: UIViewController) {
+        router?.showSelectDayOverlay(viewController: viewController)
     }
     
-    func showSelectDeadlineOverlay() {
-        router?.showSelectDeadlineOverlay()
+    func showSelectDeadlineOverlay(viewController: UIViewController) {
+        router?.showSelectDeadlineOverlay(viewController: viewController)
     }
     
     func backToMainView() {

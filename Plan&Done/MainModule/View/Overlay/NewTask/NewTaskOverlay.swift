@@ -112,19 +112,16 @@ class NewTaskOverlay: UIViewController {
         sender.checkBoxAnimation()
     }
     
-    @IBAction func taskTitleTextFieldEdited(_ sender: UITextField) {
-    }
-    
-    @IBAction func taskDescriptionTextFieldEdited(_ sender: UITextField) {
-    }
-    
     @IBAction func calendarButtonTapped(_ sender: UIButton) {
+        self.presenter.showSelectDayOverlay(viewController: self)
     }
     
     @IBAction func flagButtonTapped(_ sender: UIButton) {
+        self.presenter.showSelectDeadlineOverlay(viewController: self)
     }
     
     @IBAction func projectButtonTapped(_ sender: UIButton) {
+        self.presenter.showSelectProjectOverlay(viewController: self)
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
