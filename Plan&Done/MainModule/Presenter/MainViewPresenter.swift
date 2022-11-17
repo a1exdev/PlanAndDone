@@ -14,6 +14,7 @@ protocol MainViewProtocol: AnyObject {
 protocol MainViewPresenterProtocol: AnyObject {
     init(view: MainViewProtocol, router: RouterProtocol, dataAdapter: CoreDataAdapterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol)
     
+    var items: [Item] { get }
     var projectGroups: [ProjectGroup] { get }
     
     func setupInitialData()
@@ -48,6 +49,24 @@ class MainViewPresenter: MainViewPresenterProtocol {
     private let taskManager: TaskManagerProtocol!
     private let projectManager: ProjectManagerProtocol!
     private let projectGroupManager: ProjectGroupManagerProtocol!
+    
+    var items: [Item] {
+        get {
+            var items = [Item]()
+            
+            let tasks = taskManager.fetchAll()
+            tasks.forEach { task in
+                items.append(Item(id: task.id!, title: task.title!, image: nil, color: nil))
+            }
+            
+            let projects = projectManager.fetchAll()
+            projects.forEach { project in
+                items.append(Item(id: project.id!, title: project.title!, image: project.image!, color: project.color!))
+            }
+            
+            return items
+        }
+    }
     
     var projectGroups: [ProjectGroup] {
         get {

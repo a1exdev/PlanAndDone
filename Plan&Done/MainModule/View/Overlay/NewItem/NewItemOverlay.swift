@@ -34,6 +34,7 @@ class NewItemOverlay: UIViewController {
     }
     
     @IBAction func backViewTapped(_ sender: UIControl) {
+        hide()
     }
     
     func appear(sender: UIViewController) {

@@ -42,6 +42,7 @@
 		8778F3C5291A36FD00D27FE3 /* ModuleAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C4291A36FD00D27FE3 /* ModuleAssembler.swift */; };
 		8778F3C7291A3A7300D27FE3 /* ProjectViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */; };
 		8778F3CA291BF99900D27FE3 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C9291BF99900D27FE3 /* Button.swift */; };
+		8788056429268C460020FE17 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788056329268C460020FE17 /* Item.swift */; };
 		87D9920429213C3D009DEC24 /* SearchOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9920229213C3D009DEC24 /* SearchOverlay.swift */; };
 		87D9920529213C3D009DEC24 /* SearchOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87D9920329213C3D009DEC24 /* SearchOverlay.xib */; };
 		87D9920829213C4E009DEC24 /* SettingsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9920629213C4E009DEC24 /* SettingsOverlay.swift */; };
@@ -111,6 +112,7 @@
 		8778F3C4291A36FD00D27FE3 /* ModuleAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAssembler.swift; sourceTree = "<group>"; };
 		8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewPresenter.swift; sourceTree = "<group>"; };
 		8778F3C9291BF99900D27FE3 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		8788056329268C460020FE17 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		87D9920229213C3D009DEC24 /* SearchOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOverlay.swift; sourceTree = "<group>"; };
 		87D9920329213C3D009DEC24 /* SearchOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchOverlay.xib; sourceTree = "<group>"; };
 		87D9920629213C4E009DEC24 /* SettingsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOverlay.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 		8778F3B8291A347500D27FE3 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
+				8788056229268C380020FE17 /* Model */,
 				8778F3B9291A349C00D27FE3 /* View */,
 				8778F3BA291A34A800D27FE3 /* Presenter */,
 			);
@@ -290,6 +293,14 @@
 				8778F3AE2917F45400D27FE3 /* ProjectGroupManager.swift */,
 			);
 			path = DataLayer;
+			sourceTree = "<group>";
+		};
+		8788056229268C380020FE17 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8788056329268C460020FE17 /* Item.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		878E98DF29213BAF008D17E7 /* NewTask */ = {
@@ -545,6 +556,7 @@
 				8706A47929213B1100AB0F8B /* EditItemOverlay.swift in Sources */,
 				87D9920829213C4E009DEC24 /* SettingsOverlay.swift in Sources */,
 				875BF2F628F17E9700C29D95 /* SceneDelegate.swift in Sources */,
+				8788056429268C460020FE17 /* Item.swift in Sources */,
 				87D9920F29213FED009DEC24 /* SelectProjectOverlay.swift in Sources */,
 				8778F3A02916B73700D27FE3 /* Task+CoreDataProperties.swift in Sources */,
 				8778F3AD2917CBAF00D27FE3 /* ProjectManager.swift in Sources */,

@@ -46,46 +46,20 @@
                                 <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="qiJ-1V-Efe"/>
                             </connections>
                         </button>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ix-KB-U84">
-                            <rect key="frame" x="0.0" y="51" width="361" height="188"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eUX-yj-gZe">
-                                    <rect key="frame" x="0.0" y="0.0" width="361" height="188"/>
-                                    <subviews>
-                                        <datePicker contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5xv-LE-VYQ">
-                                            <rect key="frame" x="80" y="77" width="200" height="34"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="200" id="7Kw-3y-MIS"/>
-                                            </constraints>
-                                        </datePicker>
-                                    </subviews>
-                                    <color key="backgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <constraints>
-                                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerX" secondItem="eUX-yj-gZe" secondAttribute="centerX" id="Lcp-Gg-nZp"/>
-                                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerY" secondItem="eUX-yj-gZe" secondAttribute="centerY" id="Xdi-cg-NTk"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5xv-LE-VYQ">
+                            <rect key="frame" x="80.666666666666686" y="117.3333333333333" width="200" height="34.333333333333329"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="361" id="0wG-vY-lLL"/>
-                                <constraint firstItem="eUX-yj-gZe" firstAttribute="centerX" secondItem="9ix-KB-U84" secondAttribute="centerX" id="4q8-nd-rJ1"/>
-                                <constraint firstAttribute="trailing" secondItem="eUX-yj-gZe" secondAttribute="trailing" id="AeL-0V-fLv"/>
-                                <constraint firstItem="eUX-yj-gZe" firstAttribute="top" secondItem="9ix-KB-U84" secondAttribute="top" id="Qfo-2J-d0A"/>
-                                <constraint firstAttribute="height" constant="188" id="SxP-2J-DBN"/>
-                                <constraint firstAttribute="bottom" secondItem="eUX-yj-gZe" secondAttribute="bottom" id="Uw3-dP-ITf"/>
-                                <constraint firstItem="eUX-yj-gZe" firstAttribute="centerY" secondItem="9ix-KB-U84" secondAttribute="centerY" id="Zlw-Am-uaH"/>
-                                <constraint firstItem="eUX-yj-gZe" firstAttribute="leading" secondItem="9ix-KB-U84" secondAttribute="leading" id="esn-fn-GVS"/>
+                                <constraint firstAttribute="width" constant="200" id="7Kw-3y-MIS"/>
                             </constraints>
-                        </scrollView>
+                        </datePicker>
                     </subviews>
                     <color key="backgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstItem="9ix-KB-U84" firstAttribute="leading" secondItem="LHd-TG-vYN" secondAttribute="leading" id="8wm-9D-ZJd"/>
+                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerX" secondItem="LHd-TG-vYN" secondAttribute="centerX" id="B5j-h6-YL1"/>
                         <constraint firstAttribute="trailing" secondItem="F3z-3e-ZUW" secondAttribute="trailing" constant="8" id="JaJ-yG-Iu4"/>
-                        <constraint firstItem="9ix-KB-U84" firstAttribute="top" secondItem="F3z-3e-ZUW" secondAttribute="bottom" constant="8" id="Lvf-oc-2Po"/>
-                        <constraint firstAttribute="trailing" secondItem="9ix-KB-U84" secondAttribute="trailing" id="MmP-gJ-s7B"/>
+                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerY" secondItem="LHd-TG-vYN" secondAttribute="centerY" constant="15" id="cs9-as-QbN"/>
                         <constraint firstItem="WXN-pW-BZd" firstAttribute="top" secondItem="LHd-TG-vYN" secondAttribute="top" constant="15" id="dNa-qJ-a4Q"/>
-                        <constraint firstAttribute="bottom" secondItem="9ix-KB-U84" secondAttribute="bottom" id="hPz-jw-iqW"/>
+                        <constraint firstAttribute="height" constant="239" id="jdj-MO-FiG"/>
                         <constraint firstItem="WXN-pW-BZd" firstAttribute="centerX" secondItem="LHd-TG-vYN" secondAttribute="centerX" id="ozp-oh-ADj"/>
                         <constraint firstItem="F3z-3e-ZUW" firstAttribute="top" secondItem="LHd-TG-vYN" secondAttribute="top" constant="8" id="pnT-J0-iPd"/>
                     </constraints>
@@ -94,10 +68,10 @@
             <viewLayoutGuide key="safeArea" id="sg5-zE-LPT"/>
             <color key="backgroundColor" systemColor="systemIndigoColor"/>
             <constraints>
-                <constraint firstItem="LHd-TG-vYN" firstAttribute="top" secondItem="sg5-zE-LPT" secondAttribute="top" constant="247" id="Wf3-OF-IPn"/>
+                <constraint firstItem="LHd-TG-vYN" firstAttribute="top" secondItem="sg5-zE-LPT" secondAttribute="top" priority="250" constant="247" id="GcT-7K-jOK"/>
+                <constraint firstItem="sg5-zE-LPT" firstAttribute="bottom" secondItem="LHd-TG-vYN" secondAttribute="bottom" priority="250" constant="273" id="cAF-1f-4SC"/>
                 <constraint firstItem="LHd-TG-vYN" firstAttribute="leading" secondItem="sg5-zE-LPT" secondAttribute="leading" constant="16" id="sc2-1C-4Op"/>
                 <constraint firstItem="sg5-zE-LPT" firstAttribute="trailing" secondItem="LHd-TG-vYN" secondAttribute="trailing" constant="16" id="vNn-VZ-M8b"/>
-                <constraint firstItem="sg5-zE-LPT" firstAttribute="bottom" secondItem="LHd-TG-vYN" secondAttribute="bottom" constant="273" id="wsn-DV-kGY"/>
             </constraints>
             <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
         </view>

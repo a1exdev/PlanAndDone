@@ -57,7 +57,10 @@ class Router: RouterProtocol {
     }
     
     func showSearchOverlay() {
-        print("Show search overlay")
+        if let navigationController = navigationController {
+            guard let searchOverlay = moduleAssembler?.createSearchOverlay(router: self) else { return }
+            searchOverlay.appear(sender: navigationController)
+        }
     }
     
     func showSettingsOverlay() {

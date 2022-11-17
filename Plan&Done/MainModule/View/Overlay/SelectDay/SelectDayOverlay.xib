@@ -57,10 +57,8 @@
                             <constraints>
                                 <constraint firstItem="tFG-ec-PCL" firstAttribute="top" secondItem="e1u-FI-Lfp" secondAttribute="top" id="2ks-QZ-P1J"/>
                                 <constraint firstItem="tFG-ec-PCL" firstAttribute="leading" secondItem="e1u-FI-Lfp" secondAttribute="leading" id="6Sr-K3-vwh"/>
-                                <constraint firstAttribute="width" constant="361" id="Qwt-a1-3TP"/>
                                 <constraint firstItem="tFG-ec-PCL" firstAttribute="centerX" secondItem="e1u-FI-Lfp" secondAttribute="centerX" id="RMz-Yw-z6t"/>
                                 <constraint firstAttribute="trailing" secondItem="tFG-ec-PCL" secondAttribute="trailing" id="Se5-Y8-cMZ"/>
-                                <constraint firstAttribute="height" constant="529" id="VqX-EK-JeT"/>
                                 <constraint firstItem="tFG-ec-PCL" firstAttribute="centerY" secondItem="e1u-FI-Lfp" secondAttribute="centerY" id="gO8-3r-gC5"/>
                                 <constraint firstAttribute="bottom" secondItem="tFG-ec-PCL" secondAttribute="bottom" id="xaJ-wT-vdE"/>
                             </constraints>

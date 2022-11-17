@@ -124,7 +124,7 @@ class MainViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.sectionHeaderHeight = 8
         table.sectionFooterHeight = 8
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "projectCell")
         table.isScrollEnabled = false
         return table
     }()
@@ -262,7 +262,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "projectCell", for: indexPath)
         
         let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
     

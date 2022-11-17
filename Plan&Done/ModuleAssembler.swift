@@ -11,7 +11,7 @@ protocol ModuleAssemblerProtocol {
     func createMainModule(router: RouterProtocol) -> UIViewController
     func createProjectModule(router: RouterProtocol, project: Project) -> UIViewController
     
-    //func createSearchOverlay(router: RouterProtocol) -> SearchOverlay
+    func createSearchOverlay(router: RouterProtocol) -> SearchOverlay
     func createSettingsOverlay(router: RouterProtocol) -> SettingsOverlay
     
     //func createEditItemOverlay(router: RouterProtocol) -> EditItemOverlay
@@ -24,7 +24,7 @@ protocol ModuleAssemblerProtocol {
 }
 
 class ModuleAssembler: ModuleAssemblerProtocol {
-    
+
     private let coreDataAdapter = CoreDataAdapter.shared
     private lazy var taskManager = TaskManager(dataAdapter: coreDataAdapter)
     private lazy var projectManager = ProjectManager(dataAdapter: coreDataAdapter)
@@ -32,6 +32,13 @@ class ModuleAssembler: ModuleAssemblerProtocol {
     
     func createMainModule(router: RouterProtocol) -> UIViewController {
         let view = MainViewController()
+        let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSearchOverlay(router: RouterProtocol) -> SearchOverlay {
+        let view = SearchOverlay()
         let presenter = MainViewPresenter(view: view, router: router, dataAdapter: coreDataAdapter, taskManager: taskManager, projectManager: projectManager, projectGroupManager: projectGroupManager)
         view.presenter = presenter
         return view
