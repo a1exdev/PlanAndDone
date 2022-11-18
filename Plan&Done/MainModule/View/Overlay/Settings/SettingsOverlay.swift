@@ -34,7 +34,12 @@ class SettingsOverlay: UIViewController {
     }
     
     @IBAction func resetAllDataButtonTapped(_ sender: UIButton) {
-        self.presenter.resetAllData()
+        let alert = UIAlertController(title: "Are you sure?", message: "To erase all tasks and projects you'll need to restart the app.", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { _ in
+            self.presenter.resetAllData()
+        }))
+        self.present(alert, animated: true)
     }
     
     func appear(sender: UIViewController) {

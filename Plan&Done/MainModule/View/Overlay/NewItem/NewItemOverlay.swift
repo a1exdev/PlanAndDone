@@ -52,8 +52,8 @@ class NewItemOverlay: UIViewController {
         self.contentView.alpha = 0
         self.contentView.layer.cornerRadius = 12
         
-        self.newTaskButton.layer.cornerRadius = 4
-        self.newProjectButton.layer.cornerRadius = 4
+        self.newTaskButton.layer.cornerRadius = 6
+        self.newProjectButton.layer.cornerRadius = 6
     }
     
     private func show() {

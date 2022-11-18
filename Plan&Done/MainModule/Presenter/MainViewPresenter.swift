@@ -22,6 +22,8 @@ protocol MainViewPresenterProtocol: AnyObject {
     
     func addTask(title: String, desc: String?, dtDeadline: Date?, isDone: Bool, project: Project)
     func addProject()
+    
+    func goToItem(with id: UUID)
 
     func showProject(project: Project)
     
@@ -106,6 +108,24 @@ class MainViewPresenter: MainViewPresenterProtocol {
         let number = (group.project?.allObjects as! [Project]).last?.number ?? 0
         projectManager.create(number: Int(number) + 1, title: title, image: image, color: color, group: group)
         NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
+    }
+    
+    func goToItem(with id: UUID) {
+        let tasks = taskManager.fetchAll()
+        tasks.forEach { task in
+            if task.id == id {
+                showProject(project: task.project!)
+                return
+            }
+        }
+        
+        let projects = projectManager.fetchAll()
+        projects.forEach { project in
+            if project.id == id {
+                showProject(project: project)
+                return
+            }
+        }
     }
     
     func showProject(project: Project) {

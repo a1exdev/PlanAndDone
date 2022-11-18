@@ -12,6 +12,8 @@ class SelectDeadlineOverlay: UIViewController {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
     
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
     var presenter: MainViewPresenterProtocol!
     
     init() {
@@ -27,6 +29,7 @@ class SelectDeadlineOverlay: UIViewController {
         super.viewDidLoad()
         
         configureView()
+        configureDatePicker()
     }
     
     @IBAction func backViewTapped(_ sender: UIControl) {
@@ -52,6 +55,10 @@ class SelectDeadlineOverlay: UIViewController {
         self.contentView.alpha = 0
         self.contentView.layer.cornerRadius = 12
         self.contentView.clipsToBounds = true
+    }
+    
+    private func configureDatePicker() {
+        datePicker.minimumDate = Date()
     }
     
     private func show() {

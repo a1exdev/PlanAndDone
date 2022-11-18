@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="backView" destination="mu1-fc-7uO" id="h2m-Ys-EZ4"/>
                 <outlet property="contentView" destination="LHd-TG-vYN" id="gTm-XY-6fw"/>
+                <outlet property="datePicker" destination="5xv-LE-VYQ" id="wxk-0K-bWU"/>
                 <outlet property="view" destination="HlD-9R-uqS" id="KYK-Tk-Rxt"/>
             </connections>
         </placeholder>
@@ -29,7 +30,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHd-TG-vYN" userLabel="contentView">
-                    <rect key="frame" x="16" y="306" width="361" height="239"/>
+                    <rect key="frame" x="16" y="251" width="361" height="350"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deadline" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXN-pW-BZd">
                             <rect key="frame" x="145.66666666666666" y="15" width="69.666666666666657" height="21"/>
@@ -37,7 +38,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F3z-3e-ZUW">
+                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F3z-3e-ZUW">
                             <rect key="frame" x="276.33333333333331" y="8" width="76.666666666666686" height="35"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="0.6993222268" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="Button"/>
@@ -46,32 +47,31 @@
                                 <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="qiJ-1V-Efe"/>
                             </connections>
                         </button>
-                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5xv-LE-VYQ">
-                            <rect key="frame" x="80.666666666666686" y="117.3333333333333" width="200" height="34.333333333333329"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="7Kw-3y-MIS"/>
-                            </constraints>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="5xv-LE-VYQ">
+                            <rect key="frame" x="8" y="43" width="345" height="307"/>
                         </datePicker>
                     </subviews>
                     <color key="backgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerX" secondItem="LHd-TG-vYN" secondAttribute="centerX" id="B5j-h6-YL1"/>
                         <constraint firstAttribute="trailing" secondItem="F3z-3e-ZUW" secondAttribute="trailing" constant="8" id="JaJ-yG-Iu4"/>
-                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="centerY" secondItem="LHd-TG-vYN" secondAttribute="centerY" constant="15" id="cs9-as-QbN"/>
+                        <constraint firstAttribute="bottom" secondItem="5xv-LE-VYQ" secondAttribute="bottom" id="RKi-DC-nGa"/>
+                        <constraint firstAttribute="trailing" secondItem="5xv-LE-VYQ" secondAttribute="trailing" constant="8" id="co1-lY-Kk0"/>
                         <constraint firstItem="WXN-pW-BZd" firstAttribute="top" secondItem="LHd-TG-vYN" secondAttribute="top" constant="15" id="dNa-qJ-a4Q"/>
-                        <constraint firstAttribute="height" constant="239" id="jdj-MO-FiG"/>
                         <constraint firstItem="WXN-pW-BZd" firstAttribute="centerX" secondItem="LHd-TG-vYN" secondAttribute="centerX" id="ozp-oh-ADj"/>
                         <constraint firstItem="F3z-3e-ZUW" firstAttribute="top" secondItem="LHd-TG-vYN" secondAttribute="top" constant="8" id="pnT-J0-iPd"/>
+                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="leading" secondItem="LHd-TG-vYN" secondAttribute="leading" constant="8" id="sp9-Pf-7Hd"/>
+                        <constraint firstItem="5xv-LE-VYQ" firstAttribute="top" secondItem="F3z-3e-ZUW" secondAttribute="bottom" id="zfI-Hl-aQe"/>
                     </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="sg5-zE-LPT"/>
             <color key="backgroundColor" systemColor="systemIndigoColor"/>
             <constraints>
-                <constraint firstItem="LHd-TG-vYN" firstAttribute="top" secondItem="sg5-zE-LPT" secondAttribute="top" priority="250" constant="247" id="GcT-7K-jOK"/>
-                <constraint firstItem="sg5-zE-LPT" firstAttribute="bottom" secondItem="LHd-TG-vYN" secondAttribute="bottom" priority="250" constant="273" id="cAF-1f-4SC"/>
-                <constraint firstItem="LHd-TG-vYN" firstAttribute="leading" secondItem="sg5-zE-LPT" secondAttribute="leading" constant="16" id="sc2-1C-4Op"/>
-                <constraint firstItem="sg5-zE-LPT" firstAttribute="trailing" secondItem="LHd-TG-vYN" secondAttribute="trailing" constant="16" id="vNn-VZ-M8b"/>
+                <constraint firstItem="sg5-zE-LPT" firstAttribute="trailing" secondItem="LHd-TG-vYN" secondAttribute="trailing" constant="16" id="7W3-Kl-eD3"/>
+                <constraint firstItem="LHd-TG-vYN" firstAttribute="leading" secondItem="sg5-zE-LPT" secondAttribute="leading" constant="16" id="buu-9Q-ucb"/>
+                <constraint firstItem="sg5-zE-LPT" firstAttribute="bottom" secondItem="LHd-TG-vYN" secondAttribute="bottom" constant="217" id="iVi-u2-qPV"/>
+                <constraint firstItem="LHd-TG-vYN" firstAttribute="top" secondItem="sg5-zE-LPT" secondAttribute="top" constant="192" id="ngB-ox-uue"/>
             </constraints>
             <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
         </view>

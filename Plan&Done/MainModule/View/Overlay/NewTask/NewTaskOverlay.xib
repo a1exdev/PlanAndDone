@@ -72,7 +72,7 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-7d-Thc" userLabel="calendarButton">
-                            <rect key="frame" x="301" y="239" width="34" height="34"/>
+                            <rect key="frame" x="299" y="239" width="34" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="34" id="3WG-pZ-fvd"/>
                                 <constraint firstAttribute="height" constant="34" id="ukX-Wk-zFE"/>
@@ -87,7 +87,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnl-36-dFJ" userLabel="flagButton">
-                            <rect key="frame" x="351" y="239" width="34" height="34"/>
+                            <rect key="frame" x="349" y="239" width="34" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="34" id="gPf-A6-yY2"/>
                                 <constraint firstAttribute="width" constant="34" id="tvW-KK-UoJ"/>
@@ -105,7 +105,7 @@
                             <rect key="frame" x="0.0" y="281" width="393" height="50"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oDg-Bd-DSq" userLabel="projectButton">
-                                    <rect key="frame" x="0.0" y="8" width="103" height="34"/>
+                                    <rect key="frame" x="2" y="8" width="103" height="34"/>
                                     <color key="tintColor" systemColor="systemGrayColor"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="tray" catalog="system" title=" Inbox" titleAlignment="leading">
@@ -132,7 +132,7 @@
                                 <constraint firstAttribute="bottom" secondItem="ubh-rh-xet" secondAttribute="bottom" constant="8" id="1aI-vl-PDw"/>
                                 <constraint firstAttribute="height" constant="50" id="Mgp-L4-MDB"/>
                                 <constraint firstAttribute="bottom" secondItem="oDg-Bd-DSq" secondAttribute="bottom" constant="8" id="hWt-FD-eEz"/>
-                                <constraint firstItem="oDg-Bd-DSq" firstAttribute="leading" secondItem="k4V-ao-47W" secondAttribute="leading" id="iUW-DB-B4n"/>
+                                <constraint firstItem="oDg-Bd-DSq" firstAttribute="leading" secondItem="k4V-ao-47W" secondAttribute="leading" constant="2" id="iUW-DB-B4n"/>
                                 <constraint firstAttribute="trailing" secondItem="ubh-rh-xet" secondAttribute="trailing" constant="8" id="jVO-ln-WOk"/>
                                 <constraint firstItem="oDg-Bd-DSq" firstAttribute="top" secondItem="k4V-ao-47W" secondAttribute="top" constant="8" id="ppy-ja-RDt"/>
                                 <constraint firstItem="ubh-rh-xet" firstAttribute="top" secondItem="k4V-ao-47W" secondAttribute="top" constant="8" id="zbb-Y2-1bI"/>
@@ -164,7 +164,7 @@
                         <constraint firstAttribute="bottom" secondItem="k4V-ao-47W" secondAttribute="bottom" constant="-1" id="EZB-sr-glR"/>
                         <constraint firstItem="zei-4m-sI2" firstAttribute="top" secondItem="hRt-Mj-cP3" secondAttribute="bottom" constant="8" symbolic="YES" id="MLF-pR-av6"/>
                         <constraint firstItem="IwM-kY-O7W" firstAttribute="top" secondItem="086-u6-vxi" secondAttribute="top" constant="8" id="T2z-hW-zcS"/>
-                        <constraint firstAttribute="trailing" secondItem="Nnl-36-dFJ" secondAttribute="trailing" constant="8" id="VSv-gx-yDP"/>
+                        <constraint firstAttribute="trailing" secondItem="Nnl-36-dFJ" secondAttribute="trailing" constant="10" id="VSv-gx-yDP"/>
                         <constraint firstAttribute="trailing" secondItem="hRt-Mj-cP3" secondAttribute="trailing" constant="8" id="WCU-Ga-8O0"/>
                         <constraint firstAttribute="height" constant="330" id="iOJ-sq-OlL"/>
                         <constraint firstAttribute="trailing" secondItem="IwM-kY-O7W" secondAttribute="trailing" constant="8" id="pAn-2W-gqv"/>

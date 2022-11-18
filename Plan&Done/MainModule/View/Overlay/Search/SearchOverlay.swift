@@ -104,7 +104,7 @@ class SearchOverlay: UIViewController {
 extension SearchOverlay: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        var filterItems = items.filter({ item in
+        let filterItems = items.filter({ item in
             item.title.lowercased().contains(searchText.lowercased())
         })
         filteredItems = searchText.isEmpty ? items : filterItems
@@ -116,9 +116,8 @@ extension SearchOverlay: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print(filteredItems[indexPath.row].title)
-        
-        // TODO: Go to project/task by UUID
+        hide()
+        presenter.goToItem(with: filteredItems[indexPath.row].id)
     }
 }
 
