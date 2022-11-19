@@ -21,10 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
         }
         
-        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
-            UserDefaults.standard.set(false, forKey: "SetupInitialData")
-        }
-        
         return true
     }
 

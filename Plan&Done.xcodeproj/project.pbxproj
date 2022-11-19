@@ -43,6 +43,9 @@
 		8778F3C7291A3A7300D27FE3 /* ProjectViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */; };
 		8778F3CA291BF99900D27FE3 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8778F3C9291BF99900D27FE3 /* Button.swift */; };
 		8788056429268C460020FE17 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788056329268C460020FE17 /* Item.swift */; };
+		878805682927EEF30020FE17 /* TaskBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878805672927EEF30020FE17 /* TaskBuilder.swift */; };
+		8788056F2929024A0020FE17 /* NewTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788056E2929024A0020FE17 /* NewTaskPresenter.swift */; };
+		87B1388229292539006BDC0E /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B1388129292539006BDC0E /* Date.swift */; };
 		87D9920429213C3D009DEC24 /* SearchOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9920229213C3D009DEC24 /* SearchOverlay.swift */; };
 		87D9920529213C3D009DEC24 /* SearchOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87D9920329213C3D009DEC24 /* SearchOverlay.xib */; };
 		87D9920829213C4E009DEC24 /* SettingsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9920629213C4E009DEC24 /* SettingsOverlay.swift */; };
@@ -113,6 +116,9 @@
 		8778F3C6291A3A7300D27FE3 /* ProjectViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewPresenter.swift; sourceTree = "<group>"; };
 		8778F3C9291BF99900D27FE3 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		8788056329268C460020FE17 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		878805672927EEF30020FE17 /* TaskBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBuilder.swift; sourceTree = "<group>"; };
+		8788056E2929024A0020FE17 /* NewTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskPresenter.swift; sourceTree = "<group>"; };
+		87B1388129292539006BDC0E /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		87D9920229213C3D009DEC24 /* SearchOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOverlay.swift; sourceTree = "<group>"; };
 		87D9920329213C3D009DEC24 /* SearchOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchOverlay.xib; sourceTree = "<group>"; };
 		87D9920629213C4E009DEC24 /* SettingsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOverlay.swift; sourceTree = "<group>"; };
@@ -156,6 +162,7 @@
 				873C99AF2912B8C70045FCDA /* ProjectImage.swift */,
 				873C99B22912C0D50045FCDA /* ColorName.swift */,
 				873C99B42913D5770045FCDA /* ColorRGB.swift */,
+				87B1388129292539006BDC0E /* Date.swift */,
 				8778F3C9291BF99900D27FE3 /* Button.swift */,
 			);
 			path = Extension;
@@ -189,6 +196,7 @@
 				8778F3B6291A32B700D27FE3 /* Router.swift */,
 				8778F3C4291A36FD00D27FE3 /* ModuleAssembler.swift */,
 				8778F3B8291A347500D27FE3 /* MainModule */,
+				87880569292901690020FE17 /* NewTaskModule */,
 				8778F3C0291A356500D27FE3 /* ProjectModule */,
 				8778F3C8291A9E8700D27FE3 /* DataLayer */,
 				8778F3A82917C9E600D27FE3 /* CoreData */,
@@ -288,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				8778F3B02917F6AD00D27FE3 /* BaseDataBulider.swift */,
+				878805672927EEF30020FE17 /* TaskBuilder.swift */,
 				8778F3AA2917CBA500D27FE3 /* TaskManager.swift */,
 				8778F3AC2917CBAF00D27FE3 /* ProjectManager.swift */,
 				8778F3AE2917F45400D27FE3 /* ProjectGroupManager.swift */,
@@ -303,13 +312,41 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		878E98DF29213BAF008D17E7 /* NewTask */ = {
+		87880569292901690020FE17 /* NewTaskModule */ = {
+			isa = PBXGroup;
+			children = (
+				8788056B292901E70020FE17 /* View */,
+				8788056C292901EF0020FE17 /* Presenter */,
+			);
+			path = NewTaskModule;
+			sourceTree = "<group>";
+		};
+		8788056B292901E70020FE17 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				8778F3B229193B0600D27FE3 /* NewTaskOverlay.swift */,
 				8778F3B329193B0600D27FE3 /* NewTaskOverlay.xib */,
+				8788056D292902160020FE17 /* Overlay */,
 			);
-			path = NewTask;
+			path = View;
+			sourceTree = "<group>";
+		};
+		8788056C292901EF0020FE17 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8788056E2929024A0020FE17 /* NewTaskPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8788056D292902160020FE17 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				87D9920A29213FA9009DEC24 /* SelectProject */,
+				87D9920B29213FB4009DEC24 /* SelectDay */,
+				87D9920C29213FC5009DEC24 /* SelectDeadline */,
+			);
+			path = Overlay;
 			sourceTree = "<group>";
 		};
 		878E98E029213BBD008D17E7 /* NewItem */ = {
@@ -336,10 +373,6 @@
 				87D9920029213C03009DEC24 /* Search */,
 				878E98E129213BC8008D17E7 /* EditItem */,
 				878E98E029213BBD008D17E7 /* NewItem */,
-				878E98DF29213BAF008D17E7 /* NewTask */,
-				87D9920A29213FA9009DEC24 /* SelectProject */,
-				87D9920B29213FB4009DEC24 /* SelectDay */,
-				87D9920C29213FC5009DEC24 /* SelectDeadline */,
 				87D9920129213C0A009DEC24 /* Settings */,
 			);
 			path = Overlay;
@@ -528,11 +561,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				878805682927EEF30020FE17 /* TaskBuilder.swift in Sources */,
 				873C99BA2915281C0045FCDA /* NewItemOverlay.swift in Sources */,
 				875BF2F428F17E9700C29D95 /* AppDelegate.swift in Sources */,
 				8778F3BF291A34F100D27FE3 /* MainViewPresenter.swift in Sources */,
+				8788056F2929024A0020FE17 /* NewTaskPresenter.swift in Sources */,
 				8706A46F2920FF1900AB0F8B /* Project+CoreDataClass.swift in Sources */,
 				8778F39F2916B73700D27FE3 /* Task+CoreDataClass.swift in Sources */,
+				87B1388229292539006BDC0E /* Date.swift in Sources */,
 				8778F3B12917F6AD00D27FE3 /* BaseDataBulider.swift in Sources */,
 				87D9920429213C3D009DEC24 /* SearchOverlay.swift in Sources */,
 				873C99B52913D5770045FCDA /* ColorRGB.swift in Sources */,

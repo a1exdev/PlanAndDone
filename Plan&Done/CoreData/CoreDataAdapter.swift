@@ -25,7 +25,6 @@ class CoreDataAdapter: CoreDataAdapterProtocol {
     
     static var shared: CoreDataAdapter = {
         let instance = CoreDataAdapter()
-        
         return instance
     }()
     

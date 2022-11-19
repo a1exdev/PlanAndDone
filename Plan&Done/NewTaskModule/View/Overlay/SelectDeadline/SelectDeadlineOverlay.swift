@@ -9,12 +9,12 @@ import UIKit
 
 class SelectDeadlineOverlay: UIViewController {
     
+    var presenter: NewTaskPresenterProtocol!
+    
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
     
     @IBOutlet weak var datePicker: UIDatePicker!
-    
-    var presenter: MainViewPresenterProtocol!
     
     init() {
         super.init(nibName: "SelectDeadlineOverlay", bundle: nil)
@@ -37,6 +37,11 @@ class SelectDeadlineOverlay: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        hide()
+    }
+    
+    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
+        presenter.produceTaskDeadline(datePicker.date)
         hide()
     }
     
@@ -81,11 +86,12 @@ class SelectDeadlineOverlay: UIViewController {
             self.contentView.alpha = 0
             self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { _ in
+            NotificationCenter.default.post(name: Notification.Name("CheckDeadline"), object: nil)
             self.dismiss(animated: true)
         })
     }
 }
 
-extension SelectDeadlineOverlay: MainViewProtocol {
+extension SelectDeadlineOverlay: NewTaskProtocol {
     
 }

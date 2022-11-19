@@ -20,23 +20,15 @@ protocol MainViewPresenterProtocol: AnyObject {
     func setupInitialData()
     func resetAllData()
     
-    func addTask(title: String, desc: String?, dtDeadline: Date?, isDone: Bool, project: Project)
     func addProject()
-    
     func goToItem(with id: UUID)
-
     func showProject(project: Project)
     
     func showSearchOverlay()
     func showSettingsOverlay()
-    
     func showEditItemOverlay()
     func showNewItemOverlay()
     func showNewTaskOverlay()
-    
-    func showSelectProjectOverlay(viewController: UIViewController)
-    func showSelectDayOverlay(viewController: UIViewController)
-    func showSelectDeadlineOverlay(viewController: UIViewController)
     
     func backToMainView()
     func popToRoot()
@@ -57,8 +49,10 @@ class MainViewPresenter: MainViewPresenterProtocol {
             var items = [Item]()
             
             let tasks = taskManager.fetchAll()
-            tasks.forEach { task in
-                items.append(Item(id: task.id!, title: task.title!, image: nil, color: nil))
+            if !tasks.isEmpty {
+                tasks.forEach { task in
+                    items.append(Item(id: task.id!, title: task.title!, image: nil, color: nil))
+                }
             }
             
             let projects = projectManager.fetchAll()
@@ -91,13 +85,8 @@ class MainViewPresenter: MainViewPresenterProtocol {
     }
     
     func resetAllData() {
-        UserDefaults.standard.set(false, forKey: "SetupInitialData")
+        UserDefaults.standard.removeObject(forKey: "SetupInitialData")
         dataAdapter.resetAllData()
-    }
-    
-    func addTask(title: String, desc: String?, dtDeadline: Date?, isDone: Bool, project: Project) {
-        let dtCreation = Date()
-        taskManager.create(title: title, desc: desc, dtCreation: dtCreation, dtDeadline: dtDeadline, isDone: isDone, project: project)
     }
     
     func addProject() {
@@ -150,18 +139,6 @@ class MainViewPresenter: MainViewPresenterProtocol {
     
     func showNewTaskOverlay() {
         router?.showNewTaskOverlay()
-    }
-    
-    func showSelectProjectOverlay(viewController: UIViewController) {
-        router?.showSelectProjectOverlay(viewController: viewController)
-    }
-    
-    func showSelectDayOverlay(viewController: UIViewController) {
-        router?.showSelectDayOverlay(viewController: viewController)
-    }
-    
-    func showSelectDeadlineOverlay(viewController: UIViewController) {
-        router?.showSelectDeadlineOverlay(viewController: viewController)
     }
     
     func backToMainView() {

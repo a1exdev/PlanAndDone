@@ -9,7 +9,7 @@ import UIKit
 
 class SelectProjectOverlay: UIViewController {
     
-    var presenter: MainViewPresenterProtocol!
+    var presenter: NewTaskPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -92,8 +92,23 @@ class SelectProjectOverlay: UIViewController {
             self.contentView.alpha = 0
             self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { _ in
+            NotificationCenter.default.post(name: Notification.Name("CheckProject"), object: nil)
             self.dismiss(animated: true)
         })
+    }
+    
+    private func produceInboxProject() {
+        guard let project = (presenter.projectGroups.first?.project?.allObjects as! [Project]).first(where: { project in
+            project.title == "Inbox"
+        }) else { return }
+        presenter.produceTaskProject(project)
+    }
+    
+    private func produceAnytimeProject() {
+        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+            project.title == "Anytime"
+        }) else { return }
+        presenter.produceTaskProject(project)
     }
 }
 
@@ -101,6 +116,9 @@ extension SelectProjectOverlay: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let customProject = (presenter.projectGroups.last?.project?.allObjects as! [Project])[indexPath.row]
+        presenter.produceTaskProject(customProject)
+        hide()
     }
 }
 
@@ -137,14 +155,19 @@ extension SelectProjectOverlay: UIGestureRecognizerDelegate {
         switch gestureReconizer.state {
         case .ended:
             switch currentLocationY {
+                
             case (inboxButton.frame.minY)...(inboxButton.frame.maxY):
+                produceInboxProject()
                 UIView.animate(withDuration: 0.2, delay: 0) {
                     self.inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
+                hide()
             case (noProjectButton.frame.minY)...(noProjectButton.frame.maxY):
+                produceAnytimeProject()
                 UIView.animate(withDuration: 0.2, delay: 0) {
                     self.noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
+                hide()
             default:
                 break
             }
@@ -182,6 +205,6 @@ extension SelectProjectOverlay: UIGestureRecognizerDelegate {
     }
 }
 
-extension SelectProjectOverlay: MainViewProtocol {
+extension SelectProjectOverlay: NewTaskProtocol {
     
 }

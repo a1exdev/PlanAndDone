@@ -23,6 +23,10 @@ class ProjectViewController: UIViewController {
         setupConstraints()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,

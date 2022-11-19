@@ -49,6 +49,9 @@
                         </button>
                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="5xv-LE-VYQ">
                             <rect key="frame" x="8" y="43" width="345" height="307"/>
+                            <connections>
+                                <action selector="datePickerValueChanged:" destination="-1" eventType="valueChanged" id="dAv-lN-GdI"/>
+                            </connections>
                         </datePicker>
                     </subviews>
                     <color key="backgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

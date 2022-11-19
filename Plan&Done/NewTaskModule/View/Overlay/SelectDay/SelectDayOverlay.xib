@@ -46,6 +46,9 @@
                             <subviews>
                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="5vX-HO-OAC">
                                     <rect key="frame" x="8" y="51" width="345" height="325"/>
+                                    <connections>
+                                        <action selector="datePickerValueChanged:" destination="-1" eventType="valueChanged" id="VPL-d4-max"/>
+                                    </connections>
                                 </datePicker>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="54N-B0-DiR" userLabel="somedayButton" customClass="UIControl">
                                     <rect key="frame" x="8" y="375.66666666666663" width="345" height="40"/>

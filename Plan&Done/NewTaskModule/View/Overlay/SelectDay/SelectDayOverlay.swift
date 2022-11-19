@@ -9,7 +9,7 @@ import UIKit
 
 class SelectDayOverlay: UIViewController {
     
-    var presenter: MainViewPresenterProtocol!
+    var presenter: NewTaskPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -42,6 +42,15 @@ class SelectDayOverlay: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        hide()
+    }
+    
+    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
+        presenter.produceTaskCreation(datePicker.date)
+        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+            project.title == "Upcoming"
+        }) else { return }
+        presenter.produceTaskProject(project)
         hide()
     }
     
@@ -89,8 +98,23 @@ class SelectDayOverlay: UIViewController {
             self.contentView.alpha = 0
             self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { _ in
+            NotificationCenter.default.post(name: Notification.Name("CheckDay"), object: nil)
             self.dismiss(animated: true)
         })
+    }
+    
+    private func produceTodayProject() {
+        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+            project.title == "Today"
+        }) else { return }
+        presenter.produceTaskProject(project)
+    }
+    
+    private func produceSomedayProject() {
+        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+            project.title == "Someday"
+        }) else { return }
+        presenter.produceTaskProject(project)
     }
 }
 
@@ -104,13 +128,17 @@ extension SelectDayOverlay: UIGestureRecognizerDelegate {
         case .ended:
             switch currentLocationY {
             case (todayButton.frame.minY)...(todayButton.frame.maxY):
+                produceTodayProject()
                 UIView.animate(withDuration: 0.2, delay: 0) {
                     self.todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
+                hide()
             case (somedayButton.frame.minY)...(somedayButton.frame.maxY):
+                produceSomedayProject()
                 UIView.animate(withDuration: 0.2, delay: 0) {
                     self.somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
+                hide()
             default:
                 break
             }
@@ -148,6 +176,6 @@ extension SelectDayOverlay: UIGestureRecognizerDelegate {
     }
 }
 
-extension SelectDayOverlay: MainViewProtocol {
+extension SelectDayOverlay: NewTaskProtocol {
     
 }
