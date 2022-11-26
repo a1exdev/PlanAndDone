@@ -17,8 +17,8 @@ protocol CoreDataAdapterProtocol {
     func deleteObject<T: NSManagedObject>(_ object: T)
     
     func saveTask(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project)
-    func saveProject(number: Int, title: String, image: String, color: String, group: ProjectGroup)
-    func saveProjectGroup()
+    func saveProject(number: Int, title: String, dtCreation: Date, dtDeadline: Date?, isDone: Bool, image: String, color: String, group: ProjectGroup)
+    func saveProjectGroup(isCustom: Bool)
 }
 
 class CoreDataAdapter: CoreDataAdapterProtocol {
@@ -96,6 +96,7 @@ class CoreDataAdapter: CoreDataAdapterProtocol {
     }
     
     func saveTask(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project) {
+        
         let task = Task(context: context)
         task.id = UUID()
         task.title = title
@@ -108,11 +109,15 @@ class CoreDataAdapter: CoreDataAdapterProtocol {
         saveContext()
     }
     
-    func saveProject(number: Int, title: String, image: String, color: String, group: ProjectGroup) {
+    func saveProject(number: Int, title: String, dtCreation: Date, dtDeadline: Date?, isDone: Bool, image: String, color: String, group: ProjectGroup) {
+        
         let project = Project(context: context)
         project.id = UUID()
         project.number = Int16(number)
         project.title = title
+        project.dtCreation = dtCreation
+        project.dtDeadline = dtDeadline
+        project.isDone = isDone
         project.image = image
         project.color = color
         project.group = group
@@ -120,9 +125,10 @@ class CoreDataAdapter: CoreDataAdapterProtocol {
         saveContext()
     }
     
-    func saveProjectGroup() {
+    func saveProjectGroup(isCustom: Bool) {
         let projectGroup = ProjectGroup(context: context)
         projectGroup.id = UUID()
+        projectGroup.isCustom = isCustom
         saveContext()
     }
 }

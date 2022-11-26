@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchOverlay: UIViewController {
+class SearchOverlay: UIViewController, MainViewProtocol {
     
     var presenter: MainViewPresenterProtocol!
     
@@ -16,12 +16,12 @@ class SearchOverlay: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var items = presenter.items
-    var filteredItems: [Item]!
+    lazy var items = presenter.searchItems
+    var filteredItems: [SearchItems]!
     
     init() {
         super.init(nibName: "SearchOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +38,12 @@ class SearchOverlay: UIViewController {
         configureTableView()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func backViewTapped(_ sender: UIControl) {
         hide()
     }
@@ -46,21 +52,15 @@ class SearchOverlay: UIViewController {
         hide()
     }
     
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
-    }
-    
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
-        self.contentView.clipsToBounds = true
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
+        contentView.clipsToBounds = true
     }
     
     private func configureSearchBar() {
@@ -76,26 +76,26 @@ class SearchOverlay: UIViewController {
     }
     
     private func show() {
-        self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { _ in
-            self.dismiss(animated: true)
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { [self] _ in
+            dismiss(animated: true)
         })
     }
 
@@ -140,8 +140,4 @@ extension SearchOverlay: UITableViewDataSource {
         
         return cell
     }
-}
-
-extension SearchOverlay: MainViewProtocol {
-    
 }

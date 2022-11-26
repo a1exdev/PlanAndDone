@@ -11,7 +11,7 @@ protocol ProjectGroupManagerProtocol {
     func fetchAll() -> [ProjectGroup]
     func fetchById(_ id: UUID) -> ProjectGroup?
     
-    func create()
+    func create(isCustom: Bool)
     func remove(_ id: UUID)
 }
 
@@ -34,8 +34,8 @@ class ProjectGroupManager: ProjectGroupManagerProtocol {
         return projectGroup
     }
     
-    func create() {
-        dataAdapter.saveProjectGroup()
+    func create(isCustom: Bool) {
+        dataAdapter.saveProjectGroup(isCustom: isCustom)
     }
     
     func remove(_ id: UUID) {

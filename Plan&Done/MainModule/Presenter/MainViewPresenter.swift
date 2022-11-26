@@ -14,7 +14,7 @@ protocol MainViewProtocol: AnyObject {
 protocol MainViewPresenterProtocol: AnyObject {
     init(view: MainViewProtocol, router: RouterProtocol, dataAdapter: CoreDataAdapterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol)
     
-    var items: [Item] { get }
+    var searchItems: [SearchItems] { get }
     var projectGroups: [ProjectGroup] { get }
     
     func setupInitialData()
@@ -25,13 +25,14 @@ protocol MainViewPresenterProtocol: AnyObject {
     func showProject(project: Project)
     
     func showSearchOverlay()
+    func showEditProjectOverlay(for project: Project)
     func showSettingsOverlay()
-    func showEditItemOverlay()
     func showNewItemOverlay()
     func showNewTaskOverlay()
     
     func backToMainView()
-    func popToRoot()
+    
+    func getExpandableCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
 }
 
 class MainViewPresenter: MainViewPresenterProtocol {
@@ -44,23 +45,27 @@ class MainViewPresenter: MainViewPresenterProtocol {
     private let projectManager: ProjectManagerProtocol!
     private let projectGroupManager: ProjectGroupManagerProtocol!
     
-    var items: [Item] {
+    var searchItems: [SearchItems] {
         get {
-            var items = [Item]()
+            var searchItems = [SearchItems]()
             
             let tasks = taskManager.fetchAll()
             if !tasks.isEmpty {
                 tasks.forEach { task in
-                    items.append(Item(id: task.id!, title: task.title!, image: nil, color: nil))
+                    if task.title != "" {
+                        searchItems.append(SearchItems(id: task.id!, title: task.title!, image: nil, color: nil))
+                    }
                 }
             }
             
             let projects = projectManager.fetchAll()
             projects.forEach { project in
-                items.append(Item(id: project.id!, title: project.title!, image: project.image!, color: project.color!))
+                if project.title != "" {
+                    searchItems.append(SearchItems(id: project.id!, title: project.title!, image: project.image!, color: project.color!))
+                }
             }
             
-            return items
+            return searchItems
         }
     }
     
@@ -90,12 +95,14 @@ class MainViewPresenter: MainViewPresenterProtocol {
     }
     
     func addProject() {
-        let title = "New Project"
+        let title = ""
+        let dtCreation = Date()
+        let isDone = false
         let image = ProjectImage.circle.rawValue
         let color = UIColor.systemGray.name
         let group = projectGroups[3]
         let number = (group.project?.allObjects as! [Project]).last?.number ?? 0
-        projectManager.create(number: Int(number) + 1, title: title, image: image, color: color, group: group)
+        projectManager.create(number: Int(number) + 1, title: title, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, image: image, color: color, group: group)
         NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
     }
     
@@ -125,12 +132,12 @@ class MainViewPresenter: MainViewPresenterProtocol {
         router?.showSearchOverlay()
     }
     
-    func showSettingsOverlay() {
-        router?.showSettingsOverlay()
+    func showEditProjectOverlay(for project: Project) {
+        router?.showEditProjectOverlay(for: project)
     }
     
-    func showEditItemOverlay() {
-        router?.showEditItemOverlay()
+    func showSettingsOverlay() {
+        router?.showSettingsOverlay()
     }
     
     func showNewItemOverlay() {
@@ -145,7 +152,7 @@ class MainViewPresenter: MainViewPresenterProtocol {
         router?.backToMainView()
     }
     
-    func popToRoot() {
-        router?.popToRoot()
+    func getExpandableCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+        router?.getCustomCellPresenter(view: view)
     }
 }

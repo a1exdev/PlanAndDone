@@ -10,7 +10,7 @@ import UIKit
 extension UIButton {
 
     func checkBoxAnimation() {
-        guard let image = self.imageView else { return }
+        guard let image = imageView else { return }
         
         UIView.animate(withDuration: 0.1, delay: 0.1, options: .curveLinear, animations: {
             image.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)

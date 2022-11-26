@@ -7,9 +7,10 @@
 
 import UIKit
 
-class SelectDayOverlay: UIViewController {
+class SelectDayOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     
-    var presenter: NewTaskPresenterProtocol!
+    var newTaskPresenter: NewTaskPresenterProtocol!
+    var editTaskPresenter: CustomCellPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -20,9 +21,11 @@ class SelectDayOverlay: UIViewController {
     
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    var task: Task?
+    
     init() {
         super.init(nibName: "SelectDayOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -37,6 +40,12 @@ class SelectDayOverlay: UIViewController {
         configureDatePicker()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func backViewTapped(_ sender: UIView) {
         hide()
     }
@@ -46,32 +55,34 @@ class SelectDayOverlay: UIViewController {
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        presenter.produceTaskCreation(datePicker.date)
-        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        
+        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Upcoming"
         }) else { return }
-        presenter.produceTaskProject(project)
+        
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskCreation(newCreation: datePicker.date)
+            editTaskPresenter.changeTaskProject(newProject: project)
+        } else {
+            newTaskPresenter.produceTaskCreation(datePicker.date)
+            newTaskPresenter.produceTaskProject(project)
+        }
         hide()
     }
     
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
-    }
-    
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
-        self.contentView.clipsToBounds = true
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
+        contentView.clipsToBounds = true
         
-        self.todayButton.layer.cornerRadius = 6
-        self.somedayButton.layer.cornerRadius = 6
+        todayButton.layer.cornerRadius = 6
+        somedayButton.layer.cornerRadius = 6
     }
     
     private func configureDatePicker() {
@@ -79,48 +90,62 @@ class SelectDayOverlay: UIViewController {
     }
     
     private func show() {
-        self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { _ in
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { [self] _ in
             NotificationCenter.default.post(name: Notification.Name("CheckDay"), object: nil)
-            self.dismiss(animated: true)
+            dismiss(animated: true)
         })
     }
     
     private func produceTodayProject() {
-        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        
+        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Today"
         }) else { return }
-        presenter.produceTaskProject(project)
+        
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskProject(newProject: project)
+        } else {
+            newTaskPresenter.produceTaskProject(project)
+        }
     }
     
     private func produceSomedayProject() {
-        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        
+        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Someday"
         }) else { return }
-        presenter.produceTaskProject(project)
+
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskProject(newProject: project)
+        } else {
+            newTaskPresenter.produceTaskProject(project)
+        }
     }
 }
 
 extension SelectDayOverlay: UIGestureRecognizerDelegate {
     
-    @objc func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc private func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
         
         let currentLocationY = gestureReconizer.location(in: insideView).y
         
@@ -129,14 +154,14 @@ extension SelectDayOverlay: UIGestureRecognizerDelegate {
             switch currentLocationY {
             case (todayButton.frame.minY)...(todayButton.frame.maxY):
                 produceTodayProject()
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
                 hide()
             case (somedayButton.frame.minY)...(somedayButton.frame.maxY):
                 produceSomedayProject()
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
                 hide()
             default:
@@ -145,19 +170,19 @@ extension SelectDayOverlay: UIGestureRecognizerDelegate {
         default:
             switch currentLocationY {
             case (todayButton.frame.minY)...(todayButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.todayButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    todayButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             case (somedayButton.frame.minY)...(somedayButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.somedayButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    somedayButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             default:
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
-                    self.somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    todayButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                    somedayButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             }
         }
@@ -174,8 +199,4 @@ extension SelectDayOverlay: UIGestureRecognizerDelegate {
         longPressSomedayButton.minimumPressDuration = 0
         somedayButton.addGestureRecognizer(longPressSomedayButton)
     }
-}
-
-extension SelectDayOverlay: NewTaskProtocol {
-    
 }

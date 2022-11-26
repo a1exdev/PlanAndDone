@@ -7,9 +7,11 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, MainViewProtocol {
     
     var presenter: MainViewPresenterProtocol!
+    
+    // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +30,26 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+    
+    
+    // MARK: Initial data configure
+    
+    private func setupInitialData() {
+        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
+            presenter.setupInitialData()
+            UserDefaults.standard.set(true, forKey: "SetupInitialData")
+        }
+    }
+    
+    
+    // MARK: Notifications
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
@@ -50,24 +65,24 @@ class MainViewController: UIViewController {
             object: nil)
     }
     
-    private func setupInitialData() {
-        if !UserDefaults.standard.bool(forKey: "SetupInitialData") {
-            presenter.setupInitialData()
-            UserDefaults.standard.set(true, forKey: "SetupInitialData")
-        }
-    }
-
     @objc func viewHasBecomeActive() {
-        self.newItemButton.alpha = 1
-        self.newItemButton.frame.origin.y += 110
+        
+        tableView.reloadData()
+        
+        newItemButton.alpha = 1
+        newItemButton.frame.origin.y += 110
         
         UIView.animate(withDuration: 0.25,
                        delay: 0.2,
                        usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 15,
                        options: .curveEaseOut,
-                       animations: {
-            self.newItemButton.frame.origin.y -= 110
+                       animations: { [self] in
+            newItemButton.frame.origin.y -= 110
+            
+            if searchBarView.alpha != 1 {
+                searchBarView.alpha = 1
+            }
         })
     }
     
@@ -75,8 +90,17 @@ class MainViewController: UIViewController {
         tableView.reloadData()
         configureProjectsTableView()
         
-        //TODO: Focus on the new project, rename, etc.
+        let latestCustomProject = tableView.numberOfRows(inSection: 3) - 1
+        let indexPath = IndexPath(row: latestCustomProject, section: 3)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            let cell = tableView.cellForRow(at: indexPath) as? ProjectCustomCell
+            cell?.isAdded()
+        }
     }
+    
+    
+    // MARK: UI elements
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -124,8 +148,8 @@ class MainViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.sectionHeaderHeight = 8
         table.sectionFooterHeight = 8
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "projectCell")
         table.isScrollEnabled = false
+        table.register(ProjectCustomCell.nib(), forCellReuseIdentifier: ProjectCustomCell.identifier)
         return table
     }()
     
@@ -173,7 +197,7 @@ class MainViewController: UIViewController {
         searchBarView.addSubview(searchBarLabel)
         
         let searchBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSearchOverlay))
-        self.searchBarView.addGestureRecognizer(searchBarTapGesture)
+        searchBarView.addGestureRecognizer(searchBarTapGesture)
     }
     
     private func configureNewItemButton() {
@@ -196,6 +220,9 @@ class MainViewController: UIViewController {
         tableView.frame = CGRect(x: view.frame.minX, y: view.frame.minY, width: view.frame.width - 16, height: tableViewHeight + 30)
         contentView.addSubview(tableView)
     }
+    
+    
+    // MARK: Constraints
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -224,25 +251,57 @@ class MainViewController: UIViewController {
             settingsButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -5)
         ])
     }
+    
+    
+    // MARK: Overlays navigation
 
     @objc func showSearchOverlay(sender: UITapGestureRecognizer) {
         presenter.showSearchOverlay()
     }
     
     @objc func showNewItemOverlay(sender: UIButton!) {
-        self.newItemButton.alpha = 0
+        newItemButton.alpha = 0
         presenter.showNewItemOverlay()
     }
     
     @objc func showSettingsOverlay(sender: UIButton!) {
         presenter.showSettingsOverlay()
     }
+    
+    private func performEditProjectOverlay(at indexPath: IndexPath) {
+        
+        let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
+        let project = projects[indexPath.row]
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.layer.cornerRadius = 8
+            cell.contentView.backgroundColor = UIColor(rgb: 0x2D3037)
+        }
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 15,
+                       options: .curveEaseOut,
+                       animations: { [self] in
+            newItemButton.alpha = 0
+            searchBarView.alpha = 0.01
+        })
+        
+        showEditProjectOverlay(for: project)
+    }
+    
+    private func showEditProjectOverlay(for project: Project) {
+        presenter.showEditProjectOverlay(for: project)
+    }
 }
+
+
+// MARK: TableView configuration
 
 extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
         let project = projects[indexPath.row]
         presenter.showProject(project: project)
@@ -262,14 +321,19 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "projectCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCustomCell.identifier, for: indexPath) as! ProjectCustomCell
         
         let projects = (presenter.projectGroups[indexPath.section].project?.allObjects as! [Project]).sorted { $0.number < $1.number }
-    
-        cell.textLabel?.text = projects[indexPath.row].title
-        cell.imageView?.image = UIImage(systemName: projects[indexPath.row].image!)
-        cell.imageView?.tintColor = UIColor.colorWith(name: projects[indexPath.row].color!)
-        cell.backgroundColor = .clear
+        let project = projects[indexPath.row]
+        
+        let presenter = presenter.getExpandableCellPresenter(view: cell)
+        presenter?.project = project
+        
+        cell.presenter = presenter
+        cell.viewController = self
+        cell.configure(title: project.title!, image: project.image!, color: project.color!)
+        
+        cell.selectionStyle = .none
         cell.layer.cornerRadius = 8
         cell.clipsToBounds = true
         
@@ -280,18 +344,14 @@ extension MainViewController: UITableViewDataSource {
         
         switch indexPath.section {
         case 3:
-            let showEditItemOverlayAction = UIContextualAction(style: .normal, title: "") { [self] (action, view, completion) in completion(true)
-                presenter.showEditItemOverlay()
+            let showEditProjectOverlayAction = UIContextualAction(style: .normal, title: "") { [self] (action, view, completion) in completion(true)
+                performEditProjectOverlay(at: indexPath)
             }
-            showEditItemOverlayAction.image = UIImage(systemName: "checklist")
-            showEditItemOverlayAction.backgroundColor = .systemBlue
-            return UISwipeActionsConfiguration(actions: [showEditItemOverlayAction])
+            showEditProjectOverlayAction.image = UIImage(systemName: "checklist")
+            showEditProjectOverlayAction.backgroundColor = .systemBlue
+            return UISwipeActionsConfiguration(actions: [showEditProjectOverlayAction])
         default:
             return nil
         }
     }
-}
-
-extension MainViewController: MainViewProtocol {
-    
 }

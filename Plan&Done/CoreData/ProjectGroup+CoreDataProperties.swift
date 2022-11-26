@@ -16,6 +16,7 @@ extension ProjectGroup {
     }
 
     @NSManaged public var id: UUID?
+    @NSManaged public var isCustom: Bool
     @NSManaged public var project: NSSet?
 }
 

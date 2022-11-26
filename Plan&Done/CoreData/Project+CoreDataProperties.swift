@@ -18,8 +18,11 @@ extension Project {
     @NSManaged public var color: String?
     @NSManaged public var id: UUID?
     @NSManaged public var image: String?
-    @NSManaged public var title: String?
     @NSManaged public var number: Int16
+    @NSManaged public var title: String?
+    @NSManaged public var isDone: Bool
+    @NSManaged public var dtCreation: Date?
+    @NSManaged public var dtDeadline: Date?
     @NSManaged public var group: ProjectGroup?
     @NSManaged public var task: NSSet?
 }

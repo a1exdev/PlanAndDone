@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewItemOverlay: UIViewController {
+class NewItemOverlay: UIViewController, MainViewProtocol {
     
     var presenter: MainViewPresenterProtocol!
     
@@ -19,7 +19,7 @@ class NewItemOverlay: UIViewController {
     
     init() {
         super.init(nibName: "NewItemOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -33,61 +33,61 @@ class NewItemOverlay: UIViewController {
         configureGestures()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func backViewTapped(_ sender: UIControl) {
         hide()
     }
     
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
-    }
-    
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
         
-        self.newTaskButton.layer.cornerRadius = 6
-        self.newProjectButton.layer.cornerRadius = 6
+        newTaskButton.layer.cornerRadius = 6
+        newProjectButton.layer.cornerRadius = 6
     }
     
     private func show() {
-        self.contentView.frame.origin.x += 300
-        self.contentView.frame.origin.y += 300
+        contentView.frame.origin.x += 300
+        contentView.frame.origin.y += 300
         
         UIView.animate(withDuration: 0.15,
                        delay: 0,
                        options: .curveEaseOut,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.frame.origin.x -= 300
-            self.contentView.frame.origin.y -= 300
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.frame.origin.x -= 300
+            contentView.frame.origin.y -= 300
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.3,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.frame.origin.x += 300
-            self.contentView.frame.origin.y += 300
-        }, completion: { _ in
-            self.presenter.backToMainView()
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.frame.origin.x += 300
+            contentView.frame.origin.y += 300
+        }, completion: { [self] _ in
+            presenter.backToMainView()
         })
     }
 }
 
 extension NewItemOverlay: UIGestureRecognizerDelegate {
     
-    @objc func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc private func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
         
         let currentLocationY = gestureReconizer.location(in: contentView).y
         
@@ -95,9 +95,9 @@ extension NewItemOverlay: UIGestureRecognizerDelegate {
         case .ended:
             switch currentLocationY {
             case (newTaskButton.frame.minY)...(newTaskButton.frame.maxY):
-                self.presenter.showNewTaskOverlay()
+                presenter.showNewTaskOverlay()
             case (newProjectButton.frame.minY)...(newProjectButton.frame.maxY):
-                self.presenter.addProject()
+                presenter.addProject()
                 hide()
             default:
                 break
@@ -105,19 +105,19 @@ extension NewItemOverlay: UIGestureRecognizerDelegate {
         default:
             switch currentLocationY {
             case (newTaskButton.frame.minY)...(newTaskButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.newTaskButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    newTaskButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             case (newProjectButton.frame.minY)...(newProjectButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.newProjectButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    newProjectButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             default:
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
-                    self.newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    newTaskButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                    newProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             }
         }
@@ -134,8 +134,4 @@ extension NewItemOverlay: UIGestureRecognizerDelegate {
         longPressNewProjectButton.minimumPressDuration = 0
         newProjectButton.addGestureRecognizer(longPressNewProjectButton)
     }
-}
-
-extension NewItemOverlay: MainViewProtocol {
-    
 }

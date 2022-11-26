@@ -7,18 +7,21 @@
 
 import UIKit
 
-class SelectDeadlineOverlay: UIViewController {
+class SelectDeadlineOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     
-    var presenter: NewTaskPresenterProtocol!
+    var newTaskPresenter: NewTaskPresenterProtocol!
+    var editTaskPresenter: CustomCellPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
     
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    var task: Task?
+    
     init() {
         super.init(nibName: "SelectDeadlineOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +35,12 @@ class SelectDeadlineOverlay: UIViewController {
         configureDatePicker()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func backViewTapped(_ sender: UIControl) {
         hide()
     }
@@ -41,25 +50,24 @@ class SelectDeadlineOverlay: UIViewController {
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
-        presenter.produceTaskDeadline(datePicker.date)
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskDeadline(newDeadline: datePicker.date)
+        } else {
+            newTaskPresenter.produceTaskDeadline(datePicker.date)
+        }
         hide()
     }
     
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
-    }
-    
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
-        self.contentView.clipsToBounds = true
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
+        contentView.clipsToBounds = true
     }
     
     private func configureDatePicker() {
@@ -67,31 +75,27 @@ class SelectDeadlineOverlay: UIViewController {
     }
     
     private func show() {
-        self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { _ in
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { [self] _ in
             NotificationCenter.default.post(name: Notification.Name("CheckDeadline"), object: nil)
-            self.dismiss(animated: true)
+            dismiss(animated: true)
         })
     }
-}
-
-extension SelectDeadlineOverlay: NewTaskProtocol {
-    
 }

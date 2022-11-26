@@ -14,14 +14,16 @@ protocol TaskManagerProtocol {
     func create(title: String, desc: String?, dtCreation: Date, dtDeadline: Date?, isDone: Bool, project: Project)
     func remove(_ id: UUID)
     
+    func changeState(id: UUID)
     func changeTitle(id: UUID, newTitle: String)
     func changeDescription(id: UUID, newDescription: String)
-    func changeDeadline(id: UUID, newDeadline: Date)
-    func changeState(id: UUID)
+    func changeCreation(id: UUID, newCreation: Date)
+    func changeDeadline(id: UUID, newDeadline: Date?)
+    func changeProject(id: UUID, newProject: Project)
 }
 
 class TaskManager: TaskManagerProtocol {
-    
+
     private let dataAdapter: CoreDataAdapterProtocol!
     
     init(dataAdapter: CoreDataAdapterProtocol) {
@@ -48,6 +50,29 @@ class TaskManager: TaskManagerProtocol {
         dataAdapter.deleteObject(task)
     }
     
+    func changeState(id: UUID) {
+        guard let task = fetchById(id) else { return }
+        let taskState = task.isDone
+        
+        let projectGroups = dataAdapter.fetchObjects(of: ProjectGroup.self)
+        let customProjectGroup = projectGroups.first { $0.isCustom == true }
+        
+        let projects = dataAdapter.fetchObjects(of: Project.self)
+        let logbookProject = projects.first { $0.image == ProjectImage.journal.rawValue }
+        
+        switch taskState {
+        case true:
+            task.isDone = false
+        default:
+            task.isDone = true
+            if task.project?.group != customProjectGroup {
+                changeProject(id: task.id!, newProject: logbookProject!)
+            }
+        }
+        
+        dataAdapter.saveContext()
+    }
+    
     func changeTitle(id: UUID, newTitle: String) {
         guard let task = fetchById(id) else { return }
         task.title = newTitle
@@ -60,23 +85,21 @@ class TaskManager: TaskManagerProtocol {
         dataAdapter.saveContext()
     }
     
-    func changeDeadline(id: UUID, newDeadline: Date) {
+    func changeCreation(id: UUID, newCreation: Date) {
+        guard let task = fetchById(id) else { return }
+        task.dtCreation = newCreation
+        dataAdapter.saveContext()
+    }
+    
+    func changeDeadline(id: UUID, newDeadline: Date?) {
         guard let task = fetchById(id) else { return }
         task.dtDeadline = newDeadline
         dataAdapter.saveContext()
     }
     
-    func changeState(id: UUID) {
+    func changeProject(id: UUID, newProject: Project) {
         guard let task = fetchById(id) else { return }
-        let taskState = task.isDone
-        
-        switch taskState {
-        case true:
-            task.isDone = false
-        default:
-            task.isDone = true
-        }
-        
+        task.project = newProject
         dataAdapter.saveContext()
     }
 }

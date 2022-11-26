@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsOverlay: UIViewController {
+class SettingsOverlay: UIViewController, MainViewProtocol {
     
     var presenter: MainViewPresenterProtocol!
     
@@ -16,7 +16,7 @@ class SettingsOverlay: UIViewController {
     
     init() {
         super.init(nibName: "SettingsOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -29,60 +29,56 @@ class SettingsOverlay: UIViewController {
         configureView()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         hide()
     }
     
     @IBAction func resetAllDataButtonTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Are you sure?", message: "To erase all tasks and projects you'll need to restart the app.", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { _ in
-            self.presenter.resetAllData()
+        let alert = UIAlertController(title: "Are you sure?", message: "To erase all tasks and projects you'll need to restart the app.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self] _ in
+            presenter.resetAllData()
         }))
-        self.present(alert, animated: true)
-    }
-    
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
+        present(alert, animated: true)
     }
     
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
     }
     
     private func show() {
-        self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { _ in
-            self.dismiss(animated: true)
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { [self] _ in
+            dismiss(animated: true)
         })
     }
-}
-
-extension SettingsOverlay: MainViewProtocol {
-    
 }

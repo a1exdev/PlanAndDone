@@ -13,9 +13,13 @@
                 <outlet property="backView" destination="V50-kg-hJK" id="idf-TG-UhZ"/>
                 <outlet property="bottomView" destination="k4V-ao-47W" id="KOu-yv-Yvv"/>
                 <outlet property="checkButton" destination="8sA-u3-1zd" id="LQu-KC-fGI"/>
+                <outlet property="clearCustomDayButton" destination="UbI-yI-5nQ" id="pmP-xZ-ab9"/>
+                <outlet property="clearCustomDeadlineButton" destination="2Vp-9F-6Ia" id="vtv-G7-Q15"/>
                 <outlet property="contentView" destination="086-u6-vxi" id="vd8-5h-QeK"/>
-                <outlet property="customDayButton" destination="qqL-b6-UJH" id="z8T-IN-v7C"/>
-                <outlet property="customDeadlineButton" destination="PsD-Ub-HWk" id="uHf-U2-r03"/>
+                <outlet property="customDayButton" destination="qqL-b6-UJH" id="VfF-iL-4ci"/>
+                <outlet property="customDaySmallButton" destination="p9H-7d-Thc" id="obj-04-Vlt"/>
+                <outlet property="customDeadlineButton" destination="PsD-Ub-HWk" id="l8M-2d-C26"/>
+                <outlet property="customDeadlineSmallButton" destination="Nnl-36-dFJ" id="PQj-C3-kWK"/>
                 <outlet property="projectButton" destination="oDg-Bd-DSq" id="LGt-KR-aGZ"/>
                 <outlet property="taskDescriptionTextField" destination="zei-4m-sI2" id="3AS-b4-zyi"/>
                 <outlet property="taskTitleTextField" destination="hRt-Mj-cP3" id="AQC-Gw-YQx"/>
@@ -58,7 +62,7 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" image="square" catalog="system">
                                 <color key="baseForegroundColor" systemColor="systemGrayColor"/>
-                                <color key="baseBackgroundColor" red="0.1764705926" green="0.18823529780000001" blue="0.21568629149999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                             <connections>
                                 <action selector="checkButtonTapped:" destination="-1" eventType="touchUpInside" id="kCB-p5-31c"/>
@@ -69,7 +73,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                     <color key="value" systemColor="systemGrayColor"/>
@@ -81,7 +85,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" white="1" alpha="0.79529697847682124" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
                                     <color key="value" systemColor="systemGrayColor"/>
@@ -89,24 +93,60 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PsD-Ub-HWk" userLabel="customDeadlineButton">
-                            <rect key="frame" x="2" y="193.66666666666669" width="289" height="35.666666666666657"/>
+                            <rect key="frame" x="2" y="194" width="129.66666666666666" height="36"/>
                             <color key="tintColor" systemColor="systemGrayColor"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="flag.fill" catalog="system" title=" Fri, 2 Dec" titleAlignment="leading">
                                 <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
                                 <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
+                            <connections>
+                                <action selector="customDeadlineButtonTapped:" destination="-1" eventType="touchUpInside" id="nZh-3s-8mg"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Vp-9F-6Ia" userLabel="clearCustomDeadlineButton">
+                            <rect key="frame" x="123.66666666666669" y="195" width="34" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="erJ-NG-E07"/>
+                                <constraint firstAttribute="width" constant="34" id="yw7-yw-GpM"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="gray" image="xmark" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="clearCustomDeadlineButtonTapped:" destination="-1" eventType="touchUpInside" id="y6w-rV-pLY"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qqL-b6-UJH" userLabel="customDayButton">
-                            <rect key="frame" x="2" y="237.33333333333331" width="289" height="35.666666666666686"/>
+                            <rect key="frame" x="2" y="237" width="149" height="36"/>
                             <color key="tintColor" systemColor="systemGrayColor"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system" title=" Sat, 26 Nov" titleAlignment="leading">
                                 <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
                                 <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
+                            <connections>
+                                <action selector="customDayButtonTapped:" destination="-1" eventType="touchUpInside" id="RtA-XJ-hHL"/>
+                            </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-7d-Thc" userLabel="calendarButton">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbI-yI-5nQ" userLabel="clearCustomDayButton">
+                            <rect key="frame" x="143" y="238" width="34" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="4rs-bu-cso"/>
+                                <constraint firstAttribute="width" constant="34" id="SrJ-iJ-pJc"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="gray" image="xmark" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="clearCustomDayButtonTapped:" destination="-1" eventType="touchUpInside" id="uzJ-Ck-uH9"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-7d-Thc" userLabel="customDaySmallButton">
                             <rect key="frame" x="299" y="239" width="34" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="34" id="3WG-pZ-fvd"/>
@@ -115,13 +155,13 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" image="calendar" catalog="system">
                                 <color key="baseForegroundColor" systemColor="systemGrayColor"/>
-                                <color key="baseBackgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                             <connections>
-                                <action selector="calendarButtonTapped:" destination="-1" eventType="touchUpInside" id="5gz-Ct-G1u"/>
+                                <action selector="customDaySmallButtonTapped:" destination="-1" eventType="touchUpInside" id="MXK-I2-Seo"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnl-36-dFJ" userLabel="flagButton">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnl-36-dFJ" userLabel="customDeadlineSmallButton">
                             <rect key="frame" x="349" y="239" width="34" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="34" id="gPf-A6-yY2"/>
@@ -130,10 +170,10 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" image="flag" catalog="system">
                                 <color key="baseForegroundColor" systemColor="systemGrayColor"/>
-                                <color key="baseBackgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
                             <connections>
-                                <action selector="flagButtonTapped:" destination="-1" eventType="touchUpInside" id="hqK-LO-jd7"/>
+                                <action selector="customDeadlineSmallButtonTapped:" destination="-1" eventType="touchUpInside" id="Rpd-PU-I4Y"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4V-ao-47W" userLabel="bottomView">
@@ -147,7 +187,7 @@
                                         <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
                                     </buttonConfiguration>
                                     <connections>
-                                        <action selector="projectButtonTapped:" destination="-1" eventType="touchUpInside" id="yfE-4e-YwD"/>
+                                        <action selector="projectButtonTapped:" destination="-1" eventType="touchUpInside" id="svJ-SR-MVE"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubh-rh-xet" userLabel="saveButton">
@@ -179,25 +219,26 @@
                         <constraint firstItem="8sA-u3-1zd" firstAttribute="leading" secondItem="086-u6-vxi" secondAttribute="leading" constant="8" id="1vc-zf-UiT"/>
                         <constraint firstItem="k4V-ao-47W" firstAttribute="top" secondItem="qqL-b6-UJH" secondAttribute="bottom" constant="8" symbolic="YES" id="3W6-tF-MvF"/>
                         <constraint firstAttribute="trailing" secondItem="zei-4m-sI2" secondAttribute="trailing" constant="8" id="4qv-RB-sJt"/>
+                        <constraint firstItem="UbI-yI-5nQ" firstAttribute="centerY" secondItem="qqL-b6-UJH" secondAttribute="centerY" id="72w-dQ-UKP"/>
                         <constraint firstAttribute="trailing" secondItem="k4V-ao-47W" secondAttribute="trailing" id="7K5-b4-ZHu"/>
                         <constraint firstItem="hRt-Mj-cP3" firstAttribute="top" secondItem="IwM-kY-O7W" secondAttribute="bottom" id="7h3-Lc-fR5"/>
                         <constraint firstItem="zei-4m-sI2" firstAttribute="leading" secondItem="086-u6-vxi" secondAttribute="leading" constant="50" id="8wp-NZ-nq6"/>
-                        <constraint firstItem="p9H-7d-Thc" firstAttribute="leading" secondItem="qqL-b6-UJH" secondAttribute="trailing" constant="8" symbolic="YES" id="AHS-vJ-9Hz"/>
+                        <constraint firstItem="UbI-yI-5nQ" firstAttribute="leading" secondItem="qqL-b6-UJH" secondAttribute="trailing" constant="-8" id="AIE-Ep-ahL"/>
+                        <constraint firstItem="2Vp-9F-6Ia" firstAttribute="centerY" secondItem="PsD-Ub-HWk" secondAttribute="centerY" id="BaQ-2k-VWp"/>
                         <constraint firstAttribute="bottom" secondItem="k4V-ao-47W" secondAttribute="bottom" constant="-1" id="EZB-sr-glR"/>
-                        <constraint firstItem="qqL-b6-UJH" firstAttribute="top" secondItem="PsD-Ub-HWk" secondAttribute="bottom" constant="8" id="LvS-87-Hx3"/>
                         <constraint firstItem="zei-4m-sI2" firstAttribute="top" secondItem="hRt-Mj-cP3" secondAttribute="bottom" constant="8" symbolic="YES" id="MLF-pR-av6"/>
                         <constraint firstItem="qqL-b6-UJH" firstAttribute="leading" secondItem="086-u6-vxi" secondAttribute="leading" constant="2" id="Oxi-Xj-ERk"/>
                         <constraint firstItem="IwM-kY-O7W" firstAttribute="top" secondItem="086-u6-vxi" secondAttribute="top" constant="8" id="T2z-hW-zcS"/>
                         <constraint firstAttribute="trailing" secondItem="Nnl-36-dFJ" secondAttribute="trailing" constant="10" id="VSv-gx-yDP"/>
                         <constraint firstAttribute="trailing" secondItem="hRt-Mj-cP3" secondAttribute="trailing" constant="8" id="WCU-Ga-8O0"/>
-                        <constraint firstItem="PsD-Ub-HWk" firstAttribute="width" secondItem="qqL-b6-UJH" secondAttribute="width" id="YzQ-HB-RxN"/>
                         <constraint firstItem="PsD-Ub-HWk" firstAttribute="leading" secondItem="086-u6-vxi" secondAttribute="leading" constant="2" id="f8M-2n-7wL"/>
+                        <constraint firstItem="2Vp-9F-6Ia" firstAttribute="leading" secondItem="PsD-Ub-HWk" secondAttribute="trailing" constant="-8" id="fzI-z1-ssC"/>
                         <constraint firstAttribute="height" constant="330" id="iOJ-sq-OlL"/>
                         <constraint firstAttribute="trailing" secondItem="IwM-kY-O7W" secondAttribute="trailing" constant="8" id="pAn-2W-gqv"/>
                         <constraint firstItem="k4V-ao-47W" firstAttribute="top" secondItem="Nnl-36-dFJ" secondAttribute="bottom" constant="8" symbolic="YES" id="qDw-h7-TRL"/>
                         <constraint firstItem="k4V-ao-47W" firstAttribute="leading" secondItem="086-u6-vxi" secondAttribute="leading" id="qx1-sr-v2B"/>
                         <constraint firstItem="Nnl-36-dFJ" firstAttribute="leading" secondItem="p9H-7d-Thc" secondAttribute="trailing" constant="16" id="rcz-fc-aGL"/>
-                        <constraint firstItem="qqL-b6-UJH" firstAttribute="top" secondItem="PsD-Ub-HWk" secondAttribute="bottom" constant="8" symbolic="YES" id="rrB-Tb-QO9"/>
+                        <constraint firstItem="qqL-b6-UJH" firstAttribute="top" secondItem="PsD-Ub-HWk" secondAttribute="bottom" constant="7" id="rrB-Tb-QO9"/>
                         <constraint firstItem="k4V-ao-47W" firstAttribute="top" secondItem="p9H-7d-Thc" secondAttribute="bottom" constant="8" symbolic="YES" id="vSm-74-zQ1"/>
                         <constraint firstItem="hRt-Mj-cP3" firstAttribute="leading" secondItem="8sA-u3-1zd" secondAttribute="trailing" constant="8" symbolic="YES" id="yf7-wd-PDx"/>
                         <constraint firstItem="8sA-u3-1zd" firstAttribute="top" secondItem="086-u6-vxi" secondAttribute="top" constant="37" id="zQD-RG-XgV"/>

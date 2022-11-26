@@ -5,10 +5,10 @@
 //  Created by Alexander Senin on 08.11.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol ProjectViewProtocol: AnyObject {
-    
+
 }
 
 protocol ProjectViewPresenterProtocol: AnyObject {
@@ -16,7 +16,11 @@ protocol ProjectViewPresenterProtocol: AnyObject {
     
     var project: Project { get set }
     
-    func addTask()
+    func createTask()
+    
+    func showEditTaskOverlay(for task: Task)
+    
+    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
 }
 
 class ProjectViewPresenter: ProjectViewPresenterProtocol {
@@ -35,11 +39,19 @@ class ProjectViewPresenter: ProjectViewPresenterProtocol {
         self.project = project
     }
     
-    func addTask() {
-        let title = "New Task"
+    func createTask() {
+        let title = ""
         let dtCreation = Date()
         let isDone = false
         taskManager.create(title: title, desc: nil, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, project: project)
         NotificationCenter.default.post(name: Notification.Name("NewTaskHasBeenAdded"), object: nil)
+    }
+    
+    func showEditTaskOverlay(for task: Task) {
+        router?.showEditTaskOverlay(for: task)
+    }
+    
+    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+        router?.getCustomCellPresenter(view: view)
     }
 }

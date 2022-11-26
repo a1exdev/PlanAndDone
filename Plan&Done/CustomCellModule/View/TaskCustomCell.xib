@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCustomCell" rowHeight="124" id="KGk-i7-Jjw" customClass="TaskCustomCell" customModule="Plan_Done" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="150"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSm-l8-gDH" userLabel="checkButton">
+                        <rect key="frame" x="8" y="6" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="34" id="aOu-B3-b6i"/>
+                            <constraint firstAttribute="height" constant="34" id="hUX-WW-ZdQ"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="gray" image="square" catalog="system" imagePadding="0.0">
+                            <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                            <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="checkButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NFy-vt-tb5"/>
+                        </connections>
+                    </button>
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New To-Do" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GKh-UO-OGh" userLabel="taskTitleTexField">
+                        <rect key="frame" x="50" y="10.333333333333334" width="330" height="25.666666666666664"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="taskTitleTextFieldTyping:" destination="KGk-i7-Jjw" eventType="editingChanged" id="JMn-qf-Rvs"/>
+                        </connections>
+                    </textField>
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Notes" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Z1-Rq-rVD" userLabel="taskDescriptionTexField">
+                        <rect key="frame" x="50" y="44" width="330" height="23.333333333333329"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="1" alpha="0.79529697850000003" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderLabel.textColor">
+                                <color key="value" systemColor="systemGrayColor"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="taskDescriptionTextFieldTyping:" destination="KGk-i7-Jjw" eventType="editingChanged" id="5gc-KL-O9Y"/>
+                        </connections>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1NR-TG-zdT" userLabel="customDeadlineButton">
+                        <rect key="frame" x="2" y="73.333333333333329" width="117" height="34.333333333333329"/>
+                        <color key="tintColor" systemColor="systemGrayColor"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" title=" Fri, 2 Dec" titleAlignment="leading">
+                            <imageReference key="image" image="flag.fill" catalog="system" symbolScale="medium"/>
+                            <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="customDeadlineButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="CCd-sp-KFb"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRc-JM-XV1" userLabel="clearCustomDeadlineButton">
+                        <rect key="frame" x="111" y="73.666666666666671" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="VhF-SI-cZb"/>
+                            <constraint firstAttribute="width" constant="34" id="lza-gd-DII"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="gray">
+                            <imageReference key="image" image="xmark" catalog="system" symbolScale="medium"/>
+                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="clearCustomDeadlineButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="AkN-Bz-cys"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ix-cJ-i1N" userLabel="customDayButton">
+                        <rect key="frame" x="2" y="107.66666666666667" width="133.66666666666666" height="34.333333333333329"/>
+                        <color key="tintColor" systemColor="systemGrayColor"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" title=" Sat, 26 Nov" titleAlignment="leading">
+                            <imageReference key="image" image="calendar" catalog="system" symbolScale="medium"/>
+                            <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="customDayButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ICe-DD-QjD"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sxh-Vy-dTR" userLabel="clearCustomDayButton">
+                        <rect key="frame" x="127.66666666666669" y="108" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="6bF-a0-atH"/>
+                            <constraint firstAttribute="width" constant="34" id="zB0-An-22d"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="gray">
+                            <imageReference key="image" image="xmark" catalog="system" symbolScale="medium"/>
+                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="clearCustomDayButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NJy-LE-VWL"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8D-iz-xsm" userLabel="customDaySmallButton">
+                        <rect key="frame" x="316" y="108" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="7Zm-Fu-Lpm"/>
+                            <constraint firstAttribute="width" constant="34" id="JVs-to-lfR"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="gray" image="calendar" catalog="system">
+                            <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                            <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="customDaySmallButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eNE-WW-KCy"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rh-yB-YX2" userLabel="customDeadlineSmallButton">
+                        <rect key="frame" x="358" y="108" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="34" id="6pi-Kx-U86"/>
+                            <constraint firstAttribute="height" constant="34" id="b1Z-KB-UlG"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="gray" image="flag" catalog="system">
+                            <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                            <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="customDeadlineSmallButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xgX-cO-O5P"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="eSm-l8-gDH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="3rA-pb-N3R"/>
+                    <constraint firstItem="6ix-cJ-i1N" firstAttribute="top" secondItem="1NR-TG-zdT" secondAttribute="bottom" id="7GN-YF-cBe"/>
+                    <constraint firstItem="sxh-Vy-dTR" firstAttribute="centerY" secondItem="6ix-cJ-i1N" secondAttribute="centerY" id="7ia-jz-fky"/>
+                    <constraint firstItem="GKh-UO-OGh" firstAttribute="centerY" secondItem="eSm-l8-gDH" secondAttribute="centerY" id="8pq-kN-fs8"/>
+                    <constraint firstItem="8rh-yB-YX2" firstAttribute="leading" secondItem="p8D-iz-xsm" secondAttribute="trailing" constant="8" symbolic="YES" id="Geo-mZ-ymU"/>
+                    <constraint firstAttribute="trailing" secondItem="8rh-yB-YX2" secondAttribute="trailing" constant="8" id="MCT-26-3VE"/>
+                    <constraint firstAttribute="bottom" secondItem="6ix-cJ-i1N" secondAttribute="bottom" constant="8" id="Mir-1x-rJ5"/>
+                    <constraint firstItem="6Z1-Rq-rVD" firstAttribute="top" secondItem="GKh-UO-OGh" secondAttribute="bottom" constant="8" id="Rxl-Ky-pbi"/>
+                    <constraint firstItem="wRc-JM-XV1" firstAttribute="leading" secondItem="1NR-TG-zdT" secondAttribute="trailing" constant="-8" id="SEu-J8-hym"/>
+                    <constraint firstItem="sxh-Vy-dTR" firstAttribute="leading" secondItem="6ix-cJ-i1N" secondAttribute="trailing" constant="-8" id="TKs-Q3-LhJ"/>
+                    <constraint firstItem="GKh-UO-OGh" firstAttribute="leading" secondItem="eSm-l8-gDH" secondAttribute="trailing" constant="8" id="Z8o-hA-XnN"/>
+                    <constraint firstItem="6Z1-Rq-rVD" firstAttribute="width" secondItem="GKh-UO-OGh" secondAttribute="width" id="adS-0m-qf3"/>
+                    <constraint firstItem="1NR-TG-zdT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="2" id="c6V-1d-QnF"/>
+                    <constraint firstItem="eSm-l8-gDH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="eJI-FE-tEI"/>
+                    <constraint firstItem="6ix-cJ-i1N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="2" id="frl-YD-Mv6"/>
+                    <constraint firstAttribute="trailing" secondItem="GKh-UO-OGh" secondAttribute="trailing" constant="20" symbolic="YES" id="gP7-fK-n5k"/>
+                    <constraint firstItem="wRc-JM-XV1" firstAttribute="centerY" secondItem="1NR-TG-zdT" secondAttribute="centerY" id="lTa-eE-rJ2"/>
+                    <constraint firstAttribute="trailing" secondItem="6Z1-Rq-rVD" secondAttribute="trailing" constant="20" symbolic="YES" id="rDq-V4-aq3"/>
+                    <constraint firstAttribute="bottom" secondItem="p8D-iz-xsm" secondAttribute="bottom" constant="8" id="uyV-Jq-yxN"/>
+                    <constraint firstAttribute="bottom" secondItem="8rh-yB-YX2" secondAttribute="bottom" constant="8" id="w46-oj-4bY"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" red="0.11764705882352941" green="0.12941176470588234" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <connections>
+                <outlet property="checkButton" destination="eSm-l8-gDH" id="zdT-dy-krh"/>
+                <outlet property="clearCustomDayButton" destination="sxh-Vy-dTR" id="wBZ-ov-BFM"/>
+                <outlet property="clearCustomDeadlineButton" destination="wRc-JM-XV1" id="jrt-jk-Fm3"/>
+                <outlet property="customDayButton" destination="6ix-cJ-i1N" id="tST-S0-WmD"/>
+                <outlet property="customDaySmallButton" destination="p8D-iz-xsm" id="deR-FM-fmh"/>
+                <outlet property="customDeadlineButton" destination="1NR-TG-zdT" id="Jhu-3O-Zxg"/>
+                <outlet property="customDeadlineSmallButton" destination="8rh-yB-YX2" id="yAN-Ra-Zge"/>
+                <outlet property="taskDescriptionTextField" destination="6Z1-Rq-rVD" id="Q5i-tq-6Wj"/>
+                <outlet property="taskTitleTextField" destination="GKh-UO-OGh" id="YQm-ny-Qqd"/>
+            </connections>
+            <point key="canvasLocation" x="-29.007633587786259" y="47.887323943661976"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+        <image name="flag" catalog="system" width="128" height="121"/>
+        <image name="flag.fill" catalog="system" width="128" height="121"/>
+        <image name="square" catalog="system" width="128" height="114"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

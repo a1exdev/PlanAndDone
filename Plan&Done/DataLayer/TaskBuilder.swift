@@ -14,7 +14,7 @@ protocol TaskBuilderProtocol {
     
     func produceTitle(_ title: String)
     func produceDesc(_ desc: String?)
-    func produceDtCreation(_ dtCreation: Date)
+    func produceDtCreation(_ dtCreation: Date?)
     func produceDtDeadline(_ dtDeadline: Date?)
     func produceIsDone(_ isDone: Bool)
     func produceProject(_ project: Project)
@@ -63,7 +63,7 @@ class TaskBuilder: TaskBuilderProtocol {
         self.desc = desc
     }
     
-    func produceDtCreation(_ dtCreation: Date) {
+    func produceDtCreation(_ dtCreation: Date?) {
         self.dtCreation = dtCreation
     }
     
@@ -80,19 +80,19 @@ class TaskBuilder: TaskBuilderProtocol {
     }
     
     func fetchDtCreation() -> Date? {
-        return self.dtCreation
+        return dtCreation
     }
     
     func fetchDtDeadline() -> Date? {
-        return self.dtDeadline
+        return dtDeadline
     }
     
     func fetchProject() -> Project? {
-        return self.project
+        return project
     }
     
     func retrieveTask() {
-        taskManager.create(title: self.title!, desc: self.desc, dtCreation: self.dtCreation!, dtDeadline: self.dtDeadline, isDone: self.isDone!, project: self.project!)
+        taskManager.create(title: title!, desc: desc, dtCreation: dtCreation!, dtDeadline: dtDeadline, isDone: isDone!, project: project!)
         resetTask()
     }
 }

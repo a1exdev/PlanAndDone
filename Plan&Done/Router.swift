@@ -20,16 +20,18 @@ protocol RouterProtocol: RouterMain {
     func showSearchOverlay()
     func showSettingsOverlay()
     
-    func showEditItemOverlay()
+    func showEditTaskOverlay(for task: Task)
+    func showEditProjectOverlay(for project: Project)
     func showNewItemOverlay()
     func showNewTaskOverlay()
     
-    func showSelectProjectOverlay(viewController: UIViewController)
-    func showSelectDayOverlay(viewController: UIViewController)
-    func showSelectDeadlineOverlay(viewController: UIViewController)
+    func showSelectProjectOverlay(viewController: UIViewController, for task: Task?)
+    func showSelectDayOverlay(viewController: UIViewController, for task: Task?)
+    func showSelectDeadlineOverlay(viewController: UIViewController, for task: Task?)
+    
+    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
     
     func backToMainView()
-    func popToRoot()
 }
 
 class Router: RouterProtocol {
@@ -38,7 +40,7 @@ class Router: RouterProtocol {
     var moduleAssembler: ModuleAssemblerProtocol?
     
     init(navigationContriller: UINavigationController, moduleAssembler: ModuleAssemblerProtocol) {
-        self.navigationController = navigationContriller
+        navigationController = navigationContriller
         self.moduleAssembler = moduleAssembler
     }
     
@@ -70,8 +72,18 @@ class Router: RouterProtocol {
         }
     }
     
-    func showEditItemOverlay() {
-        print("Show edit item overlay")
+    func showEditTaskOverlay(for task: Task) {
+        if let navigationController = navigationController {
+            guard let editTaskOverlay = moduleAssembler?.createEditTaskOverlay(router: self) else { return }
+            editTaskOverlay.appear(sender: navigationController, task: task)
+        }
+    }
+    
+    func showEditProjectOverlay(for project: Project) {
+        if let navigationController = navigationController {
+            guard let editProjectOverlay = moduleAssembler?.createEditProjectOverlay(router: self) else { return }
+            editProjectOverlay.appear(sender: navigationController, project: project)
+        }
     }
     
     func showNewItemOverlay() {
@@ -89,32 +101,31 @@ class Router: RouterProtocol {
         }
     }
     
-    func showSelectProjectOverlay(viewController: UIViewController) {
-        guard let selectProjectOverlay = moduleAssembler?.createSelectProjectOverlay(router: self) else { return }
+    func showSelectProjectOverlay(viewController: UIViewController, for task: Task?) {
+        guard let selectProjectOverlay = moduleAssembler?.createSelectProjectOverlay(router: self, for: task) else { return }
         selectProjectOverlay.appear(sender: viewController)
     }
     
-    func showSelectDayOverlay(viewController: UIViewController) {
-        guard let selectDayOverlay = moduleAssembler?.createSelectDayOverlay(router: self) else { return }
+    func showSelectDayOverlay(viewController: UIViewController, for task: Task?) {
+        guard let selectDayOverlay = moduleAssembler?.createSelectDayOverlay(router: self, for: task) else { return }
         selectDayOverlay.appear(sender: viewController)
     }
     
-    func showSelectDeadlineOverlay(viewController: UIViewController) {
-        guard let selectDeadlineOverlay = moduleAssembler?.createSelectDeadlineOverlay(router: self) else { return }
+    func showSelectDeadlineOverlay(viewController: UIViewController, for task: Task?) {
+        guard let selectDeadlineOverlay = moduleAssembler?.createSelectDeadlineOverlay(router: self, for: task) else { return }
         selectDeadlineOverlay.appear(sender: viewController)
     }
-    
+
     func backToMainView() {
         if let navigationController = navigationController {
             navigationController.dismiss(animated: false)
             navigationController.removeFromParent()
-            NotificationCenter.default.post(name: Notification.Name("ViewHasBecomeActive"), object: nil)
         }
+        NotificationCenter.default.post(name: Notification.Name("ViewHasBecomeActive"), object: nil)
     }
     
-    func popToRoot() {
-        if let navigationController = navigationController {
-            navigationController.popToRootViewController(animated: true)
-        }
+    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+        guard let expandableCellPresenter = moduleAssembler?.getCustomCellPresenter(view: view, router: self) else { return nil }
+        return expandableCellPresenter
     }
 }

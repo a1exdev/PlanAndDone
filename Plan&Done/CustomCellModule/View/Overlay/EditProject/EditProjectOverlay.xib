@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditProjectOverlay" customModule="Plan_Done" customModuleProvider="target">
+            <connections>
+                <outlet property="backView" destination="bKj-xj-hE4" id="5l2-Ek-rX2"/>
+                <outlet property="contentView" destination="qPA-px-9Jt" id="I41-xo-Zeo"/>
+                <outlet property="customDayButton" destination="814-rj-YpB" id="bvI-Uj-1Wa"/>
+                <outlet property="deleteButton" destination="C3k-9U-70d" id="Rz7-B1-Fvu"/>
+                <outlet property="doneButton" destination="rXW-bF-YJ5" id="5uX-b6-FR1"/>
+                <outlet property="moreButton" destination="U3l-83-Usm" id="D9B-Kq-M2g"/>
+                <outlet property="view" destination="9jT-uf-Ebx" id="TeZ-yj-Hfe"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="9jT-uf-Ebx">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bKj-xj-hE4" userLabel="backView" customClass="UIControl">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <action selector="backViewTapped:" destination="-1" eventType="touchUpInside" id="iK4-QB-edQ"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qPA-px-9Jt" userLabel="contentView">
+                    <rect key="frame" x="88" y="768" width="217" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="814-rj-YpB" userLabel="customDayButton">
+                            <rect key="frame" x="2" y="8" width="103" height="34"/>
+                            <color key="tintColor" systemColor="systemGrayColor"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system" title=" When" titleAlignment="leading">
+                                <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="customDayButtonTapped:" destination="-1" eventType="touchUpInside" id="mtY-5w-m8x"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3k-9U-70d" userLabel="deleteButton">
+                            <rect key="frame" x="121" y="8" width="34" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="Hln-OZ-JQl"/>
+                                <constraint firstAttribute="width" constant="34" id="VaS-o9-dpY"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="gray" image="trash" catalog="system">
+                                <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                                <color key="baseBackgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="deleteButtonTapped:" destination="-1" eventType="touchUpInside" id="4vX-Dz-oTg"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3l-83-Usm" userLabel="moreButton">
+                            <rect key="frame" x="171" y="8" width="34" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="0Qo-Nk-7XT"/>
+                                <constraint firstAttribute="width" constant="34" id="T3g-qZ-yFC"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="gray" image="ellipsis" catalog="system">
+                                <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                                <color key="baseBackgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="moreButtonTapped:" destination="-1" eventType="touchUpInside" id="D82-no-p9X"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1764705882" green="0.18823529410000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="814-rj-YpB" firstAttribute="leading" secondItem="qPA-px-9Jt" secondAttribute="leading" constant="2" id="9VH-rB-clQ"/>
+                        <constraint firstAttribute="bottom" secondItem="U3l-83-Usm" secondAttribute="bottom" constant="8" id="Ag6-L7-dyE"/>
+                        <constraint firstItem="814-rj-YpB" firstAttribute="top" secondItem="qPA-px-9Jt" secondAttribute="top" constant="8" id="FEk-3O-U55"/>
+                        <constraint firstItem="C3k-9U-70d" firstAttribute="top" secondItem="qPA-px-9Jt" secondAttribute="top" constant="8" id="GFE-QM-gGc"/>
+                        <constraint firstAttribute="bottom" secondItem="814-rj-YpB" secondAttribute="bottom" constant="8" id="H6s-WE-uZr"/>
+                        <constraint firstAttribute="bottom" secondItem="C3k-9U-70d" secondAttribute="bottom" constant="8" id="Ogp-vl-Y8x"/>
+                        <constraint firstAttribute="bottom" secondItem="C3k-9U-70d" secondAttribute="bottom" constant="8" id="W5U-z6-lJI"/>
+                        <constraint firstItem="C3k-9U-70d" firstAttribute="leading" secondItem="814-rj-YpB" secondAttribute="trailing" constant="16" id="bQM-xM-uW5"/>
+                        <constraint firstAttribute="height" constant="50" id="efU-20-2xK"/>
+                        <constraint firstItem="C3k-9U-70d" firstAttribute="top" secondItem="qPA-px-9Jt" secondAttribute="top" constant="8" id="mpi-wg-ucS"/>
+                        <constraint firstItem="U3l-83-Usm" firstAttribute="leading" secondItem="C3k-9U-70d" secondAttribute="trailing" constant="16" id="x3u-Pc-gil"/>
+                        <constraint firstItem="U3l-83-Usm" firstAttribute="top" secondItem="qPA-px-9Jt" secondAttribute="top" constant="8" id="xle-gN-Wwo"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rXW-bF-YJ5" userLabel="doneButton">
+                    <rect key="frame" x="307" y="59" width="70" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="LX3-fR-U8T"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="filled" title="Done"/>
+                    <connections>
+                        <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="yld-cE-5Eb"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="mSs-6h-bKZ"/>
+            <color key="backgroundColor" systemColor="systemIndigoColor"/>
+            <constraints>
+                <constraint firstItem="qPA-px-9Jt" firstAttribute="bottom" secondItem="mSs-6h-bKZ" secondAttribute="bottom" id="7a9-e3-Vuu"/>
+                <constraint firstItem="mSs-6h-bKZ" firstAttribute="trailing" secondItem="rXW-bF-YJ5" secondAttribute="trailing" constant="16" id="NKd-EZ-3ke"/>
+                <constraint firstItem="mSs-6h-bKZ" firstAttribute="trailing" secondItem="qPA-px-9Jt" secondAttribute="trailing" constant="88" id="Y1c-bj-srq"/>
+                <constraint firstItem="qPA-px-9Jt" firstAttribute="leading" secondItem="mSs-6h-bKZ" secondAttribute="leading" constant="88" id="qKW-Tj-uwv"/>
+                <constraint firstItem="rXW-bF-YJ5" firstAttribute="top" secondItem="mSs-6h-bKZ" secondAttribute="top" id="tam-2e-Urw"/>
+            </constraints>
+            <point key="canvasLocation" x="5.343511450381679" y="20.422535211267608"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

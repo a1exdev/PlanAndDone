@@ -7,9 +7,10 @@
 
 import UIKit
 
-class SelectProjectOverlay: UIViewController {
+class SelectProjectOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     
-    var presenter: NewTaskPresenterProtocol!
+    var newTaskPresenter: NewTaskPresenterProtocol!
+    var editTaskPresenter: CustomCellPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -20,9 +21,11 @@ class SelectProjectOverlay: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var task: Task?
+    
     init() {
         super.init(nibName: "SelectProjectOverlay", bundle: nil)
-        self.modalPresentationStyle = .overCurrentContext
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -37,6 +40,12 @@ class SelectProjectOverlay: UIViewController {
         configureTableView()
     }
     
+    func appear(sender: UIViewController) {
+        sender.present(self, animated: false) { [self] in
+            show()
+        }
+    }
+    
     @IBAction func backViewTapped(_ sender: UIControl) {
         hide()
     }
@@ -45,24 +54,18 @@ class SelectProjectOverlay: UIViewController {
         hide()
     }
     
-    func appear(sender: UIViewController) {
-        sender.present(self, animated: false) {
-            self.show()
-        }
-    }
-    
     private func configureView() {
-        self.view.backgroundColor = .clear
+        view.backgroundColor = .clear
         
-        self.backView.backgroundColor = .black.withAlphaComponent(0.3)
-        self.backView.alpha = 0
+        backView.backgroundColor = .black.withAlphaComponent(0.3)
+        backView.alpha = 0
         
-        self.contentView.alpha = 0
-        self.contentView.layer.cornerRadius = 12
-        self.contentView.clipsToBounds = true
+        contentView.alpha = 0
+        contentView.layer.cornerRadius = 12
+        contentView.clipsToBounds = true
         
-        self.inboxButton.layer.cornerRadius = 8
-        self.noProjectButton.layer.cornerRadius = 8
+        inboxButton.layer.cornerRadius = 8
+        noProjectButton.layer.cornerRadius = 8
     }
     
     private func configureTableView() {
@@ -73,51 +76,74 @@ class SelectProjectOverlay: UIViewController {
     }
     
     private func show() {
-        self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 1
-            self.contentView.alpha = 1
-            self.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                       animations: { [self] in
+            backView.alpha = 1
+            contentView.alpha = 1
+            contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
         })
     }
     
     private func hide() {
         UIView.animate(withDuration: 0.2,
                        delay: 0,
-                       animations: {
-            self.backView.alpha = 0
-            self.contentView.alpha = 0
-            self.contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        }, completion: { _ in
+                       animations: { [self] in
+            backView.alpha = 0
+            contentView.alpha = 0
+            contentView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { [self] _ in
             NotificationCenter.default.post(name: Notification.Name("CheckProject"), object: nil)
-            self.dismiss(animated: true)
+            dismiss(animated: true)
         })
     }
     
     private func produceInboxProject() {
-        guard let project = (presenter.projectGroups.first?.project?.allObjects as! [Project]).first(where: { project in
+        
+        guard let project = (newTaskPresenter.projectGroups.first?.project?.allObjects as! [Project]).first(where: { project in
             project.title == "Inbox"
         }) else { return }
-        presenter.produceTaskProject(project)
+        
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskProject(newProject: project)
+        } else {
+            newTaskPresenter.produceTaskProject(project)
+        }
     }
     
     private func produceAnytimeProject() {
-        guard let project = (presenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        
+        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Anytime"
         }) else { return }
-        presenter.produceTaskProject(project)
+
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskProject(newProject: project)
+        } else {
+            newTaskPresenter.produceTaskProject(project)
+        }
     }
 }
 
 extension SelectProjectOverlay: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
-        let customProject = (presenter.projectGroups.last?.project?.allObjects as! [Project])[indexPath.row]
-        presenter.produceTaskProject(customProject)
+        
+        let customProject = (newTaskPresenter.projectGroups.last?.project?.allObjects as! [Project])[indexPath.row]
+        
+        if task != nil {
+            editTaskPresenter.task = task
+            editTaskPresenter.changeTaskProject(newProject: customProject)
+        } else {
+            newTaskPresenter.produceTaskProject(customProject)
+        }
+        
         hide()
     }
 }
@@ -125,7 +151,7 @@ extension SelectProjectOverlay: UITableViewDelegate {
 extension SelectProjectOverlay: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let customProjectsCount = (presenter.projectGroups.last?.project?.allObjects as! [Project]).count
+        let customProjectsCount = (newTaskPresenter.projectGroups.last?.project?.allObjects as! [Project]).count
         return customProjectsCount
     }
     
@@ -133,7 +159,7 @@ extension SelectProjectOverlay: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "projectCell", for: indexPath)
         
-        let customProjects = presenter.projectGroups.last?.project?.allObjects as! [Project]
+        let customProjects = newTaskPresenter.projectGroups.last?.project?.allObjects as! [Project]
         
         cell.textLabel?.text = customProjects[indexPath.row].title
         cell.imageView?.image = UIImage(systemName: ProjectImage.pie.rawValue)
@@ -148,7 +174,7 @@ extension SelectProjectOverlay: UITableViewDataSource {
 
 extension SelectProjectOverlay: UIGestureRecognizerDelegate {
     
-    @objc func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
+    @objc private func buttonLongPressed(gestureReconizer: UILongPressGestureRecognizer) {
         
         let currentLocationY = gestureReconizer.location(in: insideView).y
         
@@ -158,14 +184,14 @@ extension SelectProjectOverlay: UIGestureRecognizerDelegate {
                 
             case (inboxButton.frame.minY)...(inboxButton.frame.maxY):
                 produceInboxProject()
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
                 hide()
             case (noProjectButton.frame.minY)...(noProjectButton.frame.maxY):
                 produceAnytimeProject()
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
                 hide()
             default:
@@ -174,19 +200,19 @@ extension SelectProjectOverlay: UIGestureRecognizerDelegate {
         default:
             switch currentLocationY {
             case (inboxButton.frame.minY)...(inboxButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.inboxButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    inboxButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             case (noProjectButton.frame.minY)...(noProjectButton.frame.maxY):
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.noProjectButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
-                    self.inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    noProjectButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+                    inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             default:
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
-                    self.noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                UIView.animate(withDuration: 0.2, delay: 0) { [self] in
+                    inboxButton.backgroundColor = UIColor(rgb: 0x2D3037)
+                    noProjectButton.backgroundColor = UIColor(rgb: 0x2D3037)
                 }
             }
         }
@@ -203,8 +229,4 @@ extension SelectProjectOverlay: UIGestureRecognizerDelegate {
         longPressNoProjectButton.minimumPressDuration = 0
         noProjectButton.addGestureRecognizer(longPressNoProjectButton)
     }
-}
-
-extension SelectProjectOverlay: NewTaskProtocol {
-    
 }

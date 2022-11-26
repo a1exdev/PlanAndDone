@@ -8,18 +8,18 @@
 import UIKit
 
 protocol NewTaskProtocol: AnyObject {
-    
+
 }
 
 protocol NewTaskPresenterProtocol: AnyObject {
-    init(view: NewTaskProtocol, router: RouterProtocol, taskBuilder: TaskBuilderProtocol, projectGroupManager: ProjectGroupManagerProtocol)
+    init(view: NewTaskProtocol, router: RouterProtocol, taskBuilder: TaskBuilderProtocol, taskManager: TaskManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol)
 
     var projectGroups: [ProjectGroup] { get }
     
     func produceTaskTitle(_ title: String)
     func produceTaskDesc(_ desc: String)
-    func produceTaskCreation(_ creation: Date)
-    func produceTaskDeadline(_ deadline: Date)
+    func produceTaskCreation(_ creation: Date?)
+    func produceTaskDeadline(_ deadline: Date?)
     func produceTaskIsDone(_ isDone: Bool)
     func produceTaskProject(_ project: Project)
     
@@ -43,6 +43,7 @@ class NewTaskPresenter: NewTaskPresenterProtocol {
     var router: RouterProtocol?
     
     private let taskBuilder: TaskBuilderProtocol!
+    private let taskManager: TaskManagerProtocol!
     private let projectGroupManager: ProjectGroupManagerProtocol!
     
     var projectGroups: [ProjectGroup] {
@@ -51,10 +52,11 @@ class NewTaskPresenter: NewTaskPresenterProtocol {
         }
     }
     
-    required init(view: NewTaskProtocol, router: RouterProtocol, taskBuilder: TaskBuilderProtocol, projectGroupManager: ProjectGroupManagerProtocol) {
+    required init(view: NewTaskProtocol, router: RouterProtocol, taskBuilder: TaskBuilderProtocol, taskManager: TaskManagerProtocol, projectGroupManager: ProjectGroupManagerProtocol) {
         self.view = view
         self.router = router
         self.taskBuilder = taskBuilder
+        self.taskManager = taskManager
         self.projectGroupManager = projectGroupManager
     }
     
@@ -66,11 +68,11 @@ class NewTaskPresenter: NewTaskPresenterProtocol {
         taskBuilder.produceDesc(desc)
     }
     
-    func produceTaskCreation(_ creation: Date) {
-        taskBuilder.produceDtCreation(creation)
+    func produceTaskCreation(_ creation: Date?) {
+        taskBuilder.produceDtCreation(creation ?? nil)
     }
     
-    func produceTaskDeadline(_ deadline: Date) {
+    func produceTaskDeadline(_ deadline: Date?) {
         taskBuilder.produceDtDeadline(deadline)
     }
     
@@ -103,15 +105,15 @@ class NewTaskPresenter: NewTaskPresenterProtocol {
     }
     
     func showSelectProjectOverlay(viewController: UIViewController) {
-        router?.showSelectProjectOverlay(viewController: viewController)
+        router?.showSelectProjectOverlay(viewController: viewController, for: nil)
     }
     
     func showSelectDayOverlay(viewController: UIViewController) {
-        router?.showSelectDayOverlay(viewController: viewController)
+        router?.showSelectDayOverlay(viewController: viewController, for: nil)
     }
     
     func showSelectDeadlineOverlay(viewController: UIViewController) {
-        router?.showSelectDeadlineOverlay(viewController: viewController)
+        router?.showSelectDeadlineOverlay(viewController: viewController, for: nil)
     }
     
     func backToMainView() {
