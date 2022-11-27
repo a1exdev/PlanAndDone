@@ -125,7 +125,7 @@ class Router: RouterProtocol {
     }
     
     func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
-        guard let expandableCellPresenter = moduleAssembler?.getCustomCellPresenter(view: view, router: self) else { return nil }
+        guard let expandableCellPresenter = moduleAssembler?.createCustomCellPresenter(view: view, router: self) else { return nil }
         return expandableCellPresenter
     }
 }

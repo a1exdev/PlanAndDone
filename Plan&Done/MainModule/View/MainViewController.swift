@@ -63,6 +63,9 @@ class MainViewController: UIViewController, MainViewProtocol {
             selector: #selector(newProjectHasBeenAdded),
             name: Notification.Name("NewProjectHasBeenAdded"),
             object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func viewHasBecomeActive() {
@@ -90,13 +93,22 @@ class MainViewController: UIViewController, MainViewProtocol {
         tableView.reloadData()
         configureProjectsTableView()
         
-        let latestCustomProject = tableView.numberOfRows(inSection: 3) - 1
-        let indexPath = IndexPath(row: latestCustomProject, section: 3)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            let latestCustomProject = tableView.numberOfRows(inSection: 3) - 1
+            let indexPath = IndexPath(row: latestCustomProject, section: 3)
             let cell = tableView.cellForRow(at: indexPath) as? ProjectCustomCell
             cell?.isAdded()
         }
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height + 110, right: 0)
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        scrollView.contentInset = .zero
     }
     
     
@@ -331,7 +343,7 @@ extension MainViewController: UITableViewDataSource {
         
         cell.presenter = presenter
         cell.viewController = self
-        cell.configure(title: project.title!, image: project.image!, color: project.color!)
+        cell.configure(project: project)
         
         cell.selectionStyle = .none
         cell.layer.cornerRadius = 8

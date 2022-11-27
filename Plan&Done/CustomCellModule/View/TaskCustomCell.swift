@@ -133,6 +133,7 @@ class TaskCustomCell: UITableViewCell, CustomCellProtocol {
         checkDay()
         checkDeadline()
 
+        taskDescriptionTextField.isHidden = false
         contentView.backgroundColor = UIColor(rgb: 0x2D3037)
         
         if task!.title == "" {

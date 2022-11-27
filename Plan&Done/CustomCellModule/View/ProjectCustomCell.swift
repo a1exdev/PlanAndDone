@@ -15,7 +15,7 @@ class ProjectCustomCell: UITableViewCell, CustomCellProtocol {
     
     static let identifier = "ProjectCustomCell"
     
-    private var title = ""
+    private var project: Project?
     
     @IBOutlet weak var projectIcon: UIImageView!
     @IBOutlet weak var projectTitleTextField: UITextField!
@@ -28,15 +28,16 @@ class ProjectCustomCell: UITableViewCell, CustomCellProtocol {
         return UINib(nibName: "ProjectCustomCell", bundle: nil)
     }
     
-    public func configure(title: String, image: String, color: String) {
-        projectTitleTextField.text = title
-        self.title = title
+    public func configure(project: Project) {
+        self.project = project
         
-        projectIcon.image = UIImage(systemName: image, variableValue: 0, configuration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(UIColor.colorWith(name: color)!, renderingMode: .alwaysOriginal)
+        projectTitleTextField.text = project.title
+        
+        projectIcon.image = UIImage(systemName: project.image!, variableValue: 0, configuration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(UIColor.colorWith(name: project.color!)!, renderingMode: .alwaysOriginal)
     }
     
     public func isAdded() {
-        if title == "" {
+        if project!.title == "" {
             DispatchQueue.main.async { [self] in
                 projectTitleTextField.isUserInteractionEnabled = true
                 projectTitleTextField.becomeFirstResponder()

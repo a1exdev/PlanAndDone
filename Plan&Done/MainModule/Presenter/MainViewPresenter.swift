@@ -100,9 +100,9 @@ class MainViewPresenter: MainViewPresenterProtocol {
         let isDone = false
         let image = ProjectImage.circle.rawValue
         let color = UIColor.systemGray.name
-        let group = projectGroups[3]
-        let number = (group.project?.allObjects as! [Project]).last?.number ?? 0
-        projectManager.create(number: Int(number) + 1, title: title, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, image: image, color: color, group: group)
+        let group = projectGroups.first { $0.isCustom == true }
+        let number = Int(((group!.project?.allObjects as! [Project]).count) + 1)
+        projectManager.create(number: number, title: title, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, image: image, color: color, group: group!)
         NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
     }
     

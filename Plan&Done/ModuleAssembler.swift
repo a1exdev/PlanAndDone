@@ -23,7 +23,7 @@ protocol ModuleAssemblerProtocol {
     func createSelectDayOverlay(router: RouterProtocol, for task: Task?) -> SelectDayOverlay
     func createSelectDeadlineOverlay(router: RouterProtocol, for task: Task?) -> SelectDeadlineOverlay
     
-    func getCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol
+    func createCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol
 }
 
 class ModuleAssembler: ModuleAssemblerProtocol {
@@ -120,7 +120,7 @@ class ModuleAssembler: ModuleAssemblerProtocol {
         return view
     }
     
-    func getCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol {
+    func createCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol {
         let presenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
         return presenter
     }

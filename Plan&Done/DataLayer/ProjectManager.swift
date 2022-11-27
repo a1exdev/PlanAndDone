@@ -46,8 +46,14 @@ class ProjectManager: ProjectManagerProtocol {
     }
     
     func remove(_ id: UUID) {
-        guard let project = fetchById(id) else { return }
-        dataAdapter.deleteObject(project)
+        guard let projectToDelete = fetchById(id) else { return }
+        let projects = fetchAll()
+        projects.forEach { project in
+            if project.number > projectToDelete.number {
+                project.number -= 1
+            }
+        }
+        dataAdapter.deleteObject(projectToDelete)
     }
     
     func changeState(id: UUID) {
