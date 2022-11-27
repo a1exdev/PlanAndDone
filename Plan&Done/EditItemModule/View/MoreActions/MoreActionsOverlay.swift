@@ -17,6 +17,8 @@ class MoreActionsOverlay: UIViewController, EditItemProtocol {
     @IBOutlet weak var markAsCompletedButton: UIView!
     @IBOutlet weak var setDeadlineButton: UIView!
     
+    @IBOutlet weak var markAsCompletedLabel: UILabel!
+    
     init() {
         super.init(nibName: "MoreActionsOverlay", bundle: nil)
         modalPresentationStyle = .overCurrentContext
@@ -28,6 +30,8 @@ class MoreActionsOverlay: UIViewController, EditItemProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNotifications()
 
         configureView()
         configureGestures()
@@ -39,10 +43,30 @@ class MoreActionsOverlay: UIViewController, EditItemProtocol {
         }
         presenter.task = task
         presenter.project = project
+        
+        if let taskIsdone = task?.isDone {
+            if !taskIsdone {
+                markAsCompletedLabel.text = "Mark as Completed"
+            }
+        }
+        
+        if let projectIsDone = project?.isDone {
+            if !projectIsDone {
+                markAsCompletedLabel.text = "Mark as Completed"
+            }
+        }
     }
     
     @IBAction func backViewTapped(_ sender: UIControl) {
         hide()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hide),
+            name: Notification.Name("CheckDeadline"),
+            object: nil)
     }
     
     private func configureView() {
@@ -73,7 +97,7 @@ class MoreActionsOverlay: UIViewController, EditItemProtocol {
         })
     }
     
-    private func hide() {
+    @objc private func hide() {
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        animations: { [self] in
@@ -103,6 +127,7 @@ extension MoreActionsOverlay: UIGestureRecognizerDelegate {
                 if presenter.project != nil {
                     presenter.changeProjectState()
                 }
+                hide()
             case (setDeadlineButton.frame.minY)...(setDeadlineButton.frame.maxY):
                 presenter.showSelectDeadlineOverlay(viewController: self)
             default:
