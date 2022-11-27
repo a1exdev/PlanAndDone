@@ -31,6 +31,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        tableView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,6 +159,7 @@ class MainViewController: UIViewController, MainViewProtocol {
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
+        table.rowHeight = 44
         table.sectionHeaderHeight = 8
         table.sectionFooterHeight = 8
         table.isScrollEnabled = false

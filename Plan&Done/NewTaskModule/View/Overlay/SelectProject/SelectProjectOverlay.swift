@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SelectProjectOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
+class SelectProjectOverlay: UIViewController, NewTaskProtocol, EditItemProtocol {
     
     var newTaskPresenter: NewTaskPresenterProtocol!
-    var editTaskPresenter: CustomCellPresenterProtocol!
+    var customCellPresenter: EditItemPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -107,8 +107,8 @@ class SelectProjectOverlay: UIViewController, NewTaskProtocol, CustomCellProtoco
         }) else { return }
         
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskProject(newProject: project)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskProject(newProject: project)
         } else {
             newTaskPresenter.produceTaskProject(project)
         }
@@ -121,8 +121,8 @@ class SelectProjectOverlay: UIViewController, NewTaskProtocol, CustomCellProtoco
         }) else { return }
 
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskProject(newProject: project)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskProject(newProject: project)
         } else {
             newTaskPresenter.produceTaskProject(project)
         }
@@ -138,8 +138,8 @@ extension SelectProjectOverlay: UITableViewDelegate {
         let customProject = (newTaskPresenter.projectGroups.last?.project?.allObjects as! [Project])[indexPath.row]
         
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskProject(newProject: customProject)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskProject(newProject: customProject)
         } else {
             newTaskPresenter.produceTaskProject(customProject)
         }
@@ -161,7 +161,11 @@ extension SelectProjectOverlay: UITableViewDataSource {
         
         let customProjects = newTaskPresenter.projectGroups.last?.project?.allObjects as! [Project]
         
-        cell.textLabel?.text = customProjects[indexPath.row].title
+        if customProjects[indexPath.row].title == "" {
+            cell.textLabel?.text = "New Project"
+        } else {
+            cell.textLabel?.text = customProjects[indexPath.row].title
+        }
         cell.imageView?.image = UIImage(systemName: ProjectImage.pie.rawValue)
         cell.imageView?.tintColor = .systemBlue
         cell.backgroundColor = .clear

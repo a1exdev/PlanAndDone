@@ -22,14 +22,15 @@ protocol RouterProtocol: RouterMain {
     
     func showEditTaskOverlay(for task: Task)
     func showEditProjectOverlay(for project: Project)
+    func showMoreActionsOverlay(viewController: UIViewController, task: Task?, project: Project?)
     func showNewItemOverlay()
     func showNewTaskOverlay()
     
     func showSelectProjectOverlay(viewController: UIViewController, for task: Task?)
-    func showSelectDayOverlay(viewController: UIViewController, for task: Task?)
-    func showSelectDeadlineOverlay(viewController: UIViewController, for task: Task?)
+    func showSelectDayOverlay(viewController: UIViewController, task: Task?, project: Project?)
+    func showSelectDeadlineOverlay(viewController: UIViewController, task: Task?, project: Project?)
     
-    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
+    func getCustomCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol?
     
     func backToMainView()
 }
@@ -86,6 +87,11 @@ class Router: RouterProtocol {
         }
     }
     
+    func showMoreActionsOverlay(viewController: UIViewController, task: Task?, project: Project?) {
+        guard let moreActionsOverlay = moduleAssembler?.createMoreActionsOverlay(router: self) else { return }
+        moreActionsOverlay.appear(sender: viewController, task: task, project: project)
+    }
+    
     func showNewItemOverlay() {
         if let navigationController = navigationController {
             guard let newItemOverlay = moduleAssembler?.createNewItemOverlay(router: self) else { return }
@@ -106,13 +112,13 @@ class Router: RouterProtocol {
         selectProjectOverlay.appear(sender: viewController)
     }
     
-    func showSelectDayOverlay(viewController: UIViewController, for task: Task?) {
-        guard let selectDayOverlay = moduleAssembler?.createSelectDayOverlay(router: self, for: task) else { return }
+    func showSelectDayOverlay(viewController: UIViewController, task: Task?, project: Project?) {
+        guard let selectDayOverlay = moduleAssembler?.createSelectDayOverlay(router: self, task: task, project: project) else { return }
         selectDayOverlay.appear(sender: viewController)
     }
     
-    func showSelectDeadlineOverlay(viewController: UIViewController, for task: Task?) {
-        guard let selectDeadlineOverlay = moduleAssembler?.createSelectDeadlineOverlay(router: self, for: task) else { return }
+    func showSelectDeadlineOverlay(viewController: UIViewController, task: Task?, project: Project?) {
+        guard let selectDeadlineOverlay = moduleAssembler?.createSelectDeadlineOverlay(router: self, task: task, project: project) else { return }
         selectDeadlineOverlay.appear(sender: viewController)
     }
 
@@ -124,7 +130,7 @@ class Router: RouterProtocol {
         NotificationCenter.default.post(name: Notification.Name("ViewHasBecomeActive"), object: nil)
     }
     
-    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+    func getCustomCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol? {
         guard let expandableCellPresenter = moduleAssembler?.createCustomCellPresenter(view: view, router: self) else { return nil }
         return expandableCellPresenter
     }

@@ -32,7 +32,7 @@ protocol MainViewPresenterProtocol: AnyObject {
     
     func backToMainView()
     
-    func getExpandableCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
+    func getExpandableCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol?
 }
 
 class MainViewPresenter: MainViewPresenterProtocol {
@@ -100,10 +100,11 @@ class MainViewPresenter: MainViewPresenterProtocol {
         let isDone = false
         let image = ProjectImage.circle.rawValue
         let color = UIColor.systemGray.name
-        let group = projectGroups.first { $0.isCustom == true }
-        let number = Int(((group!.project?.allObjects as! [Project]).count) + 1)
-        projectManager.create(number: number, title: title, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, image: image, color: color, group: group!)
-        NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
+        if let group = projectGroups.first(where: { $0.isCustom == true }) {
+            let number = Int(((group.project?.allObjects as! [Project]).count) + 1)
+            projectManager.create(number: number, title: title, dtCreation: dtCreation, dtDeadline: nil, isDone: isDone, image: image, color: color, group: group)
+            NotificationCenter.default.post(name: Notification.Name("NewProjectHasBeenAdded"), object: nil)
+        }
     }
     
     func goToItem(with id: UUID) {
@@ -152,7 +153,7 @@ class MainViewPresenter: MainViewPresenterProtocol {
         router?.backToMainView()
     }
     
-    func getExpandableCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+    func getExpandableCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol? {
         router?.getCustomCellPresenter(view: view)
     }
 }

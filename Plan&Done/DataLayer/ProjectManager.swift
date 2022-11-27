@@ -5,7 +5,7 @@
 //  Created by Alexander Senin on 06.11.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol ProjectManagerProtocol {
     func fetchAll() -> [Project]
@@ -62,8 +62,16 @@ class ProjectManager: ProjectManagerProtocol {
         
         switch projectState {
         case true:
+            if project.task?.count == 0 {
+                changeImage(id: project.id!, newImage: ProjectImage.circle.rawValue)
+            } else {
+                changeImage(id: project.id!, newImage: ProjectImage.pie.rawValue)
+            }
+            changeColor(id: project.id!, newColor: UIColor.systemGray.name)
             project.isDone = false
         default:
+            changeImage(id: project.id!, newImage: ProjectImage.done.rawValue)
+            changeColor(id: project.id!, newColor: UIColor.systemBlue.name)
             project.isDone = true
         }
         

@@ -1,5 +1,5 @@
 //
-//  NewTaskPresenter.swift
+//  EditItemsPresenter.swift
 //  Plan&Done
 //
 //  Created by Alexander Senin on 19.11.2022.
@@ -109,11 +109,11 @@ class NewTaskPresenter: NewTaskPresenterProtocol {
     }
     
     func showSelectDayOverlay(viewController: UIViewController) {
-        router?.showSelectDayOverlay(viewController: viewController, for: nil)
+        router?.showSelectDayOverlay(viewController: viewController, task: nil, project: nil)
     }
     
     func showSelectDeadlineOverlay(viewController: UIViewController) {
-        router?.showSelectDeadlineOverlay(viewController: viewController, for: nil)
+        router?.showSelectDeadlineOverlay(viewController: viewController, task: nil, project: nil)
     }
     
     func backToMainView() {

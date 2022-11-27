@@ -16,14 +16,15 @@ protocol ModuleAssemblerProtocol {
 
     func createEditTaskOverlay(router: RouterProtocol) -> EditTaskOverlay
     func createEditProjectOverlay(router: RouterProtocol) -> EditProjectOverlay
+    func createMoreActionsOverlay(router: RouterProtocol) -> MoreActionsOverlay
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay
     func createNewTaskOverlay(router: RouterProtocol) -> NewTaskOverlay
 
     func createSelectProjectOverlay(router: RouterProtocol, for task: Task?) -> SelectProjectOverlay
-    func createSelectDayOverlay(router: RouterProtocol, for task: Task?) -> SelectDayOverlay
-    func createSelectDeadlineOverlay(router: RouterProtocol, for task: Task?) -> SelectDeadlineOverlay
+    func createSelectDayOverlay(router: RouterProtocol, task: Task?, project: Project?) -> SelectDayOverlay
+    func createSelectDeadlineOverlay(router: RouterProtocol, task: Task?, project: Project?) -> SelectDeadlineOverlay
     
-    func createCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol
+    func createCustomCellPresenter(view: EditItemProtocol, router: RouterProtocol) -> EditItemPresenterProtocol
 }
 
 class ModuleAssembler: ModuleAssemblerProtocol {
@@ -68,6 +69,13 @@ class ModuleAssembler: ModuleAssemblerProtocol {
         view.presenter = presenter
         return view
     }
+    
+    func createMoreActionsOverlay(router: RouterProtocol) -> MoreActionsOverlay {
+        let view = MoreActionsOverlay()
+        let presenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
+        view.presenter = presenter
+        return view
+    }
 
     func createNewItemOverlay(router: RouterProtocol) -> NewItemOverlay {
         let view = NewItemOverlay()
@@ -86,30 +94,32 @@ class ModuleAssembler: ModuleAssemblerProtocol {
     func createSelectProjectOverlay(router: RouterProtocol, for task: Task?) -> SelectProjectOverlay {
         let view = SelectProjectOverlay()
         let newTaskPresenter = NewTaskPresenter(view: view, router: router, taskBuilder: taskBuilder, taskManager: taskManager, projectGroupManager: projectGroupManager)
-        let editTaskPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
+        let customCellPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
         view.newTaskPresenter = newTaskPresenter
-        view.editTaskPresenter = editTaskPresenter
+        view.customCellPresenter = customCellPresenter
         view.task = task
         return view
     }
 
-    func createSelectDayOverlay(router: RouterProtocol, for task: Task?) -> SelectDayOverlay {
+    func createSelectDayOverlay(router: RouterProtocol, task: Task?, project: Project?) -> SelectDayOverlay {
         let view = SelectDayOverlay()
         let newTaskPresenter = NewTaskPresenter(view: view, router: router, taskBuilder: taskBuilder, taskManager: taskManager, projectGroupManager: projectGroupManager)
-        let editTaskPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
+        let customCellPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
         view.newTaskPresenter = newTaskPresenter
-        view.editTaskPresenter = editTaskPresenter
+        view.customCellPresenter = customCellPresenter
         view.task = task
+        view.project = project
         return view
     }
 
-    func createSelectDeadlineOverlay(router: RouterProtocol, for task: Task?) -> SelectDeadlineOverlay {
+    func createSelectDeadlineOverlay(router: RouterProtocol, task: Task?, project: Project?) -> SelectDeadlineOverlay {
         let view = SelectDeadlineOverlay()
         let newTaskPresenter = NewTaskPresenter(view: view, router: router, taskBuilder: taskBuilder, taskManager: taskManager, projectGroupManager: projectGroupManager)
-        let editTaskPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
+        let customCellPresenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
         view.newTaskPresenter = newTaskPresenter
-        view.editTaskPresenter = editTaskPresenter
+        view.customCellPresenter = customCellPresenter
         view.task = task
+        view.project = project
         return view
     }
 
@@ -120,7 +130,7 @@ class ModuleAssembler: ModuleAssemblerProtocol {
         return view
     }
     
-    func createCustomCellPresenter(view: CustomCellProtocol, router: RouterProtocol) -> CustomCellPresenterProtocol {
+    func createCustomCellPresenter(view: EditItemProtocol, router: RouterProtocol) -> EditItemPresenterProtocol {
         let presenter = CustomCellPresenter(view: view, router: router, taskManager: taskManager, projectManager: projectManager)
         return presenter
     }

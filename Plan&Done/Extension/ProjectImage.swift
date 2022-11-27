@@ -16,4 +16,5 @@ enum ProjectImage: String {
     case tray = "tray.fill"
     case circle = "circle"
     case pie = "chart.pie"
+    case done = "chart.pie.fill"
 }

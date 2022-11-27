@@ -149,7 +149,11 @@ class NewTaskOverlay: UIViewController, NewTaskProtocol {
             projectButton.setTitleColor(.systemBlue, for: .normal)
             projectButton.setTitleColor(.systemBlue, for: .highlighted)
         default:
-            projectButton.setTitle(" \(project.title!)", for: .normal)
+            if project.title! == "" {
+                projectButton.setTitle(" New Project", for: .normal)
+            } else {
+                projectButton.setTitle(" \(project.title!)", for: .normal)
+            }
             projectButton.setImage(UIImage(systemName: "arrow.forward", variableValue: 0, configuration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal), for: .normal)
             projectButton.setTitleColor(.systemBlue, for: .normal)
             projectButton.setTitleColor(.systemBlue, for: .highlighted)

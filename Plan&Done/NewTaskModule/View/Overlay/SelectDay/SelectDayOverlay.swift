@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SelectDayOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
+class SelectDayOverlay: UIViewController, NewTaskProtocol, EditItemProtocol {
     
     var newTaskPresenter: NewTaskPresenterProtocol!
-    var editTaskPresenter: CustomCellPresenterProtocol!
+    var customCellPresenter: EditItemPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -22,6 +22,7 @@ class SelectDayOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     @IBOutlet weak var datePicker: UIDatePicker!
     
     var task: Task?
+    var project: Project?
     
     init() {
         super.init(nibName: "SelectDayOverlay", bundle: nil)
@@ -56,17 +57,20 @@ class SelectDayOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         
-        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        guard let upcomingProject = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Upcoming"
         }) else { return }
         
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskCreation(newCreation: datePicker.date)
-            editTaskPresenter.changeTaskProject(newProject: project)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskCreation(newCreation: datePicker.date)
+            customCellPresenter.changeTaskProject(newProject: upcomingProject)
+        } else if project != nil {
+            customCellPresenter.project = project
+            customCellPresenter.changeProjectCreation(newCreation: datePicker.date)
         } else {
             newTaskPresenter.produceTaskCreation(datePicker.date)
-            newTaskPresenter.produceTaskProject(project)
+            newTaskPresenter.produceTaskProject(upcomingProject)
         }
         hide()
     }
@@ -116,29 +120,33 @@ class SelectDayOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
     
     private func produceTodayProject() {
         
-        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        guard let projectToday = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Today"
         }) else { return }
         
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskProject(newProject: project)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskProject(newProject: projectToday)
+        } else if project != nil {
+            print("Project Today")
         } else {
-            newTaskPresenter.produceTaskProject(project)
+            newTaskPresenter.produceTaskProject(projectToday)
         }
     }
     
     private func produceSomedayProject() {
         
-        guard let project = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
+        guard let projectSomeday = (newTaskPresenter.projectGroups[1].project?.allObjects as! [Project]).first(where: { project in
             project.title == "Someday"
         }) else { return }
 
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskProject(newProject: project)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskProject(newProject: projectSomeday)
+        } else if project != nil {
+            print("Project Someday")
         } else {
-            newTaskPresenter.produceTaskProject(project)
+            newTaskPresenter.produceTaskProject(projectSomeday)
         }
     }
 }

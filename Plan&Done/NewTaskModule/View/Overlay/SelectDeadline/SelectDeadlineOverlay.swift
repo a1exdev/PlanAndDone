@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SelectDeadlineOverlay: UIViewController, NewTaskProtocol, CustomCellProtocol {
+class SelectDeadlineOverlay: UIViewController, NewTaskProtocol, EditItemProtocol {
     
     var newTaskPresenter: NewTaskPresenterProtocol!
-    var editTaskPresenter: CustomCellPresenterProtocol!
+    var customCellPresenter: EditItemPresenterProtocol!
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -18,6 +18,7 @@ class SelectDeadlineOverlay: UIViewController, NewTaskProtocol, CustomCellProtoc
     @IBOutlet weak var datePicker: UIDatePicker!
     
     var task: Task?
+    var project: Project?
     
     init() {
         super.init(nibName: "SelectDeadlineOverlay", bundle: nil)
@@ -51,8 +52,11 @@ class SelectDeadlineOverlay: UIViewController, NewTaskProtocol, CustomCellProtoc
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         if task != nil {
-            editTaskPresenter.task = task
-            editTaskPresenter.changeTaskDeadline(newDeadline: datePicker.date)
+            customCellPresenter.task = task
+            customCellPresenter.changeTaskDeadline(newDeadline: datePicker.date)
+        } else if project != nil {
+            customCellPresenter.project = project
+            customCellPresenter.changeProjectDeadline(newDeadline: datePicker.date)
         } else {
             newTaskPresenter.produceTaskDeadline(datePicker.date)
         }

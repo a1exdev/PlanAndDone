@@ -20,7 +20,7 @@ protocol ProjectViewPresenterProtocol: AnyObject {
     
     func showEditTaskOverlay(for task: Task)
     
-    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol?
+    func getCustomCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol?
 }
 
 class ProjectViewPresenter: ProjectViewPresenterProtocol {
@@ -51,7 +51,7 @@ class ProjectViewPresenter: ProjectViewPresenterProtocol {
         router?.showEditTaskOverlay(for: task)
     }
     
-    func getCustomCellPresenter(view: CustomCellProtocol) -> CustomCellPresenterProtocol? {
+    func getCustomCellPresenter(view: EditItemProtocol) -> EditItemPresenterProtocol? {
         router?.getCustomCellPresenter(view: view)
     }
 }

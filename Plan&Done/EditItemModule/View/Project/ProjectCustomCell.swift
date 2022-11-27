@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ProjectCustomCell: UITableViewCell, CustomCellProtocol {
+class ProjectCustomCell: UITableViewCell, EditItemProtocol {
     
-    var presenter: CustomCellPresenterProtocol!
+    var presenter: EditItemPresenterProtocol!
     
     var viewController: UIViewController!
     
@@ -30,6 +30,14 @@ class ProjectCustomCell: UITableViewCell, CustomCellProtocol {
     
     public func configure(project: Project) {
         self.project = project
+        
+        if ((project.group?.isCustom) == true) {
+            if project.task!.count == 0 {
+                presenter.changeProjectImage(newImage: ProjectImage.circle.rawValue)
+            } else {
+                presenter.changeProjectImage(newImage:  ProjectImage.pie.rawValue)
+            }
+        }
         
         projectTitleTextField.text = project.title
         

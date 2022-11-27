@@ -1,5 +1,5 @@
 //
-//  CustomCellPresenter.swift
+//  EditItemPresenter.swift
 //  Plan&Done
 //
 //  Created by Alexander Senin on 25.11.2022.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol CustomCellProtocol: AnyObject {
+protocol EditItemProtocol: AnyObject {
 
 }
 
-protocol CustomCellPresenterProtocol: AnyObject {
-    init(view: CustomCellProtocol, router: RouterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol)
+protocol EditItemPresenterProtocol: AnyObject {
+    init(view: EditItemProtocol, router: RouterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol)
 
     var task: Task? { get set }
     var project: Project? { get set }
@@ -20,6 +20,8 @@ protocol CustomCellPresenterProtocol: AnyObject {
     func removeProject()
     func changeProjectState()
     func changeProjectTitle(newTitle: String)
+    func changeProjectImage(newImage: String)
+    func changeProjectColor(newColor: String)
     func changeProjectCreation(newCreation: Date)
     func changeProjectDeadline(newDeadline: Date)
     
@@ -31,6 +33,8 @@ protocol CustomCellPresenterProtocol: AnyObject {
     func changeTaskDeadline(newDeadline: Date?)
     func changeTaskProject(newProject: Project)
     
+    func showMoreActionsOverlay(viewController: UIViewController)
+    
     func showSelectProjectOverlay(viewController: UIViewController)
     func showSelectDayOverlay(viewController: UIViewController)
     func showSelectDeadlineOverlay(viewController: UIViewController)
@@ -38,9 +42,9 @@ protocol CustomCellPresenterProtocol: AnyObject {
     func backToMainView()
 }
 
-class CustomCellPresenter: CustomCellPresenterProtocol {
+class CustomCellPresenter: EditItemPresenterProtocol {
     
-    weak var view: CustomCellProtocol?
+    weak var view: EditItemProtocol?
     var router: RouterProtocol?
     
     private let taskManager: TaskManagerProtocol!
@@ -49,7 +53,7 @@ class CustomCellPresenter: CustomCellPresenterProtocol {
     var task: Task?
     var project: Project?
     
-    required init(view: CustomCellProtocol, router: RouterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol) {
+    required init(view: EditItemProtocol, router: RouterProtocol, taskManager: TaskManagerProtocol, projectManager: ProjectManagerProtocol) {
         self.view = view
         self.router = router
         self.taskManager = taskManager
@@ -71,6 +75,14 @@ class CustomCellPresenter: CustomCellPresenterProtocol {
     
     func changeProjectTitle(newTitle: String) {
         projectManager.changeTitle(id: (project?.id)!, newTitle: newTitle)
+    }
+    
+    func changeProjectImage(newImage: String) {
+        projectManager.changeImage(id: (project?.id)!, newImage: newImage)
+    }
+    
+    func changeProjectColor(newColor: String) {
+        projectManager.changeColor(id: (project?.id)!, newColor: newColor)
     }
     
     func changeProjectCreation(newCreation: Date) {
@@ -110,16 +122,20 @@ class CustomCellPresenter: CustomCellPresenterProtocol {
         taskManager.changeProject(id: (task?.id)!, newProject: newProject)
     }
     
+    func showMoreActionsOverlay(viewController: UIViewController) {
+        router?.showMoreActionsOverlay(viewController: viewController, task: task, project: project)
+    }
+    
     func showSelectProjectOverlay(viewController: UIViewController) {
         router?.showSelectProjectOverlay(viewController: viewController, for: task)
     }
     
     func showSelectDayOverlay(viewController: UIViewController) {
-        router?.showSelectDayOverlay(viewController: viewController, for: task)
+        router?.showSelectDayOverlay(viewController: viewController, task: task, project: project)
     }
     
     func showSelectDeadlineOverlay(viewController: UIViewController) {
-        router?.showSelectDeadlineOverlay(viewController: viewController, for: task)
+        router?.showSelectDeadlineOverlay(viewController: viewController, task: task, project: project)
     }
     
     func backToMainView() {

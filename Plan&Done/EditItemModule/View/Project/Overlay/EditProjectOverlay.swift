@@ -1,15 +1,15 @@
 //
-//  EditTaskOverlay.swift
+//  EditProjectOverlay.swift
 //  Plan&Done
 //
-//  Created by Alexander Senin on 23.11.2022.
+//  Created by Alexander Senin on 24.11.2022.
 //
 
 import UIKit
 
-class EditTaskOverlay: UIViewController, CustomCellProtocol {
+class EditProjectOverlay: UIViewController, EditItemProtocol {
     
-    var presenter: CustomCellPresenterProtocol!
+    var presenter: EditItemPresenterProtocol!
 
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -17,13 +17,11 @@ class EditTaskOverlay: UIViewController, CustomCellProtocol {
     @IBOutlet weak var doneButton: UIButton!
     
     @IBOutlet weak var customDayButton: UIButton!
-    @IBOutlet weak var customProjectButton: UIButton!
-    
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     
     init() {
-        super.init(nibName: "EditTaskOverlay", bundle: nil)
+        super.init(nibName: "EditProjectOverlay", bundle: nil)
         modalPresentationStyle = .overCurrentContext
     }
     
@@ -37,11 +35,11 @@ class EditTaskOverlay: UIViewController, CustomCellProtocol {
         configureView()
     }
     
-    func appear(sender: UIViewController, task: Task) {
+    func appear(sender: UIViewController, project: Project) {
         sender.present(self, animated: false) { [self] in
             show()
         }
-        presenter.task = task
+        presenter.project = project
     }
     
     @IBAction func backViewTapped(_ sender: UIControl) {
@@ -56,20 +54,17 @@ class EditTaskOverlay: UIViewController, CustomCellProtocol {
         presenter.showSelectDayOverlay(viewController: self)
     }
     
-    @IBAction func customProjectButtonTapped(_ sender: UIButton) {
-        presenter.showSelectProjectOverlay(viewController: self)
-    }
-    
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Are you sure you want to delete this to-do?", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Are you sure you want to delete this project? It's items will also be deleted. This cannot be undone.", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self] _ in
-            presenter.removeTask()
+            presenter.removeProject()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
     }
     
     @IBAction func moreButtonTapped(_ sender: UIButton) {
+        presenter.showMoreActionsOverlay(viewController: self)
     }
     
     private func configureView() {

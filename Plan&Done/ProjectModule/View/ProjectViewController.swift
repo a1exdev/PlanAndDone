@@ -62,13 +62,13 @@ class ProjectViewController: UIViewController, ProjectViewProtocol {
     }
     
     @objc private func checkDay() {
-        let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex, section: 0)) as? TaskCustomCell
-        cell!.checkDay()
+        guard let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex, section: 0)) as? TaskCustomCell else { return }
+        cell.checkDay()
     }
     
     @objc private func checkDeadline() {
-        let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex, section: 0)) as? TaskCustomCell
-        cell!.checkDeadline()
+        guard let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex, section: 0)) as? TaskCustomCell else { return }
+        cell.checkDeadline()
     }
     
     @objc private func viewHasBecomeActive() {
@@ -103,15 +103,6 @@ class ProjectViewController: UIViewController, ProjectViewProtocol {
     }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
-        
-        #if !targetEnvironment(simulator)
-        DispatchQueue.main.async { [self] in
-            selectedIndex = -1
-            tableView.reloadData()
-            configureTasksTableView()
-        }
-        #endif
-        
         scrollView.contentInset = .zero
     }
     

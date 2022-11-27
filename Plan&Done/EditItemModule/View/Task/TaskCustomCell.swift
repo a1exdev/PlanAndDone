@@ -7,9 +7,9 @@
 
 import UIKit
 
-class TaskCustomCell: UITableViewCell, CustomCellProtocol {
+class TaskCustomCell: UITableViewCell, EditItemProtocol {
     
-    var presenter: CustomCellPresenterProtocol!
+    var presenter: EditItemPresenterProtocol!
     
     var viewController: UIViewController!
     
